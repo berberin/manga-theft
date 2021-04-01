@@ -30,6 +30,7 @@ for i in range(1, 540):
         title = item.select("div.clearfix div.box_img a")[0]['title']
         url = item.select("div figure div a")[0]['href']
         ids = re.findall(r'\d+', url)
+        
         id = ids[len(ids)-1]
         mainInfo = item.find("div", class_="message_main")
 
