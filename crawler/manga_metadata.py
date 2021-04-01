@@ -14,15 +14,20 @@ headers = {
 
 manga_list = []
 
-for i in range(1, 533):
-    response = requests.get(urlSample.format(i), headers = headers).text
+for i in range(1, 540):
+    response = requests.get(urlSample.format(i), headers = headers)
+    if(response.status_code != 200):
+        continue
+    else:
+        response = response.text
+    
     soup = BeautifulSoup(response, "html.parser")
     items = soup.find_all("div", class_="item")
 
     for item in items:
         description = item.find("div", class_="box_text").get_text()
         imgUrl = "http:" + item.select("div figure div a img")[0]['data-original']
-        title = item.select("div figure div a")[0]['title']
+        title = item.select("div.clearfix div.box_img a")[0]['title']
         url = item.select("div figure div a")[0]['href']
         ids = re.findall(r'\d+', url)
         id = ids[len(ids)-1]
@@ -55,7 +60,7 @@ for i in range(1, 533):
             alias = reAlias[0].split(',')
             for i in range(0, len(alias)):
                 alias[i] = alias[i].strip()
-            print(alias)
+            #print(alias)
         else:
             alias = []
         
@@ -71,7 +76,7 @@ for i in range(1, 533):
             "description": description,
             "status": status,
         })
-
+    print(len(manga_list))
 
 with open('data.json', 'w', encoding='utf-8') as f:
     json.dump(manga_list, f, ensure_ascii=False, indent=4)
