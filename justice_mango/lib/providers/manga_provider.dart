@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:beautifulsoup/beautifulsoup.dart';
 import 'package:dio/dio.dart';
 import 'package:justice_mango/models/chapter_info.dart';
@@ -96,8 +94,9 @@ class MangaProvider {
     String url =
         "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
     var response = await HttpProvider.get(url);
-    var jsonArray = jsonDecode(response.data.toString());
-    for (var item in jsonArray['chapters']) {
+
+    print(response.data);
+    for (var item in response.data['chapters']) {
       ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
       chaptersInfo.add(chapterInfo);
     }
@@ -116,11 +115,21 @@ class MangaProvider {
     for (var page in pages) {
       pagesUrl.add("http:" + page.attributes['data-original']);
     }
-    print(pagesUrl);
-
-    var img = await HttpProvider.get(pagesUrl[1]);
-    print(img.data);
     return pagesUrl;
+  }
+
+  static List<MangaMeta> search(String searchString) {
+    return HiveProvider.mangaBox.values.where((element) {
+      if (element.title.contains(searchString)) {
+        return true;
+      }
+      for (var alias in element.alias) {
+        if (alias.contains(searchString)) {
+          return true;
+        }
+      }
+      return false;
+    }).toList();
   }
 
   static getMangaMeta(String mangaId) async {

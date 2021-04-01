@@ -7,7 +7,7 @@ import 'package:justice_mango/models/manga_meta.dart';
 
 class HiveProvider {
   HiveProvider._();
-  static Box mangaBox;
+  static Box<MangaMeta> mangaBox;
   static init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(MangaMetaAdapter());

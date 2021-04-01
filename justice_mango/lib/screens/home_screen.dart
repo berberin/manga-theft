@@ -17,8 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
         ),
         ElevatedButton(
-          onPressed: () {
-            MangaProvider.getPages("/truyen-tranh/sekai-no-owari-to-yoakemae/chap-9/2386");
+          onPressed: () async {
+            var mangas = await MangaProvider.getLatestManga();
+            print(mangas[0].toJson());
+            var chapterInfos = await MangaProvider.getChaptersInfo(mangas[0].id);
+            print(chapterInfos[0].toJson());
+            var images_url = await MangaProvider.getPages(chapterInfos[0].url);
+            print(images_url);
           },
           child: Text("Mango"),
         ),
