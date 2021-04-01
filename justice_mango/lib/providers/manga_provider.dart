@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:beautifulsoup/beautifulsoup.dart';
 import 'package:dio/dio.dart';
+import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/http_provider.dart';
@@ -86,6 +89,38 @@ class MangaProvider {
     }
 
     return mangaMetas;
+  }
+
+  static Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
+    List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
+    String url =
+        "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
+    var response = await HttpProvider.get(url);
+    var jsonArray = jsonDecode(response.data.toString());
+    for (var item in jsonArray['chapters']) {
+      ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
+      chaptersInfo.add(chapterInfo);
+    }
+    return chaptersInfo;
+  }
+
+  static Future<List<String>> getPages(String chapterUrl) async {
+    List<String> pagesUrl = <String>[];
+    if (chapterUrl.startsWith("/")) {
+      chapterUrl = "http://www.nettruyen.com" + chapterUrl;
+    }
+    var response = await HttpProvider.get(chapterUrl);
+    var soup = Beautifulsoup(response.data.toString());
+    var pages = soup.find_all("div.page-chapter img");
+
+    for (var page in pages) {
+      pagesUrl.add("http:" + page.attributes['data-original']);
+    }
+    print(pagesUrl);
+
+    var img = await HttpProvider.get(pagesUrl[1]);
+    print(img.data);
+    return pagesUrl;
   }
 
   static getMangaMeta(String mangaId) async {
