@@ -95,7 +95,6 @@ class MangaProvider {
         "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
     var response = await HttpProvider.get(url);
 
-    print(response.data);
     for (var item in response.data['chapters']) {
       ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
       chaptersInfo.add(chapterInfo);
@@ -119,12 +118,24 @@ class MangaProvider {
   }
 
   static List<MangaMeta> search(String searchString) {
+    searchString = searchString.toLowerCase();
     return HiveProvider.mangaBox.values.where((element) {
-      if (element.title.contains(searchString)) {
+      if (element.title.toLowerCase().contains(searchString)) {
         return true;
       }
       for (var alias in element.alias) {
-        if (alias.contains(searchString)) {
+        if (alias.toLowerCase().contains(searchString)) {
+          return true;
+        }
+      }
+      return false;
+    }).toList();
+  }
+
+  static List<MangaMeta> searchTag(String searchTag) {
+    return HiveProvider.mangaBox.values.where((element) {
+      for (var tag in element.tags) {
+        if (tag == searchTag) {
           return true;
         }
       }
