@@ -22,8 +22,14 @@ class MangaProvider {
     final regAlias = RegExp(r'Tên khác:</label>(.+?)</p>');
 
     for (var item in items) {
-      String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
-      String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
+      String title = item
+          .querySelector("div.clearfix div.box_img")
+          .querySelector("a")
+          .attributes['title'];
+      String imgUrl = "http:" +
+          item
+              .querySelector("div figure div a img")
+              .attributes['data-original'];
       String url = item.querySelector("div figure div a").attributes['href'];
       String description = item.querySelector("div.box_text").text;
 
@@ -89,14 +95,14 @@ class MangaProvider {
     return mangaMetas;
   }
 
-  static Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
-    List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
+  static Future<List<ChaptersInfo>> getChaptersInfo(String mangaId) async {
+    List<ChaptersInfo> chaptersInfo = <ChaptersInfo>[];
     String url =
         "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
     var response = await HttpProvider.get(url);
 
     for (var item in response.data['chapters']) {
-      ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
+      ChaptersInfo chapterInfo = ChaptersInfo.fromJson(item);
       chaptersInfo.add(chapterInfo);
     }
     return chaptersInfo;
