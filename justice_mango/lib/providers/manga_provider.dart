@@ -91,15 +91,20 @@ class MangaProvider {
 
   static Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
-    String url =
-        "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
-    var response = await HttpProvider.get(url);
-
-    for (var item in response.data['chapters']) {
-      ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
-      chaptersInfo.add(chapterInfo);
+    while (mangaId.length > 0) {
+      String url =
+          "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
+      var response = await HttpProvider.get(url);
+      try {
+        for (var item in response.data['chapters']) {
+          ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
+          chaptersInfo.add(chapterInfo);
+        }
+        return chaptersInfo;
+      } catch (e) {
+        mangaId = mangaId.substring(0, mangaId.length - 1);
+      }
     }
-    return chaptersInfo;
   }
 
   static Future<List<String>> getPages(String chapterUrl) async {
