@@ -69,6 +69,7 @@ class _MangaDetailState extends State<MangaDetail> {
                     Text('Thể loại: ' + widget.mangaMeta.tags.toString()),
                     Text('Tình trạng: ' + widget.mangaMeta.status),
                     Text('Mô tả: ' + widget.mangaMeta.description),
+                    Text(widget.mangaMeta.id),
                   ],
                 ),
               ),

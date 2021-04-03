@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/screens/manga_detail_screen.dart';
+import 'package:justice_mango/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -77,39 +78,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAppBar() {
-    Widget appBarTitle = Text("AppBar Title");
-    Icon actionIcon = Icon(Icons.search);
-    return AppBar(centerTitle: true, title: appBarTitle, actions: <Widget>[
-      IconButton(
-        icon: actionIcon,
-        onPressed: () {
-          setState(() {
-            if (actionIcon.icon == Icons.search) {
-              actionIcon = Icon(Icons.close);
-              appBarTitle = TextField(
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search, color: Colors.white),
-                    hintText: "Search...",
-                    hintStyle: TextStyle(color: Colors.white)),
-              );
-            } else {
-              actionIcon = Icon(Icons.search);
-              appBarTitle = Text("AppBar Title");
-            }
-          });
-        },
-      ),
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text('Justice for Manga'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                })
+          ]),
       body: _buildCards(mangas),
     );
   }
