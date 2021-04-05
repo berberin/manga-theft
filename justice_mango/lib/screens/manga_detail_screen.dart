@@ -17,7 +17,7 @@ class _MangaDetailState extends State<MangaDetail> {
   final mNameStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
   final aNameStyle = TextStyle(fontSize: 16.0);
 
-  List<ChaptersInfo> chaptersInfo;
+  List<ChapterInfo> chaptersInfo;
   @override
   void initState() {
     MangaProvider.getChaptersInfo(widget.mangaMeta.id).then((value) {
@@ -46,7 +46,7 @@ class _MangaDetailState extends State<MangaDetail> {
           children: [
             Container(
               width: 120,
-              height: 140,
+              height: 180,
               child: Image.network(widget.mangaMeta.imgUrl, fit: BoxFit.cover),
             ),
             Expanded(
@@ -68,8 +68,11 @@ class _MangaDetailState extends State<MangaDetail> {
                         style: aNameStyle),
                     Text('Thể loại: ' + widget.mangaMeta.tags.toString()),
                     Text('Tình trạng: ' + widget.mangaMeta.status),
-                    Text('Mô tả: ' + widget.mangaMeta.description),
-                    Text(widget.mangaMeta.id),
+                    Text(
+                      'Mô tả: ' + widget.mangaMeta.description,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),
@@ -88,8 +91,10 @@ class _MangaDetailState extends State<MangaDetail> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ChapterScreen(chapterInfo: chaptersInfo[i])));
+                        builder: (context) => ChapterScreen(
+                              chaptersInfo: chaptersInfo,
+                              index: i,
+                            )));
               },
             );
           },

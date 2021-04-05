@@ -1,12 +1,12 @@
-class ChaptersInfo {
+class ChapterInfo {
   int chapterId;
   String name;
   String url;
 
-  ChaptersInfo({this.chapterId, this.name, this.url});
+  ChapterInfo({this.chapterId, this.name, this.url});
 
-  factory ChaptersInfo.fromJson(Map<String, dynamic> json) {
-    return ChaptersInfo(
+  factory ChapterInfo.fromJson(Map<String, dynamic> json) {
+    return ChapterInfo(
       chapterId: json['chapterId'],
       name: json['name'],
       url: json['url'],
