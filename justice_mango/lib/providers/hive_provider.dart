@@ -23,7 +23,7 @@ class HiveProvider {
   }
 
   static getMangaMeta(String id) async {
-    return await mangaBox.get(id);
+    return mangaBox.get(id);
   }
 
   static Future initDataFromJson(String assetsStr) async {
