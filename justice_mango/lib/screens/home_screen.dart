@@ -14,12 +14,14 @@ class _HomeScreenState extends State<HomeScreen> {
   List<MangaMeta> mangas;
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  int page;
 
   @override
   void initState() {
     MangaProvider.getLatestManga().then((value) {
       setState(() {
         mangas = value;
+        page = 1;
       });
     });
   }
@@ -34,6 +36,21 @@ class _HomeScreenState extends State<HomeScreen> {
         mangas = value;
       });
       _refreshController.refreshCompleted();
+    });
+  }
+
+  void _onLoading() async {
+    await Future.delayed(Duration(seconds: 3));
+    page++;
+    MangaProvider.getLatestManga(page: page).then((value) {
+      setState(() {
+        for (var i = 0; i < value.length; i++) {
+          if (mangas.every((item) => item.id != value[i].id)) {
+            mangas.add(value[i]);
+          }
+        }
+      });
+      _refreshController.loadComplete();
     });
   }
 
@@ -83,8 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return SmartRefresher(
       controller: _refreshController,
       enablePullDown: true,
+      enablePullUp: true,
       header: WaterDropMaterialHeader(),
+      footer: ClassicFooter(),
       onRefresh: _onRefresh,
+      onLoading: _onLoading,
       child: ListView.separated(
         padding: EdgeInsets.all(13.0),
         itemCount: mangaMeta == null ? 0 : mangaMeta.length,

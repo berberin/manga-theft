@@ -21,7 +21,6 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  pull_to_refresh: ^1.6.3
   flutter:
     sdk: flutter
 
