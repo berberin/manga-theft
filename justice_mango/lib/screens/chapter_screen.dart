@@ -15,41 +15,51 @@ class ChapterScreen extends StatefulWidget {
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
-  List<String> imgsUrl;
+  Future<List<String>> _futureImgsUrl;
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   @override
   void initState() {
-    MangaProvider.getPages(widget.chaptersInfo[widget.index].url).then((value) {
-      setState(() {
-        imgsUrl = value;
-      });
-    });
+    _futureImgsUrl =
+        MangaProvider.getPages(widget.chaptersInfo[widget.index].url);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SmartRefresher(
-        controller: _refreshController,
-        enablePullDown: true,
-        enablePullUp: true,
-        header: ClassicHeader(),
-        footer: ClassicFooter(),
-        onRefresh: _loadPrevChap,
-        onLoading: _loadNextChap,
-        child: ListView.builder(
-            itemCount: imgsUrl == null ? 0 : imgsUrl.length,
-            itemBuilder: (context, i) {
-              print(widget.chaptersInfo[widget.index].chapterId);
-              return Image(
-                image: NetworkImage(imgsUrl[i], headers: {
-                  "Referer": "http://www.nettruyen.com/",
-                }),
+      body: FutureBuilder(
+          future: _futureImgsUrl,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+            if (snapshot.hasData) {
+              return SmartRefresher(
+                controller: _refreshController,
+                enablePullUp: true,
+                enablePullDown: true,
+                header: ClassicHeader(),
+                footer: ClassicFooter(),
+                onLoading: _loadNextChap,
+                onRefresh: _loadPrevChap,
+                child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, i) {
+                      return Image(
+                        image: NetworkImage(snapshot.data[i],
+                            headers: {"Referer": "http://www.nettruyen.com/"}),
+                      );
+                    }),
               );
-            }),
-      ),
+            } else if (snapshot.hasError) {
+              return Text('Opps!! Có lỗi xảy ra!!');
+            } else {
+              return Center(
+                child: SizedBox(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }),
     );
   }
 
@@ -57,12 +67,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
     await Future.delayed(Duration(seconds: 3));
     if (widget.index < widget.chaptersInfo.length - 1) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ChapterScreen(
-                    chaptersInfo: widget.chaptersInfo,
-                    index: widget.index + 1,
-                  )));
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChapterScreen(
+              chaptersInfo: widget.chaptersInfo, index: widget.index + 1),
+        ),
+      );
     }
   }
 
@@ -70,12 +80,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
     await Future.delayed(Duration(seconds: 3));
     if (widget.index > 0) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ChapterScreen(
-                    chaptersInfo: widget.chaptersInfo,
-                    index: widget.index - 1,
-                  )));
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChapterScreen(
+              chaptersInfo: widget.chaptersInfo, index: widget.index - 1),
+        ),
+      );
     }
   }
 }

@@ -123,7 +123,10 @@ class MangaProvider {
     var pages = soup.find_all("div.page-chapter img");
 
     for (var page in pages) {
-      pagesUrl.add("http:" + page.attributes['data-original']);
+      if (page.attributes['data-original'].startsWith("/"))
+        pagesUrl.add("http:" + page.attributes['data-original']);
+      else
+        pagesUrl.add(page.attributes['data-original']);
     }
     return pagesUrl;
   }

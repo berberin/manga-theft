@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
+import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 
 import 'chapter_screen.dart';
@@ -31,7 +32,9 @@ class _MangaDetailState extends State<MangaDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Justice for Manga')),
+        backgroundColor: Colors.amber,
+        centerTitle: true,
+        title: Text('Justice for Manga'),
       ),
       body: Widget_buildMangaInfos(),
     );
@@ -86,15 +89,30 @@ class _MangaDetailState extends State<MangaDetail> {
           itemCount: chaptersInfo == null ? 0 : chaptersInfo.length,
           itemBuilder: (context, i) {
             return InkWell(
-              child: Text(chaptersInfo[i].name),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 5.0),
+                child: Text(
+                  chaptersInfo[i].name,
+                  style:
+                      HiveProvider.getReadChapter(chaptersInfo[i].chapterId) ==
+                              null
+                          ? TextStyle(color: Colors.black)
+                          : TextStyle(color: Colors.black45),
+                ),
+              ),
               onTap: () {
+                HiveProvider.addToReadBox(chaptersInfo[i]);
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChapterScreen(
-                              chaptersInfo: chaptersInfo,
-                              index: i,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChapterScreen(
+                      chaptersInfo: chaptersInfo,
+                      index: i,
+                    ),
+                  ),
+                ).then((value) {
+                  setState(() {});
+                });
               },
             );
           },

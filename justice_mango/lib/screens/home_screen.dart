@@ -12,31 +12,33 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<MangaMeta> mangas;
+  Future<List<MangaMeta>> _futureMangas;
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   int page;
-
-  @override
-  void initState() {
-    MangaProvider.getLatestManga().then((value) {
-      setState(() {
-        mangas = value;
-        page = 1;
-      });
-    });
-  }
-
   final mNameStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
   final aNameStyle = TextStyle(fontSize: 16.0);
 
+  @override
+  void initState() {
+    page = 1;
+    _futureMangas = MangaProvider.getLatestManga(page: page);
+    _futureMangas.then((value) {
+      mangas = value;
+    });
+  }
+
   void _onRefresh() async {
     await Future.delayed(Duration(seconds: 3));
-    MangaProvider.getLatestManga().then((value) {
+    page = 1;
+    _futureMangas = MangaProvider.getLatestManga(page: page);
+    _futureMangas.then((value) {
       setState(() {
         mangas = value;
+        print(mangas[0].toJson());
       });
-      _refreshController.refreshCompleted();
     });
+    _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
@@ -122,17 +124,34 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: Text('Justice for Manga'),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
-                })
-          ]),
-      body: _buildCards(mangas),
+        backgroundColor: Colors.amber,
+        centerTitle: true,
+        title: Text('Justice for Manga'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
+              })
+        ],
+      ),
+      body: FutureBuilder(
+        future: _futureMangas,
+        builder:
+            (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
+          if (snapshot.hasData)
+            return _buildCards(mangas);
+          else if (snapshot.hasError)
+            return Text('Opps!! Có lỗi xảy ra!!');
+          else
+            return Center(
+              child: SizedBox(
+                child: CircularProgressIndicator(),
+              ),
+            );
+        },
+      ),
     );
   }
 }
