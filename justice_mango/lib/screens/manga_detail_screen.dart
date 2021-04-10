@@ -17,10 +17,12 @@ class MangaDetail extends StatefulWidget {
 class _MangaDetailState extends State<MangaDetail> {
   final mNameStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
   final aNameStyle = TextStyle(fontSize: 16.0);
+  bool isFavorite;
 
   List<ChapterInfo> chaptersInfo;
   @override
   void initState() {
+    isFavorite = HiveProvider.isFavoriteOrNot(widget.mangaMeta);
     MangaProvider.getChaptersInfo(widget.mangaMeta.id).then((value) {
       setState(() {
         chaptersInfo = value;
@@ -76,6 +78,32 @@ class _MangaDetailState extends State<MangaDetail> {
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    Row(
+                      children: [
+                        Text('Theo dõi truyện: '),
+                        GestureDetector(
+                          child: isFavorite == true
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.pinkAccent,
+                                )
+                              : Icon(Icons.favorite_border,
+                                  color: Colors.pinkAccent),
+                          onTap: () {
+                            setState(() {
+                              if (isFavorite) {
+                                isFavorite = !isFavorite;
+                                HiveProvider.removeFromFavoriteBox(
+                                    widget.mangaMeta.id);
+                              } else {
+                                isFavorite = !isFavorite;
+                                HiveProvider.addToFavoriteBox(widget.mangaMeta);
+                              }
+                            });
+                          },
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

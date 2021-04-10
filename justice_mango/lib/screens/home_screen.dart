@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/screens/favorite_screen.dart';
 import 'package:justice_mango/screens/manga_detail_screen.dart';
 import 'package:justice_mango/screens/search_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -35,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _futureMangas.then((value) {
       setState(() {
         mangas = value;
-        print(mangas[0].toJson());
       });
     });
     _refreshController.refreshCompleted();
@@ -127,12 +127,25 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.amber,
         centerTitle: true,
         title: Text('Justice for Manga'),
+        leading: IconButton(
+            icon: Icon(
+              Icons.view_list,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoriteScreen()),
+              );
+              ;
+            }),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                );
               })
         ],
       ),

@@ -4,13 +4,15 @@ import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/http_provider.dart';
+import 'package:random_string/random_string.dart';
 
 class MangaProvider {
   MangaProvider._();
 
   static Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var mangaMetas = <MangaMeta>[];
-    var url = "http://www.nettruyen.com/tim-truyen?page=$page";
+    var randomString = randomAlpha(3);
+    var url = "http://www.nettruyen.com/tim-truyen?page=$page&r=$randomString";
     Response response = await HttpProvider.get(url);
     var soup = Beautifulsoup(response.data.toString());
     var items = soup.find_all("div.item");

@@ -33,22 +33,27 @@ class _ChapterScreenState extends State<ChapterScreen> {
           builder:
               (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
             if (snapshot.hasData) {
-              return SmartRefresher(
-                controller: _refreshController,
-                enablePullUp: true,
-                enablePullDown: true,
-                header: ClassicHeader(),
-                footer: ClassicFooter(),
-                onLoading: _loadNextChap,
-                onRefresh: _loadPrevChap,
-                child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, i) {
-                      return Image(
-                        image: NetworkImage(snapshot.data[i],
-                            headers: {"Referer": "http://www.nettruyen.com/"}),
-                      );
-                    }),
+              return RefreshConfiguration(
+                maxUnderScrollExtent: 50,
+                footerTriggerDistance: -40.0,
+                child: SmartRefresher(
+                  controller: _refreshController,
+                  enablePullUp: true,
+                  enablePullDown: true,
+                  header: ClassicHeader(),
+                  footer: ClassicFooter(),
+                  onLoading: _loadNextChap,
+                  onRefresh: _loadPrevChap,
+                  child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, i) {
+                        return Image(
+                          image: NetworkImage(snapshot.data[i], headers: {
+                            "Referer": "http://www.nettruyen.com/"
+                          }),
+                        );
+                      }),
+                ),
               );
             } else if (snapshot.hasError) {
               return Text('Opps!! Có lỗi xảy ra!!');

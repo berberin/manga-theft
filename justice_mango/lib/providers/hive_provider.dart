@@ -10,6 +10,7 @@ class HiveProvider {
   HiveProvider._();
   static Box<MangaMeta> mangaBox;
   static Box<ChapterInfo> readBox;
+  static Box<MangaMeta> favoriteBox;
   static init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(MangaMetaAdapter());
@@ -20,6 +21,7 @@ class HiveProvider {
       initDataFromJson('assets/data/manga_list.json');
     }
     readBox = await Hive.openBox('readBox');
+    favoriteBox = await Hive.openBox('favoriteBox');
   }
 
   static addToMangaBox(MangaMeta mangaMeta) async {
@@ -45,5 +47,25 @@ class HiveProvider {
 
   static getReadChapter(int id) {
     return readBox.get(id);
+  }
+
+  static addToFavoriteBox(MangaMeta mangaMeta) async {
+    await favoriteBox.put(mangaMeta.id, mangaMeta);
+  }
+
+  static removeFromFavoriteBox(String id) async {
+    await favoriteBox.delete(id);
+  }
+
+  static List<MangaMeta> getFavoriteMangas() {
+    return favoriteBox.values.toList();
+  }
+
+  static getFavoriteBoxByID(String id) {
+    return favoriteBox.get(id);
+  }
+
+  static bool isFavoriteOrNot(MangaMeta mangaMeta) {
+    return getFavoriteBoxByID(mangaMeta.id) == null ? false : true;
   }
 }

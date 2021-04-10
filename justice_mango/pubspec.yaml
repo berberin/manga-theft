@@ -33,6 +33,7 @@ dependencies:
   dio: ^4.0.0
   beautifulsoup: ^0.0.1
   pull_to_refresh: ^1.6.4
+  random_string: ^2.1.0
 
 dev_dependencies:
   flutter_test:
