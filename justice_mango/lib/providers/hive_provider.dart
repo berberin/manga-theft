@@ -27,6 +27,11 @@ class HiveProvider {
     favoriteBox = await Hive.openBox('favoriteBox');
   }
 
+  static int getLastReadIndex({String mangaId}) {
+    // todo: implement
+    return 0;
+  }
+
   static addToMangaBox(MangaMeta mangaMeta) async {
     await mangaBox.put(mangaMeta.id, mangaMeta);
   }
@@ -74,5 +79,9 @@ class HiveProvider {
 
   static bool isFavoriteOrNot(MangaMeta mangaMeta) {
     return getFavoriteBoxByID(mangaMeta.id) == null ? false : true;
+  }
+
+  static bool isRead({int chapterId}) {
+    return readBox.get(chapterId) != null;
   }
 }

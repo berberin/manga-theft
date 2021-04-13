@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/cache_provider.dart';
+import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/screens/widget/manga_image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -28,6 +29,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
   @override
   void initState() {
     super.initState();
+    HiveProvider.addToReadBox(widget.chaptersInfo[widget.index]);
     if (widget.preloadUrl == null) {
       _futureImgsUrl = MangaProvider.getPages(widget.chaptersInfo[widget.index].url);
     } else {
@@ -89,7 +91,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
               controller: _refreshController,
               enablePullDown: false,
               enablePullUp: true,
-              footer: ClassicFooter(),
+              footer: ClassicFooter(
+                idleText: 'Kéo lên để chuyển chương tiếp theo',
+                loadingText: 'Đang tải',
+                canLoadingText: 'Thả để chuyển chương',
+                failedText: 'Chưa có chương mới.',
+              ),
               onLoading: _loadNextChap,
               child: CustomScrollView(
                 slivers: [
@@ -129,7 +136,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                                     maxLines: 1,
                                   ),
                                   Text(
-                                    "${(widget.chaptersInfo.length - widget.index).toString()} / ${widget.chaptersInfo.length}",
+                                    "#${(widget.chaptersInfo.length - widget.index).toString()} / ${widget.chaptersInfo.length}",
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                 ],
@@ -179,6 +186,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
           ),
         ),
       );
+      _refreshController.loadComplete();
+    } else {
+      _refreshController.loadFailed();
     }
   }
 }

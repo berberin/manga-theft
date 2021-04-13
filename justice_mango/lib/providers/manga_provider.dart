@@ -15,9 +15,7 @@ class MangaProvider {
     Response response = await HttpProvider.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
     for (var meta in mangaMetas) {
-      if (!HiveProvider.inMangaBox(meta.id)) {
-        HiveProvider.addToMangaBox(meta);
-      }
+      await HiveProvider.addToMangaBox(meta);
     }
     return mangaMetas;
   }
@@ -148,9 +146,7 @@ class MangaProvider {
       var response = await HttpProvider.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
       for (var meta in mangaMetas) {
-        if (!HiveProvider.inMangaBox(meta.id)) {
-          HiveProvider.addToMangaBox(meta);
-        }
+        await HiveProvider.addToMangaBox(meta);
       }
     } catch (e, stacktrace) {
       print(e);

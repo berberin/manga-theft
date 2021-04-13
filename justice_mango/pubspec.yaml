@@ -39,6 +39,8 @@ dependencies:
   cached_network_image: ^3.0.0
   equatable: ^2.0.0
   google_fonts: ^2.0.0-nullsafety.0
+  jdenticon_dart: ^2.0.0
+  flutter_svg: ^0.21.0+1
 
 
 dev_dependencies:
