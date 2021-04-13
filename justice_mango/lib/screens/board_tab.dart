@@ -92,6 +92,9 @@ class _BoardTabState extends State<BoardTab> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 _welcomeBar(),
                 Divider(),
                 Padding(
@@ -133,9 +136,6 @@ class _BoardTabState extends State<BoardTab> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: 20,
-          ),
           Flexible(
             fit: FlexFit.loose,
             child: FutureBuilder(
