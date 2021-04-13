@@ -187,6 +187,12 @@ class MangaProvider {
     }).toList();
   }
 
+  static getRandomManga(String tag, int amount) {
+    List<MangaMeta> mangas = searchTag(tag);
+    mangas.shuffle();
+    return mangas.sublist(0, 5);
+  }
+
   static getMangaMeta(String mangaId) async {
     return await HiveProvider.getMangaMeta(mangaId);
   }

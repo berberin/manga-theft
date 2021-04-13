@@ -129,42 +129,43 @@ class _BoardTabState extends State<BoardTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              fit: FlexFit.loose,
-              child: FutureBuilder(
-                future: _futureMangas,
-                builder: (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
-                  if (snapshot.hasData)
-                    return _buildCards(mangas);
-                  else if (snapshot.hasError)
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _onRefresh();
-                              });
-                            },
-                            child: Text("TẢI LẠI")),
-                      ),
-                    );
-                  else
-                    return Center(
-                      child: SizedBox(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                },
-              ),
+    return Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            child: FutureBuilder(
+              future: _futureMangas,
+              builder: (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
+                if (snapshot.hasData)
+                  return _buildCards(mangas);
+                else if (snapshot.hasError)
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _onRefresh();
+                            });
+                          },
+                          child: Text("TẢI LẠI")),
+                    ),
+                  );
+                else
+                  return Center(
+                    child: SizedBox(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

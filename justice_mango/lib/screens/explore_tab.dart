@@ -64,6 +64,7 @@ class _ExploreTabState extends State<ExploreTab> {
                           mangasSearch = mangas;
                         }
                       });
+                      FocusScope.of(context).unfocus();
                     },
                   ),
                 ),
@@ -104,8 +105,7 @@ class _ExploreTabState extends State<ExploreTab> {
   }
 
   Widget _buildRandomManga(String tag) {
-    var randomManga = MangaProvider.searchTag(tag);
-    randomManga.shuffle();
+    var randomManga = MangaProvider.getRandomManga(tag, 5);
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
