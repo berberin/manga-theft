@@ -26,17 +26,16 @@ class _SearchScreenState extends State<SearchScreen> {
           style: TextStyle(
             color: Colors.white,
           ),
-          decoration: InputDecoration(
-              hintText: "Tìm truyện",
-              hintStyle: TextStyle(color: Colors.white)),
+          decoration: InputDecoration(hintText: "Tìm truyện", hintStyle: TextStyle(color: Colors.white)),
         ),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {
+              onPressed: () async {
+                var mangas = await MangaProvider.search(_controller.text);
                 setState(() {
                   if (_controller.text != null) {
-                    mangasSearch = MangaProvider.search(_controller.text);
+                    mangasSearch = mangas;
                   }
                 });
               }),
@@ -93,8 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
+          MaterialPageRoute(builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
         );
       },
     );

@@ -9,8 +9,11 @@ import 'package:justice_mango/models/manga_meta.dart';
 class HiveProvider {
   HiveProvider._();
   static Box<MangaMeta> mangaBox;
+
   static Box<ChapterInfo> readBox;
+
   static Box<MangaMeta> favoriteBox;
+
   static init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(MangaMetaAdapter());
@@ -18,7 +21,7 @@ class HiveProvider {
 
     mangaBox = await Hive.openBox('mangaBox');
     if (mangaBox.isEmpty) {
-      initDataFromJson('assets/data/manga_list.json');
+      _initDataFromJson('assets/data/manga_list.json');
     }
     readBox = await Hive.openBox('readBox');
     favoriteBox = await Hive.openBox('favoriteBox');
@@ -28,11 +31,15 @@ class HiveProvider {
     await mangaBox.put(mangaMeta.id, mangaMeta);
   }
 
-  static getMangaMeta(String id) {
+  static MangaMeta getMangaMeta(String id) {
     return mangaBox.get(id);
   }
 
-  static Future initDataFromJson(String assetsStr) async {
+  static bool inMangaBox(String id) {
+    return mangaBox.get(id) != null;
+  }
+
+  static Future _initDataFromJson(String assetsStr) async {
     String jsonString = await rootBundle.loadString(assetsStr);
     dynamic jsonArr = jsonDecode(jsonString);
     for (var item in jsonArr) {

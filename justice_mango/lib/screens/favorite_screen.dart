@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
-import 'package:justice_mango/screens/manga_detail_screen.dart';
+import 'package:justice_mango/screens/widget/short_manga_card.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -42,62 +45,32 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           style: TextStyle(fontSize: 30),
         ),
       );
-    else
-      return GridView.count(
-        padding: const EdgeInsets.all(13.0),
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        crossAxisCount: 2,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: StaggeredGridView.countBuilder(
+        crossAxisCount: 4,
+        itemCount: favoriteMangas.length,
+        itemBuilder: (BuildContext context, int index) => _buildMangaCard(favoriteMangas[index]),
+        staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+        //mainAxisSpacing: 4.0,
+        //crossAxisSpacing: 4.0,
         shrinkWrap: true,
-        children: [
-          for (var i = 0; i < HiveProvider.favoriteBox.length; i++)
-            _buildMangaCard(favoriteMangas[1])
-        ],
-      );
+      ),
+    );
+
+    return GridView.count(
+      padding: const EdgeInsets.all(13.0),
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      children: [for (var i = 0; i < HiveProvider.favoriteBox.length; i++) _buildMangaCard(favoriteMangas[0])],
+    );
   }
 
   Widget _buildMangaCard(MangaMeta mangaMeta) {
-    return InkWell(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: 110,
-            child: Image.network(mangaMeta.imgUrl, fit: BoxFit.cover),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(13.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 3.0),
-                    child: Text(
-                      mangaMeta.title,
-                      style: mNameStyle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text('Tác giả: ' + mangaMeta.author, style: aNameStyle),
-                  Text('Thể loại: ' + mangaMeta.tags.toString()),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
-        ).then((value) {
-          setState(() {});
-        });
-      },
+    return ShortMangaCard(
+      mangaMeta: mangaMeta,
     );
   }
 }

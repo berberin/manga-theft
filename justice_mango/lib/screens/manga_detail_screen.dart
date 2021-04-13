@@ -69,8 +69,7 @@ class _MangaDetailState extends State<MangaDetail> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text('Tác giả: ' + widget.mangaMeta.author,
-                        style: aNameStyle),
+                    Text('Tác giả: ' + widget.mangaMeta.author, style: aNameStyle),
                     Text('Thể loại: ' + widget.mangaMeta.tags.toString()),
                     Text('Tình trạng: ' + widget.mangaMeta.status),
                     Text(
@@ -87,14 +86,12 @@ class _MangaDetailState extends State<MangaDetail> {
                                   Icons.favorite,
                                   color: Colors.pinkAccent,
                                 )
-                              : Icon(Icons.favorite_border,
-                                  color: Colors.pinkAccent),
+                              : Icon(Icons.favorite_border, color: Colors.pinkAccent),
                           onTap: () {
                             setState(() {
                               if (isFavorite) {
                                 isFavorite = !isFavorite;
-                                HiveProvider.removeFromFavoriteBox(
-                                    widget.mangaMeta.id);
+                                HiveProvider.removeFromFavoriteBox(widget.mangaMeta.id);
                               } else {
                                 isFavorite = !isFavorite;
                                 HiveProvider.addToFavoriteBox(widget.mangaMeta);
@@ -121,11 +118,9 @@ class _MangaDetailState extends State<MangaDetail> {
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 5.0),
                 child: Text(
                   chaptersInfo[i].name,
-                  style:
-                      HiveProvider.getReadChapter(chaptersInfo[i].chapterId) ==
-                              null
-                          ? TextStyle(color: Colors.black)
-                          : TextStyle(color: Colors.black45),
+                  style: HiveProvider.getReadChapter(chaptersInfo[i].chapterId) == null
+                      ? TextStyle(color: Colors.black)
+                      : TextStyle(color: Colors.black45),
                 ),
               ),
               onTap: () {
@@ -136,6 +131,7 @@ class _MangaDetailState extends State<MangaDetail> {
                     builder: (context) => ChapterScreen(
                       chaptersInfo: chaptersInfo,
                       index: i,
+                      mangaMeta: widget.mangaMeta,
                     ),
                   ),
                 ).then((value) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/screens/favorite_screen.dart';
-import 'package:justice_mango/screens/manga_detail_screen.dart';
 import 'package:justice_mango/screens/search_screen.dart';
+import 'package:justice_mango/screens/widget/manga_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,14 +14,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<MangaMeta> mangas;
   Future<List<MangaMeta>> _futureMangas;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   int page;
   final mNameStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
   final aNameStyle = TextStyle(fontSize: 16.0);
 
   @override
   void initState() {
+    super.initState();
     page = 1;
     _futureMangas = MangaProvider.getLatestManga(page: page);
     _futureMangas.then((value) {
@@ -56,65 +56,29 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _buildMangaCard(MangaMeta mangaMeta) {
-    return InkWell(
-      child: Row(
-        children: [
-          Container(
-            width: 90,
-            height: 110,
-            child: Image.network(mangaMeta.imgUrl, fit: BoxFit.cover),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(13.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 3.0),
-                    child: Text(
-                      mangaMeta.title,
-                      style: mNameStyle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text('Tác giả: ' + mangaMeta.author, style: aNameStyle),
-                  Text('Thể loại: ' + mangaMeta.tags.toString()),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
-        );
-      },
-    );
-  }
-
   Widget _buildCards(List<MangaMeta> mangaMeta) {
     return SmartRefresher(
       controller: _refreshController,
       enablePullDown: true,
       enablePullUp: true,
-      header: WaterDropMaterialHeader(),
       footer: ClassicFooter(),
       onRefresh: _onRefresh,
       onLoading: _onLoading,
-      child: ListView.separated(
-        padding: EdgeInsets.all(13.0),
-        itemCount: mangaMeta == null ? 0 : mangaMeta.length,
+      child: ListView.builder(
+        addRepaintBoundaries: false,
+        physics: BouncingScrollPhysics(),
+        itemCount: mangaMeta == null ? 0 : mangaMeta.length + 1,
         itemBuilder: (context, i) {
-          return _buildMangaCard(mangaMeta[i]);
-        },
-        separatorBuilder: (context, i) {
-          return Divider();
+          if (i == 0) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Mới cập nhật",
+                style: Theme.of(context).textTheme.caption,
+              ),
+            );
+          }
+          return MangaCard(mangaMeta: mangaMeta[i - 1]);
         },
       ),
     );
@@ -151,8 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: FutureBuilder(
         future: _futureMangas,
-        builder:
-            (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
           if (snapshot.hasData)
             return _buildCards(mangas);
           else if (snapshot.hasError)

@@ -10,11 +10,21 @@ class MangaProvider {
   MangaProvider._();
 
   static Future<List<MangaMeta>> getLatestManga({page: 1}) async {
-    var mangaMetas = <MangaMeta>[];
     var randomString = randomAlpha(3);
     var url = "http://www.nettruyen.com/tim-truyen?page=$page&r=$randomString";
     Response response = await HttpProvider.get(url);
-    var soup = Beautifulsoup(response.data.toString());
+    List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
+    for (var meta in mangaMetas) {
+      if (!HiveProvider.inMangaBox(meta.id)) {
+        HiveProvider.addToMangaBox(meta);
+      }
+    }
+    return mangaMetas;
+  }
+
+  static List<MangaMeta> _getMangaFromDOM(String body) {
+    var mangaMetas = <MangaMeta>[];
+    var soup = Beautifulsoup(body);
     var items = soup.find_all("div.item");
 
     final regId = RegExp(r'\d+');
@@ -23,75 +33,71 @@ class MangaProvider {
     final regStatus = RegExp(r'Tình trạng:</label>(.+?)</p>');
     final regAlias = RegExp(r'Tên khác:</label>(.+?)</p>');
 
-    for (var item in items) {
-      String title = item
-          .querySelector("div.clearfix div.box_img")
-          .querySelector("a")
-          .attributes['title'];
-      String imgUrl = "http:" +
-          item
-              .querySelector("div figure div a img")
-              .attributes['data-original'];
-      String url = item.querySelector("div figure div a").attributes['href'];
-      String description = item.querySelector("div.box_text").text;
+    try {
+      for (var item in items) {
+        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
+        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
+        String url = item.querySelector("div figure div a").attributes['href'];
+        String description = item.querySelector("div.box_text").text;
 
-      String mainInfo = item.querySelector("div.message_main").innerHtml;
-      var ids = regId.allMatches(url);
-      String id = ids.last.input.substring(ids.last.start, ids.last.end);
+        String mainInfo = item.querySelector("div.message_main").innerHtml;
+        var ids = regId.allMatches(url);
+        String id = ids.last.input.substring(ids.last.start, ids.last.end);
 
-      var authors = regAuthor.firstMatch(mainInfo);
-      String author;
-      if (authors == null) {
-        author = "";
-      } else {
-        author = authors.group(1);
-      }
-
-      var tagsMatch = regTags.firstMatch(mainInfo);
-      List<String> tags;
-      if (tagsMatch == null) {
-        tags = [];
-      } else {
-        tags = tagsMatch.group(1).split(",");
-        for (int i = 0; i < tags.length; i++) {
-          tags[i] = tags[i].trim();
+        var authors = regAuthor.firstMatch(mainInfo);
+        String author;
+        if (authors == null) {
+          author = "";
+        } else {
+          author = authors.group(1);
         }
-      }
 
-      var statusMatch = regStatus.firstMatch(mainInfo);
-      String status;
-      if (statusMatch == null) {
-        status = "Không rõ";
-      } else {
-        status = statusMatch.group(1);
-      }
-
-      var aliasMatch = regAlias.firstMatch(mainInfo);
-      List<String> alias;
-      if (aliasMatch == null) {
-        alias = [];
-      } else {
-        alias = aliasMatch.group(1).split(",");
-        for (int i = 0; i < alias.length; i++) {
-          alias[i] = alias[i].trim();
+        var tagsMatch = regTags.firstMatch(mainInfo);
+        List<String> tags;
+        if (tagsMatch == null) {
+          tags = [];
+        } else {
+          tags = tagsMatch.group(1).split(",");
+          for (int i = 0; i < tags.length; i++) {
+            tags[i] = tags[i].trim();
+          }
         }
-      }
 
-      MangaMeta mangaMeta = MangaMeta(
-        title: title,
-        url: url,
-        imgUrl: imgUrl,
-        id: id,
-        alias: alias,
-        author: author,
-        tags: tags,
-        description: description,
-        status: status,
-      );
-      mangaMetas.add(mangaMeta);
-      if (!await inMangaBox(mangaMeta.id)) {
-        addMangaMeta(mangaMeta);
+        var statusMatch = regStatus.firstMatch(mainInfo);
+        String status;
+        if (statusMatch == null) {
+          status = "Không rõ";
+        } else {
+          status = statusMatch.group(1);
+        }
+
+        var aliasMatch = regAlias.firstMatch(mainInfo);
+        List<String> alias;
+        if (aliasMatch == null) {
+          alias = [];
+        } else {
+          alias = aliasMatch.group(1).split(",");
+          for (int i = 0; i < alias.length; i++) {
+            alias[i] = alias[i].trim();
+          }
+        }
+
+        MangaMeta mangaMeta = MangaMeta(
+          title: title,
+          url: url,
+          imgUrl: imgUrl,
+          id: id,
+          alias: alias,
+          author: author,
+          tags: tags,
+          description: description,
+          status: status,
+        );
+        mangaMetas.add(mangaMeta);
       }
+    } catch (e, stacktrace) {
+      print(e);
+      print(stacktrace);
     }
 
     return mangaMetas;
@@ -113,6 +119,7 @@ class MangaProvider {
         mangaId = mangaId.substring(0, mangaId.length - 1);
       }
     }
+    return chaptersInfo;
   }
 
   static Future<List<String>> getPages(String chapterUrl) async {
@@ -133,9 +140,24 @@ class MangaProvider {
     return pagesUrl;
   }
 
-  static List<MangaMeta> search(String searchString) {
+  static Future<List<MangaMeta>> search(String searchString) async {
     searchString = searchString.toLowerCase();
-    return HiveProvider.mangaBox.values.where((element) {
+    var mangaMetas = <MangaMeta>[];
+    try {
+      var url = "http://www.nettruyen.com/tim-truyen?keyword=$searchString";
+      var response = await HttpProvider.get(url);
+      mangaMetas = _getMangaFromDOM(response.data.toString());
+      for (var meta in mangaMetas) {
+        if (!HiveProvider.inMangaBox(meta.id)) {
+          HiveProvider.addToMangaBox(meta);
+        }
+      }
+    } catch (e, stacktrace) {
+      print(e);
+      print(stacktrace);
+    }
+    // connectivity.none
+    var listFromDB = HiveProvider.mangaBox.values.where((element) {
       if (element.title.toLowerCase().contains(searchString)) {
         return true;
       }
@@ -144,8 +166,18 @@ class MangaProvider {
           return true;
         }
       }
+      if (element.description.toLowerCase().contains(searchString)) {
+        return true;
+      }
       return false;
     }).toList();
+
+    for (var meta in listFromDB) {
+      if (!mangaMetas.contains(meta)) {
+        mangaMetas.add(meta);
+      }
+    }
+    return mangaMetas;
   }
 
   static List<MangaMeta> searchTag(String searchTag) {
