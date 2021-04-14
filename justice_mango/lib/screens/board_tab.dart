@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
+import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/providers/name_provider.dart';
@@ -82,25 +83,28 @@ class _BoardTabState extends State<BoardTab> {
   }
 
   Widget _buildCards(List<MangaMeta> mangaMeta) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: Container(height: 38, child: _welcomeBar()),
-        ),
-        SliverToBoxAdapter(
-          child: SmartRefresher(
-            controller: _refreshController,
-            enablePullDown: true,
-            enablePullUp: true,
-            footer: ClassicFooter(
-              loadingText: 'Đang tải',
-            ),
-            onRefresh: _onRefresh,
-            onLoading: _onLoading,
+    return SmartRefresher(
+      controller: _refreshController,
+      enablePullDown: true,
+      enablePullUp: true,
+      footer: ClassicFooter(
+        loadingText: 'Đang tải',
+      ),
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            backgroundColor: nearlyWhite,
+            floating: true,
+            title: _welcomeBar(),
+          ),
+          SliverToBoxAdapter(
             child: ListView.builder(
               shrinkWrap: true,
               addRepaintBoundaries: false,
-              physics: BouncingScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               itemCount: mangaMeta == null ? 0 : mangaMeta.length + 1,
               itemBuilder: (context, i) {
                 if (i == 0) {
@@ -108,10 +112,6 @@ class _BoardTabState extends State<BoardTab> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _welcomeBar(),
                       Divider(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -144,8 +144,8 @@ class _BoardTabState extends State<BoardTab> {
               },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -191,41 +191,39 @@ class _BoardTabState extends State<BoardTab> {
   }
 
   Widget _welcomeBar() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          SvgPicture.string(
-            avatarSvg,
-            fit: BoxFit.fill,
-            height: 40,
+    return Row(
+      children: [
+        SvgPicture.string(
+          avatarSvg,
+          fit: BoxFit.fill,
+          height: 40,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Xin chào!",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                randomName,
+                style: Theme.of(context).textTheme.caption,
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Xin chào!",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Text(
-                  randomName,
-                  style: Theme.of(context).textTheme.caption,
-                )
-              ],
-            ),
-          ),
-          Expanded(child: Container()),
-          IconButton(
-              icon: Icon(Icons.search_rounded),
-              onPressed: () {
-                widget.homeScreenState.setState(() {
-                  widget.homeScreenState.selectedIndex = 2;
-                });
-              })
-        ],
-      ),
+        ),
+        Expanded(child: Container()),
+        IconButton(
+            icon: Icon(Icons.search_rounded),
+            color: nearlyBlack,
+            onPressed: () {
+              widget.homeScreenState.setState(() {
+                widget.homeScreenState.selectedIndex = 2;
+              });
+            })
+      ],
     );
   }
 

@@ -184,9 +184,6 @@ class MangaProvider {
           return true;
         }
       }
-      if (element.description.toLowerCase().contains(searchString)) {
-        return true;
-      }
       return false;
     }).toList();
 

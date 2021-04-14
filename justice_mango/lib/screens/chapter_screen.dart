@@ -123,6 +123,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
               ),
               onLoading: _loadNextChap,
               child: CustomScrollView(
+                physics: BouncingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
                     title: Text(

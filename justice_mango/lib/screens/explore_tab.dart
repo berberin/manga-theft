@@ -12,7 +12,7 @@ class ExploreTab extends StatefulWidget {
 class _ExploreTabState extends State<ExploreTab> {
   Widget appBarTitle = Text("AppBar Title");
   Icon actionIcon = Icon(Icons.search);
-  var _controller = TextEditingController();
+  var _controllerTextField = TextEditingController();
   List<MangaMeta> mangasSearch = <MangaMeta>[];
 
   bool searchComplete = false;
@@ -25,14 +25,12 @@ class _ExploreTabState extends State<ExploreTab> {
   }
 
   _buildBody() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Row(
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          backgroundColor: nearlyWhite,
+          floating: true,
+          title: Row(
             children: <Widget>[
               Expanded(
                 child: Container(
@@ -60,9 +58,10 @@ class _ExploreTabState extends State<ExploreTab> {
                         color: Color(0xffB9BABC),
                       ),
                     ),
-                    controller: _controller,
+                    controller: _controllerTextField,
                     onEditingComplete: () async {
-                      var mangas = await MangaProvider.search(_controller.text);
+                      var mangas =
+                          await MangaProvider.search(_controllerTextField.text);
                       setState(() {
                         searchComplete = true;
                         mangasSearch = mangas;
@@ -81,7 +80,8 @@ class _ExploreTabState extends State<ExploreTab> {
                     color: Color(0xffB9BABC),
                   ),
                   onTap: () async {
-                    var mangas = await MangaProvider.search(_controller.text);
+                    var mangas =
+                        await MangaProvider.search(_controllerTextField.text);
                     setState(() {
                       searchComplete = true;
                       mangasSearch = mangas;
@@ -91,18 +91,28 @@ class _ExploreTabState extends State<ExploreTab> {
               )
             ],
           ),
-          Divider(),
-          _buildSearchResult(mangasSearch),
-          Divider(),
-          _buildRandomManga('Comedy'),
-          Divider(),
-          _buildRandomManga('Drama'),
-          Divider(),
-          _buildRandomManga('Action'),
-          Divider(),
-          _buildRandomManga('Adventure'),
-        ],
-      ),
+        ),
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Divider(),
+              _buildSearchResult(mangasSearch),
+              Divider(),
+              _buildRandomManga('Comedy'),
+              Divider(),
+              _buildRandomManga('Drama'),
+              Divider(),
+              _buildRandomManga('Action'),
+              Divider(),
+              _buildRandomManga('Adventure'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
