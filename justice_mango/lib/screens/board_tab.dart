@@ -21,7 +21,8 @@ class _BoardTabState extends State<BoardTab> {
   List<MangaMeta> mangas = <MangaMeta>[];
   Future<List<MangaMeta>> _futureMangas;
   List<MangaMeta> favoriteUpdate = <MangaMeta>[];
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   String randomName;
   String avatarSvg;
   int page;
@@ -81,60 +82,70 @@ class _BoardTabState extends State<BoardTab> {
   }
 
   Widget _buildCards(List<MangaMeta> mangaMeta) {
-    return SmartRefresher(
-      controller: _refreshController,
-      enablePullDown: true,
-      enablePullUp: true,
-      footer: ClassicFooter(
-        loadingText: 'Đang tải',
-      ),
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      child: ListView.builder(
-        addRepaintBoundaries: false,
-        physics: BouncingScrollPhysics(),
-        itemCount: mangaMeta == null ? 0 : mangaMeta.length + 1,
-        itemBuilder: (context, i) {
-          if (i == 0) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                _welcomeBar(),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Cập nhật mới cho truyện ưa thích",
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                          letterSpacing: 0.27,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: Container(height: 38, child: _welcomeBar()),
+        ),
+        SliverToBoxAdapter(
+          child: SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: true,
+            footer: ClassicFooter(
+              loadingText: 'Đang tải',
+            ),
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: ListView.builder(
+              shrinkWrap: true,
+              addRepaintBoundaries: false,
+              physics: BouncingScrollPhysics(),
+              itemCount: mangaMeta == null ? 0 : mangaMeta.length + 1,
+              itemBuilder: (context, i) {
+                if (i == 0) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _welcomeBar(),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Cập nhật mới cho truyện ưa thích",
+                          style: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                letterSpacing: 0.27,
+                              ),
                         ),
-                  ),
-                ),
-                _listUpdateFavorite(),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                  child: Text(
-                    "Vừa cập nhật",
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                          letterSpacing: 0.27,
+                      ),
+                      _listUpdateFavorite(),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                        child: Text(
+                          "Vừa cập nhật",
+                          style: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                letterSpacing: 0.27,
+                              ),
                         ),
-                  ),
-                ),
-              ],
-            );
-          }
-          return MangaCard(mangaMeta: mangaMeta[i - 1]);
-        },
-      ),
+                      ),
+                    ],
+                  );
+                }
+                return MangaCard(mangaMeta: mangaMeta[i - 1]);
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -148,7 +159,8 @@ class _BoardTabState extends State<BoardTab> {
             fit: FlexFit.loose,
             child: FutureBuilder(
               future: _futureMangas,
-              builder: (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<MangaMeta>> snapshot) {
                 if (snapshot.hasData)
                   return _buildCards(mangas);
                 else if (snapshot.hasError)

@@ -48,8 +48,14 @@ class MangaProvider {
 
     try {
       for (var item in items) {
-        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
-        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
+        String title = item
+            .querySelector("div.clearfix div.box_img")
+            .querySelector("a")
+            .attributes['title'];
+        String imgUrl = "http:" +
+            item
+                .querySelector("div figure div a img")
+                .attributes['data-original'];
         String url = item.querySelector("div figure div a").attributes['href'];
         String description = item.querySelector("div.box_text").text;
 
@@ -154,8 +160,9 @@ class MangaProvider {
   }
 
   static Future<List<MangaMeta>> search(String searchString) async {
-    searchString = searchString.toLowerCase();
     var mangaMetas = <MangaMeta>[];
+    if (searchString == "") return mangaMetas;
+    searchString = searchString.toLowerCase();
     try {
       var url = "http://www.nettruyen.com/tim-truyen?keyword=$searchString";
       var response = await HttpProvider.get(url);

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
@@ -171,7 +172,8 @@ class MangaDetailState extends State<MangaDetail> {
   }
 
   void goToLastReadChapter() {
-    int lastReadIndex = HiveProvider.getLastReadIndex(mangaId: widget.mangaMeta.id);
+    int lastReadIndex =
+        HiveProvider.getLastReadIndex(mangaId: widget.mangaMeta.id);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -191,7 +193,7 @@ class MangaDetailState extends State<MangaDetail> {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
-      backgroundColor: Color(0xFF801E48),
+      backgroundColor: mainColor,
       foregroundColor: Colors.white,
       visible: true,
       curve: Curves.bounceIn,
@@ -201,13 +203,14 @@ class MangaDetailState extends State<MangaDetail> {
             Icons.play_arrow_rounded,
             color: Colors.white,
           ),
-          backgroundColor: Color(0xFF801E48),
+          backgroundColor: mainColor,
           onTap: () {
             goToLastReadChapter();
           },
           label: 'Đọc ngay',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
-          labelBackgroundColor: Color(0xFF801E48),
+          labelStyle: TextStyle(
+              fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelBackgroundColor: mainColor,
         ),
         SpeedDialChild(
           child: isFavorite
@@ -219,7 +222,7 @@ class MangaDetailState extends State<MangaDetail> {
                   Icons.favorite,
                   color: Colors.white,
                 ),
-          backgroundColor: Color(0xFF801E48),
+          backgroundColor: mainColor,
           onTap: () async {
             if (isFavorite) {
               await HiveProvider.removeFromFavoriteBox(widget.mangaMeta.id);
@@ -234,7 +237,8 @@ class MangaDetailState extends State<MangaDetail> {
             }
           },
           label: isFavorite ? 'Truyện ưa thích!' : 'Đánh dấu ưa thích',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelStyle: TextStyle(
+              fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
           labelBackgroundColor: Color(0xFF801E48),
         ),
       ],

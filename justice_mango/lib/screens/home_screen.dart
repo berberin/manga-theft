@@ -21,56 +21,59 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: IndexedStack(
-        index: selectedIndex,
-        children: [
-          BoardTab(
-            homeScreenState: this,
-          ),
-          FavoriteTab(),
-          ExploreTab(),
-          SettingTab(),
-        ],
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 40,
-        child: BottomNavigationBar(
-          iconSize: 15,
-          selectedFontSize: 10,
-
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.system_update_tv_rounded,
-              ),
-              label: 'Cập nhật',
-              backgroundColor: mainColor,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: IndexedStack(
+          index: selectedIndex,
+          children: [
+            BoardTab(
+              homeScreenState: this,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.my_library_books_rounded),
-              label: 'Ưa thích',
-              backgroundColor: mainColor,
-              //backgroundColor: Colors.green,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore_rounded),
-              label: 'Khám phá',
-              backgroundColor: mainColor,
-              //backgroundColor: Colors.purple,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings_applications_rounded),
-              label: 'Cài đặt',
-              backgroundColor: mainColor,
-              //backgroundColor: Colors.pink,
-            ),
+            FavoriteTab(),
+            ExploreTab(),
+            SettingTab(),
           ],
-          currentIndex: selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-          //unselectedItemColor: Colors.blue,
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 40,
+          child: BottomNavigationBar(
+            iconSize: 15,
+            selectedFontSize: 10,
+
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.system_update_tv_rounded,
+                ),
+                label: 'Cập nhật',
+                backgroundColor: mainColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.my_library_books_rounded),
+                label: 'Ưa thích',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.green,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.explore_rounded),
+                label: 'Khám phá',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.purple,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_applications_rounded),
+                label: 'Cài đặt',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.pink,
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
+            //unselectedItemColor: Colors.blue,
+          ),
         ),
       ),
     );
