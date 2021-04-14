@@ -80,6 +80,7 @@ ThemeData appThemeData = ThemeData.light().copyWith(
   textTheme: appTextTheme,
 );
 
+const Color mainColor = Color(0xFF801E48);
 const Color notWhite = Color(0xFFEDF0F2);
 const Color nearlyWhite = Color(0xFFFEFEFE);
 const Color white = Color(0xFFFFFFFF);

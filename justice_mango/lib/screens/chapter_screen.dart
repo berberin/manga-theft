@@ -7,6 +7,7 @@ import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/cache_provider.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/screens/manga_detail_screen.dart';
 import 'package:justice_mango/screens/widget/manga_image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -15,8 +16,10 @@ class ChapterScreen extends StatefulWidget {
   final int index;
   final MangaMeta mangaMeta;
   final List<String> preloadUrl;
+  final MangaDetailState mangaDetailState;
 
-  const ChapterScreen({Key key, this.chaptersInfo, this.index, this.mangaMeta, this.preloadUrl}) : super(key: key);
+  const ChapterScreen({Key key, this.chaptersInfo, this.index, this.mangaMeta, this.preloadUrl, this.mangaDetailState})
+      : super(key: key);
   @override
   _ChapterScreenState createState() => _ChapterScreenState();
 }
@@ -37,6 +40,10 @@ class _ChapterScreenState extends State<ChapterScreen> {
         return widget.preloadUrl;
       });
     }
+    HiveProvider.updateLastReadIndex(
+      mangaId: widget.mangaMeta.id,
+      readIndex: widget.index,
+    );
     getPreloadUrl();
   }
 
@@ -167,9 +174,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
             chaptersInfo: widget.chaptersInfo,
             index: widget.index + 1,
             mangaMeta: widget.mangaMeta,
+            mangaDetailState: widget.mangaDetailState,
           ),
         ),
-      );
+      ).then((value) {
+        widget.mangaDetailState.setState(() {});
+      });
     }
   }
 
@@ -185,7 +195,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
             preloadUrl: _preloadUrl ?? null,
           ),
         ),
-      );
+      ).then((value) {
+        widget.mangaDetailState.setState(() {});
+      });
       _refreshController.loadComplete();
     } else {
       _refreshController.loadFailed();

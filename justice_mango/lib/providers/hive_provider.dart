@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
+import 'package:justice_mango/models/read_info.dart';
+import 'package:justice_mango/providers/manga_provider.dart';
 
 class HiveProvider {
   HiveProvider._();
@@ -14,10 +16,13 @@ class HiveProvider {
 
   static Box<MangaMeta> favoriteBox;
 
+  static Box<ReadInfo> lastReadBox;
+
   static init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(MangaMetaAdapter());
     Hive.registerAdapter(ChapterInfoAdapter());
+    Hive.registerAdapter(ReadInfoAdapter());
 
     mangaBox = await Hive.openBox('mangaBox');
     if (mangaBox.isEmpty) {
@@ -25,11 +30,46 @@ class HiveProvider {
     }
     readBox = await Hive.openBox('readBox');
     favoriteBox = await Hive.openBox('favoriteBox');
+    lastReadBox = await Hive.openBox('lastReadBox');
   }
 
+  static void updateLastReadInfo({String mangaId}) async {
+    var currentReadInfo = lastReadBox.get(mangaId);
+    var chapters = await MangaProvider.getChaptersInfo(mangaId);
+    if (currentReadInfo == null) {
+      await lastReadBox.put(
+        mangaId,
+        ReadInfo(
+          mangaId: mangaId,
+          numberOfChapters: chapters.length,
+          newUpdate: false,
+          lastReadIndex: chapters.length - 1,
+        ),
+      );
+    } else {
+      await lastReadBox.put(
+        mangaId,
+        ReadInfo(
+          mangaId: mangaId,
+          numberOfChapters: chapters.length,
+          newUpdate: chapters.length > currentReadInfo.numberOfChapters,
+          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+        ),
+      );
+    }
+  }
+
+  static void updateLastReadIndex({String mangaId, int readIndex}) async {
+    var currentReadInfo = lastReadBox.get(mangaId);
+    if (currentReadInfo.lastReadIndex > readIndex) {
+      currentReadInfo.lastReadIndex = readIndex;
+      await lastReadBox.put(mangaId, currentReadInfo);
+    }
+  }
+
+  // need guaranteed updateLastReadInfo called before
   static int getLastReadIndex({String mangaId}) {
-    // todo: implement
-    return 0;
+    return lastReadBox.get(mangaId).lastReadIndex ?? 1;
   }
 
   static addToMangaBox(MangaMeta mangaMeta) async {

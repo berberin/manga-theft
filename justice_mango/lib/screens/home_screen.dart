@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/screens/board_tab.dart';
 import 'package:justice_mango/screens/explore_tab.dart';
 import 'package:justice_mango/screens/favorite_tab.dart';
@@ -38,28 +39,29 @@ class HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
           iconSize: 15,
           selectedFontSize: 10,
+
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.system_update_tv_rounded,
               ),
               label: 'Cập nhật',
-              backgroundColor: Colors.blue,
+              backgroundColor: mainColor,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.my_library_books_rounded),
               label: 'Ưa thích',
-              backgroundColor: Colors.green,
+              //backgroundColor: Colors.green,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore_rounded),
               label: 'Khám phá',
-              backgroundColor: Colors.purple,
+              //backgroundColor: Colors.purple,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_applications_rounded),
               label: 'Cài đặt',
-              backgroundColor: Colors.pink,
+              //backgroundColor: Colors.pink,
             ),
           ],
           currentIndex: selectedIndex,

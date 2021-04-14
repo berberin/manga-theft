@@ -30,6 +30,7 @@ class _ChapterCardState extends State<ChapterCard> {
               chaptersInfo: widget.chaptersInfo,
               index: widget.index,
               mangaMeta: widget.mangaMeta,
+              mangaDetailState: widget.mangaDetailState,
             ),
           ),
         ).then((value) {

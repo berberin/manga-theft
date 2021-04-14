@@ -67,7 +67,9 @@ class ShortMangaCard extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            Text(mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
+                            Text(
+                                //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
+                                mangaMeta.author,
                                 style: Theme.of(context).textTheme.caption),
                             // Tags(
                             //   tags: mangaMeta.tags,

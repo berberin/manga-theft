@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
@@ -29,6 +30,7 @@ class MangaDetailState extends State<MangaDetail> {
   void initState() {
     super.initState();
     isFavorite = HiveProvider.isFavoriteOrNot(widget.mangaMeta);
+    HiveProvider.updateLastReadInfo(mangaId: widget.mangaMeta.id);
     MangaProvider.getChaptersInfo(widget.mangaMeta.id).then((value) {
       setState(() {
         chaptersInfo = value;
@@ -39,16 +41,7 @@ class MangaDetailState extends State<MangaDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
-        child: Icon(
-          Icons.play_arrow_rounded,
-          size: 30,
-        ),
-        onPressed: () {
-          goToLastReadChapter();
-        },
-      ),
+      floatingActionButton: _getFAB(),
       body: CustomScrollView(
         slivers: [
           _sliverAppBar(),
@@ -98,112 +91,6 @@ class MangaDetailState extends State<MangaDetail> {
     );
   }
 
-  Widget _buildMangaInfos_bak() {
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 120,
-              height: 180,
-              child: Image.network(widget.mangaMeta.imgUrl, fit: BoxFit.cover),
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 3.0),
-                      child: Text(
-                        widget.mangaMeta.title,
-                        style: mNameStyle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text('Tác giả: ' + widget.mangaMeta.author, style: aNameStyle),
-                    Text('Thể loại: ' + widget.mangaMeta.tags.toString()),
-                    Text('Tình trạng: ' + widget.mangaMeta.status),
-                    Text(
-                      'Mô tả: ' + widget.mangaMeta.description,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Row(
-                      children: [
-                        Text('Theo dõi truyện: '),
-                        GestureDetector(
-                          child: isFavorite == true
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.pinkAccent,
-                                )
-                              : Icon(Icons.favorite_border, color: Colors.pinkAccent),
-                          onTap: () {
-                            setState(() {
-                              if (isFavorite) {
-                                isFavorite = !isFavorite;
-                                HiveProvider.removeFromFavoriteBox(widget.mangaMeta.id);
-                              } else {
-                                isFavorite = !isFavorite;
-                                HiveProvider.addToFavoriteBox(widget.mangaMeta);
-                              }
-                            });
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      Expanded(
-        child: ListView.separated(
-          padding: EdgeInsets.all(3.0),
-          itemCount: chaptersInfo == null ? 0 : chaptersInfo.length,
-          itemBuilder: (context, i) {
-            return InkWell(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 5.0),
-                child: Text(
-                  chaptersInfo[i].name,
-                  style: HiveProvider.getReadChapter(chaptersInfo[i].chapterId) == null
-                      ? TextStyle(color: Colors.black)
-                      : TextStyle(color: Colors.black45),
-                ),
-              ),
-              onTap: () {
-                HiveProvider.addToReadBox(chaptersInfo[i]);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChapterScreen(
-                      chaptersInfo: chaptersInfo,
-                      index: i,
-                      mangaMeta: widget.mangaMeta,
-                    ),
-                  ),
-                ).then((value) {
-                  setState(() {});
-                });
-              },
-            );
-          },
-          separatorBuilder: (context, i) {
-            return Divider();
-          },
-        ),
-      )
-    ]);
-  }
-
   Widget _sliverAppBar() {
     return SliverAppBar(
       title: Text(
@@ -250,9 +137,10 @@ class MangaDetailState extends State<MangaDetail> {
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Text(
-                            widget.mangaMeta.author == '' ? 'Chưa rõ tác giả' : widget.mangaMeta.author,
+                            //widget.mangaMeta.author == '' ? 'Chưa rõ tác giả' : widget.mangaMeta.author,
+                            widget.mangaMeta.author,
                             style: Theme.of(context).textTheme.caption,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -283,9 +171,7 @@ class MangaDetailState extends State<MangaDetail> {
   }
 
   void goToLastReadChapter() {
-    // todo: implement
     int lastReadIndex = HiveProvider.getLastReadIndex(mangaId: widget.mangaMeta.id);
-    //int lastReadIndex = 1;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -293,10 +179,65 @@ class MangaDetailState extends State<MangaDetail> {
           chaptersInfo: chaptersInfo,
           index: lastReadIndex,
           mangaMeta: widget.mangaMeta,
+          mangaDetailState: this,
         ),
       ),
     ).then((value) {
       setState(() {});
     });
+  }
+
+  Widget _getFAB() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22),
+      backgroundColor: Color(0xFF801E48),
+      foregroundColor: Colors.white,
+      visible: true,
+      curve: Curves.bounceIn,
+      children: [
+        SpeedDialChild(
+          child: Icon(
+            Icons.play_arrow_rounded,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xFF801E48),
+          onTap: () {
+            goToLastReadChapter();
+          },
+          label: 'Đọc ngay',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelBackgroundColor: Color(0xFF801E48),
+        ),
+        SpeedDialChild(
+          child: isFavorite
+              ? Icon(
+                  Icons.library_add_check,
+                  color: Colors.pink,
+                )
+              : Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+          backgroundColor: Color(0xFF801E48),
+          onTap: () async {
+            if (isFavorite) {
+              await HiveProvider.removeFromFavoriteBox(widget.mangaMeta.id);
+              setState(() {
+                isFavorite = false;
+              });
+            } else {
+              await HiveProvider.addToFavoriteBox(widget.mangaMeta);
+              setState(() {
+                isFavorite = true;
+              });
+            }
+          },
+          label: isFavorite ? 'Truyện ưa thích!' : 'Đánh dấu ưa thích',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelBackgroundColor: Color(0xFF801E48),
+        ),
+      ],
+    );
   }
 }
