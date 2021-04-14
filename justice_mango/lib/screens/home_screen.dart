@@ -51,16 +51,19 @@ class HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.my_library_books_rounded),
               label: 'Ưa thích',
+              backgroundColor: mainColor,
               //backgroundColor: Colors.green,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore_rounded),
               label: 'Khám phá',
+              backgroundColor: mainColor,
               //backgroundColor: Colors.purple,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_applications_rounded),
               label: 'Cài đặt',
+              backgroundColor: mainColor,
               //backgroundColor: Colors.pink,
             ),
           ],

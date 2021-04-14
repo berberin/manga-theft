@@ -33,7 +33,11 @@ class HiveProvider {
     lastReadBox = await Hive.openBox('lastReadBox');
   }
 
-  static void updateLastReadInfo({String mangaId}) async {
+  static ReadInfo getLastReadInfo({String mangaId}) {
+    return lastReadBox.get(mangaId);
+  }
+
+  static Future<void> updateLastReadInfo({String mangaId, bool updateStatus = false}) async {
     var currentReadInfo = lastReadBox.get(mangaId);
     var chapters = await MangaProvider.getChaptersInfo(mangaId);
     if (currentReadInfo == null) {
@@ -52,7 +56,7 @@ class HiveProvider {
         ReadInfo(
           mangaId: mangaId,
           numberOfChapters: chapters.length,
-          newUpdate: chapters.length > currentReadInfo.numberOfChapters,
+          newUpdate: updateStatus ? (chapters.length > currentReadInfo.numberOfChapters) : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );

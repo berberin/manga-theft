@@ -20,6 +20,21 @@ class MangaProvider {
     return mangaMetas;
   }
 
+  static Future<List<MangaMeta>> getFavoriteUpdate() async {
+    var result = <MangaMeta>[];
+    var favorite = HiveProvider.getFavoriteMangas();
+    for (var manga in favorite) {
+      await HiveProvider.updateLastReadInfo(
+        mangaId: manga.id,
+        updateStatus: true,
+      );
+      if (HiveProvider.getLastReadInfo(mangaId: manga.id).newUpdate) {
+        result.add(manga);
+      }
+    }
+    return result;
+  }
+
   static List<MangaMeta> _getMangaFromDOM(String body) {
     var mangaMetas = <MangaMeta>[];
     var soup = Beautifulsoup(body);
@@ -194,7 +209,7 @@ class MangaProvider {
   }
 
   static getMangaMeta(String mangaId) async {
-    return await HiveProvider.getMangaMeta(mangaId);
+    return HiveProvider.getMangaMeta(mangaId);
   }
 
   static addMangaMeta(MangaMeta mangaMeta) async {
@@ -202,7 +217,7 @@ class MangaProvider {
   }
 
   static Future<bool> inMangaBox(String mangaId) async {
-    if (await HiveProvider.getMangaMeta(mangaId) == null) {
+    if (HiveProvider.getMangaMeta(mangaId) == null) {
       return false;
     }
     return true;

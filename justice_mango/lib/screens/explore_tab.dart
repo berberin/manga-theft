@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/screens/widget/manga_card.dart';
@@ -13,6 +14,8 @@ class _ExploreTabState extends State<ExploreTab> {
   Icon actionIcon = Icon(Icons.search);
   var _controller = TextEditingController();
   List<MangaMeta> mangasSearch = <MangaMeta>[];
+
+  bool searchComplete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +41,10 @@ class _ExploreTabState extends State<ExploreTab> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.amber,
+                      color: mainColor,
                     ),
                     keyboardType: TextInputType.text,
+                    autofocus: false,
                     decoration: InputDecoration(
                       labelText: 'Tìm truyện',
                       border: InputBorder.none,
@@ -60,9 +64,8 @@ class _ExploreTabState extends State<ExploreTab> {
                     onEditingComplete: () async {
                       var mangas = await MangaProvider.search(_controller.text);
                       setState(() {
-                        if (_controller.text != null) {
-                          mangasSearch = mangas;
-                        }
+                        searchComplete = true;
+                        mangasSearch = mangas;
                       });
                       FocusScope.of(context).unfocus();
                     },
@@ -80,9 +83,8 @@ class _ExploreTabState extends State<ExploreTab> {
                   onTap: () async {
                     var mangas = await MangaProvider.search(_controller.text);
                     setState(() {
-                      if (_controller.text != null) {
-                        mangasSearch = mangas;
-                      }
+                      searchComplete = true;
+                      mangasSearch = mangas;
                     });
                   },
                 ),
@@ -141,29 +143,40 @@ class _ExploreTabState extends State<ExploreTab> {
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
       shrinkWrap: true,
-      itemCount: mangaMeta.isEmpty ? 0 : mangaMeta.length + 1,
+      itemCount: mangaMeta.isEmpty ? 1 : mangaMeta.length + 1,
       itemBuilder: (context, i) {
-        if (i == 0) {
-          return Row(
-            children: [
-              Text(
-                'Kết quả tìm kiếm',
-                style: Theme.of(context).textTheme.headline5.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      letterSpacing: 0.27,
-                    ),
-              ),
-              IconButton(
-                icon: Icon(Icons.clear_all_rounded),
-                onPressed: () {
-                  setState(() {
-                    mangasSearch.clear();
-                  });
-                },
-              )
-            ],
+        if (searchComplete && mangaMeta.isEmpty) {
+          return Text(
+            'Không tìm thấy kết quả phù hợp.',
+            style: Theme.of(context).textTheme.caption,
           );
+        }
+        if (i == 0) {
+          if (searchComplete) {
+            return Row(
+              children: [
+                Text(
+                  'Kết quả tìm kiếm',
+                  style: Theme.of(context).textTheme.headline5.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        letterSpacing: 0.27,
+                      ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.clear_all_rounded),
+                  onPressed: () {
+                    setState(() {
+                      mangasSearch.clear();
+                      searchComplete = false;
+                    });
+                  },
+                )
+              ],
+            );
+          } else {
+            return Container();
+          }
         }
         return MangaCard(mangaMeta: mangaMeta[i - 1]);
       },

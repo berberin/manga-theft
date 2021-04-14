@@ -44,6 +44,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
       mangaId: widget.mangaMeta.id,
       readIndex: widget.index,
     );
+    if (widget.index == 0) {
+      HiveProvider.updateLastReadInfo(
+        mangaId: widget.mangaMeta.id,
+        updateStatus: true,
+      );
+    }
     getPreloadUrl();
   }
 

@@ -18,8 +18,9 @@ class BoardTab extends StatefulWidget {
 }
 
 class _BoardTabState extends State<BoardTab> {
-  List<MangaMeta> mangas;
+  List<MangaMeta> mangas = <MangaMeta>[];
   Future<List<MangaMeta>> _futureMangas;
+  List<MangaMeta> favoriteUpdate = <MangaMeta>[];
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   String randomName;
   String avatarSvg;
@@ -43,6 +44,11 @@ class _BoardTabState extends State<BoardTab> {
       hues: [207],
     );
     page = 1;
+    MangaProvider.getFavoriteUpdate().then((value) {
+      setState(() {
+        favoriteUpdate = value;
+      });
+    });
     _futureMangas = MangaProvider.getLatestManga(page: page);
     _futureMangas.then((value) {
       mangas = value;
@@ -79,7 +85,9 @@ class _BoardTabState extends State<BoardTab> {
       controller: _refreshController,
       enablePullDown: true,
       enablePullUp: true,
-      footer: ClassicFooter(),
+      footer: ClassicFooter(
+        loadingText: 'Đang tải',
+      ),
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       child: ListView.builder(
@@ -113,7 +121,7 @@ class _BoardTabState extends State<BoardTab> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                   child: Text(
-                    "Mới cập nhật",
+                    "Vừa cập nhật",
                     style: Theme.of(context).textTheme.headline5.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
@@ -210,6 +218,23 @@ class _BoardTabState extends State<BoardTab> {
   }
 
   Widget _listUpdateFavorite() {
-    return Container();
+    if (favoriteUpdate.length == 0) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Không có cập nhật mới.',
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+      );
+    }
+    return ListView.builder(
+      itemBuilder: (context, index) => MangaCard(
+        mangaMeta: favoriteUpdate[index],
+      ),
+      itemCount: favoriteUpdate.length,
+      physics: NeverScrollableScrollPhysics(),
+    );
   }
 }
