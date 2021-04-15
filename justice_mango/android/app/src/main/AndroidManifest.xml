@@ -3,7 +3,7 @@
 
 
    <application
-        android:label="justice_mango"
+        android:label="Foomecu"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
         <activity

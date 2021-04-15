@@ -1,33 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/app_theme.dart';
+import 'package:justice_mango/screens/board_tab.dart';
+import 'package:justice_mango/screens/explore_tab.dart';
+import 'package:justice_mango/screens/favorite_tab.dart';
+import 'package:justice_mango/screens/setting_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
+  int selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image(
-          image: NetworkImage("http://anhnhanh.org/data/images/73/2386/014-fix.jpg?data=net", headers: {
-            "Referer": "http://www.nettruyen.com/",
-          }),
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: IndexedStack(
+          index: selectedIndex,
+          children: [
+            BoardTab(
+              homeScreenState: this,
+            ),
+            FavoriteTab(),
+            ExploreTab(),
+            SettingTab(),
+          ],
         ),
-        ElevatedButton(
-          onPressed: () async {
-            var mangas = await MangaProvider.getLatestManga();
-            print(mangas[0].toJson());
-            var chapterInfos = await MangaProvider.getChaptersInfo(mangas[0].id);
-            print(chapterInfos[0].toJson());
-            var images_url = await MangaProvider.getPages(chapterInfos[0].url);
-            print(images_url);
-          },
-          child: Text("Mango"),
+        bottomNavigationBar: SizedBox(
+          height: 40,
+          child: BottomNavigationBar(
+            iconSize: 15,
+            selectedFontSize: 10,
+
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.system_update_tv_rounded,
+                ),
+                label: 'Cập nhật',
+                backgroundColor: mainColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.my_library_books_rounded),
+                label: 'Ưa thích',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.green,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.explore_rounded),
+                label: 'Khám phá',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.purple,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_applications_rounded),
+                label: 'Cài đặt',
+                backgroundColor: mainColor,
+                //backgroundColor: Colors.pink,
+              ),
+            ],
+            currentIndex: selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
+            //unselectedItemColor: Colors.blue,
+          ),
         ),
-      ],
+      ),
     );
+  }
+
+  void _onItemTapped(int value) {
+    setState(() {
+      selectedIndex = value;
+    });
   }
 }

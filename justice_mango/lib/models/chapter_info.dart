@@ -1,6 +1,14 @@
+import 'package:hive/hive.dart';
+
+part 'chapter_info.g.dart';
+
+@HiveType(typeId: 1)
 class ChapterInfo {
+  @HiveField(0)
   int chapterId;
+  @HiveField(1)
   String name;
+  @HiveField(2)
   String url;
 
   ChapterInfo({this.chapterId, this.name, this.url});

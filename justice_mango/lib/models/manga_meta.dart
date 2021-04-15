@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'manga_meta.g.dart';
 
 @HiveType(typeId: 0)
-class MangaMeta {
+class MangaMeta extends Equatable {
   @HiveField(0)
   List<String> alias;
   @HiveField(1)
@@ -57,4 +58,8 @@ class MangaMeta {
     }
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id];
 }
