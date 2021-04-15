@@ -63,7 +63,7 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icons/index.png"
-  ios_image_path: "assets/icons/index_solid.png"
+  image_path_ios: "assets/icons/index_solid.png"
 
 
 
