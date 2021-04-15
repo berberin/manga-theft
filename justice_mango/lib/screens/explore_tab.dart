@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
@@ -22,7 +22,9 @@ class _ExploreTabState extends State<ExploreTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: nearlyWhite,
-      body: _buildBody(),
+      body: FocusWatcher(
+        child: _buildBody(),
+      ),
     );
   }
 
@@ -62,17 +64,7 @@ class _ExploreTabState extends State<ExploreTab> {
                       ),
                     ),
                     controller: _controllerTextField,
-                    onEditingComplete: () async {
-                      if (_controllerTextField.text.length >= 2) {
-                        FocusScope.of(context).unfocus();
-                        var mangas = await compute(MangaProvider.search, _controllerTextField.text);
-                        print(mangas);
-                        setState(() {
-                          searchComplete = true;
-                          mangasSearch = mangas;
-                        });
-                      }
-                    },
+                    onEditingComplete: () => _doSearch(),
                   ),
                 ),
               ),
@@ -84,16 +76,7 @@ class _ExploreTabState extends State<ExploreTab> {
                     Icons.search,
                     color: Color(0xffB9BABC),
                   ),
-                  onTap: () async {
-                    if (_controllerTextField.text.length >= 2) {
-                      FocusScope.of(context).unfocus();
-                      var mangas = await MangaProvider.search(_controllerTextField.text);
-                      setState(() {
-                        searchComplete = true;
-                        mangasSearch = mangas;
-                      });
-                    }
-                  },
+                  onTap: () => _doSearch(),
                 ),
               )
             ],
@@ -200,6 +183,17 @@ class _ExploreTabState extends State<ExploreTab> {
         return MangaCard(mangaMeta: mangaMeta[i - 1]);
       },
     );
+  }
+
+  Future<void> _doSearch() async {
+    if (_controllerTextField.text.length >= 2) {
+      FocusScope.of(context).unfocus();
+      var mangas = await MangaProvider.search(_controllerTextField.text);
+      setState(() {
+        searchComplete = true;
+        mangasSearch = mangas;
+      });
+    }
   }
 }
 
