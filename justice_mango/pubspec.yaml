@@ -42,6 +42,7 @@ dependencies:
   jdenticon_dart: ^2.0.0
   flutter_svg: ^0.21.0+1
   flutter_speed_dial: ^3.0.5
+  flutter_focus_watcher: ^0.0.1
 
 
 dev_dependencies:
