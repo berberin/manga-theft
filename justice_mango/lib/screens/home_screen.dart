@@ -45,7 +45,7 @@ class HomeScreenState extends State<HomeScreen> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.system_update_tv_rounded,
+                  Icons.airplay_rounded,
                 ),
                 label: 'Cập nhật',
                 backgroundColor: mainColor,
