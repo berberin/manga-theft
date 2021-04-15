@@ -172,8 +172,7 @@ class MangaDetailState extends State<MangaDetail> {
   }
 
   void goToLastReadChapter() {
-    int lastReadIndex =
-        HiveProvider.getLastReadIndex(mangaId: widget.mangaMeta.id);
+    int lastReadIndex = HiveProvider.getLastReadIndex(mangaId: widget.mangaMeta.id);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -193,7 +192,7 @@ class MangaDetailState extends State<MangaDetail> {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
-      backgroundColor: mainColor,
+      backgroundColor: mainColorSecondary,
       foregroundColor: Colors.white,
       visible: true,
       curve: Curves.bounceIn,
@@ -203,14 +202,13 @@ class MangaDetailState extends State<MangaDetail> {
             Icons.play_arrow_rounded,
             color: Colors.white,
           ),
-          backgroundColor: mainColor,
+          backgroundColor: mainColorSecondary,
           onTap: () {
             goToLastReadChapter();
           },
           label: 'Đọc ngay',
-          labelStyle: TextStyle(
-              fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
-          labelBackgroundColor: mainColor,
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelBackgroundColor: mainColorSecondary,
         ),
         SpeedDialChild(
           child: isFavorite
@@ -222,7 +220,7 @@ class MangaDetailState extends State<MangaDetail> {
                   Icons.favorite,
                   color: Colors.white,
                 ),
-          backgroundColor: mainColor,
+          backgroundColor: mainColorSecondary,
           onTap: () async {
             if (isFavorite) {
               await HiveProvider.removeFromFavoriteBox(widget.mangaMeta.id);
@@ -237,9 +235,8 @@ class MangaDetailState extends State<MangaDetail> {
             }
           },
           label: isFavorite ? 'Truyện ưa thích!' : 'Đánh dấu ưa thích',
-          labelStyle: TextStyle(
-              fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
-          labelBackgroundColor: Color(0xFF801E48),
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+          labelBackgroundColor: mainColorSecondary,
         ),
       ],
     );
