@@ -20,6 +20,7 @@ class _ExploreTabState extends State<ExploreTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: nearlyWhite,
       body: _buildBody(),
     );
   }

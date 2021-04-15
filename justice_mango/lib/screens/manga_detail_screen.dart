@@ -126,23 +126,23 @@ class MangaDetailState extends State<MangaDetail> {
                       imageUrl: widget.mangaMeta.imgUrl,
                       width: MediaQuery.of(context).size.width / 4,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
                     Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            widget.mangaMeta.title,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Text(
-                            //widget.mangaMeta.author == '' ? 'Chưa rõ tác giả' : widget.mangaMeta.author,
-                            widget.mangaMeta.author,
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              widget.mangaMeta.title,
+                              style: Theme.of(context).textTheme.headline6,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              widget.mangaMeta.author,
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

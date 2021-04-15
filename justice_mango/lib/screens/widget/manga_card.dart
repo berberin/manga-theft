@@ -74,7 +74,6 @@ class MangaCard extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Text(
-                                  //mangaMeta.author == '' ? 'Chưa rõ tác giả' : mangaMeta.author,
                                   mangaMeta.author,
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),

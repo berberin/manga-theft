@@ -243,7 +243,7 @@ class _BoardTabState extends State<BoardTab> {
       itemBuilder: (context, index) => MangaCard(
         mangaMeta: favoriteUpdate[index],
       ),
-      itemCount: favoriteUpdate.length,
+      itemCount: favoriteUpdate.length >= 5 ? 5 : favoriteUpdate.length,
       physics: NeverScrollableScrollPhysics(),
     );
   }
