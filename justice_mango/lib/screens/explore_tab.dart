@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
@@ -20,11 +21,13 @@ class _ExploreTabState extends State<ExploreTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: nearlyWhite,
       body: _buildBody(),
     );
   }
 
   _buildBody() {
+    _tags.shuffle();
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -34,7 +37,7 @@ class _ExploreTabState extends State<ExploreTab> {
             children: <Widget>[
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  //padding: const EdgeInsets.only(left: 16, right: 16),
                   child: TextFormField(
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -60,13 +63,15 @@ class _ExploreTabState extends State<ExploreTab> {
                     ),
                     controller: _controllerTextField,
                     onEditingComplete: () async {
-                      var mangas =
-                          await MangaProvider.search(_controllerTextField.text);
-                      setState(() {
-                        searchComplete = true;
-                        mangasSearch = mangas;
-                      });
-                      FocusScope.of(context).unfocus();
+                      if (_controllerTextField.text.length >= 2) {
+                        FocusScope.of(context).unfocus();
+                        var mangas = await compute(MangaProvider.search, _controllerTextField.text);
+                        print(mangas);
+                        setState(() {
+                          searchComplete = true;
+                          mangasSearch = mangas;
+                        });
+                      }
                     },
                   ),
                 ),
@@ -80,12 +85,14 @@ class _ExploreTabState extends State<ExploreTab> {
                     color: Color(0xffB9BABC),
                   ),
                   onTap: () async {
-                    var mangas =
-                        await MangaProvider.search(_controllerTextField.text);
-                    setState(() {
-                      searchComplete = true;
-                      mangasSearch = mangas;
-                    });
+                    if (_controllerTextField.text.length >= 2) {
+                      FocusScope.of(context).unfocus();
+                      var mangas = await MangaProvider.search(_controllerTextField.text);
+                      setState(() {
+                        searchComplete = true;
+                        mangasSearch = mangas;
+                      });
+                    }
                   },
                 ),
               )
@@ -97,18 +104,18 @@ class _ExploreTabState extends State<ExploreTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 50,
+                height: 22,
               ),
               Divider(),
               _buildSearchResult(mangasSearch),
               Divider(),
-              _buildRandomManga('Comedy'),
+              _buildRandomManga(_tags[0]),
               Divider(),
-              _buildRandomManga('Drama'),
+              _buildRandomManga(_tags[1]),
               Divider(),
-              _buildRandomManga('Action'),
+              _buildRandomManga(_tags[2]),
               Divider(),
-              _buildRandomManga('Adventure'),
+              _buildRandomManga(_tags[3]),
             ],
           ),
         ),
@@ -122,6 +129,7 @@ class _ExploreTabState extends State<ExploreTab> {
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
       shrinkWrap: true,
+      addRepaintBoundaries: false,
       itemCount: 6,
       itemBuilder: (context, i) {
         if (i == 0) {
@@ -152,6 +160,7 @@ class _ExploreTabState extends State<ExploreTab> {
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+      addRepaintBoundaries: false,
       shrinkWrap: true,
       itemCount: mangaMeta.isEmpty ? 1 : mangaMeta.length + 1,
       itemBuilder: (context, i) {
@@ -193,3 +202,59 @@ class _ExploreTabState extends State<ExploreTab> {
     );
   }
 }
+
+List<String> _tags = [
+  "Action",
+  "Adult",
+  "Adventure",
+  "Manga",
+  "Sci-fi",
+  "Manhua",
+  "Martial Arts",
+  "Truyện Màu",
+  "Comedy",
+  "Drama",
+  "Historical",
+  "Romance",
+  "Supernatural",
+  "Fantasy",
+  "One shot",
+  "Slice of Life",
+  "Việt Nam",
+  "Shoujo Ai",
+  "Harem",
+  "School Life",
+  "Horror",
+  "Shounen",
+  "Manhwa",
+  "Webtoon",
+  "Shoujo",
+  "Ngôn Tình",
+  "Yuri",
+  "Comic",
+  "Soft Yaoi",
+  "Mature",
+  "Mystery",
+  "Psychological",
+  "Ecchi",
+  "Soft Yuri",
+  "Thiếu Nhi",
+  "Seinen",
+  "Smut",
+  "Josei",
+  "Tragedy",
+  "Gender Bender",
+  "Doujinshi",
+  "Anime",
+  "Chuyển Sinh",
+  "Truyện scan",
+  "Shounen Ai",
+  "Sports",
+  "Trinh Thám",
+  "Mecha",
+  "Live action",
+  "Xuyên Không",
+  "Cooking",
+  "Đam Mỹ",
+  "Yaoi",
+];

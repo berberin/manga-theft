@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/screens/widget/short_manga_card.dart';
@@ -32,6 +33,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: nearlyWhite,
       body: Column(children: [Expanded(child: _buildGridCards())]),
     );
   }
@@ -40,7 +42,10 @@ class _FavoriteTabState extends State<FavoriteTab> {
     if (HiveProvider.favoriteBox.isEmpty)
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 120.0,
+            horizontal: 16,
+          ),
           child: Column(
             children: [
               Text(
@@ -63,36 +68,34 @@ class _FavoriteTabState extends State<FavoriteTab> {
           ),
         ),
       );
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 38),
-      child: SmartRefresher(
-        controller: _refreshController,
-        onRefresh: () async {
-          setState(() {
-            favoriteMangas = HiveProvider.getFavoriteMangas();
-          });
-          _refreshController.refreshCompleted();
+    return SmartRefresher(
+      controller: _refreshController,
+      onRefresh: () async {
+        setState(() {
+          favoriteMangas = HiveProvider.getFavoriteMangas();
+        });
+        _refreshController.refreshCompleted();
+      },
+      child: StaggeredGridView.countBuilder(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 40),
+        crossAxisCount: 4,
+        itemCount: favoriteMangas.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Truyện ưa thích",
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            );
+          }
+          return _buildMangaCard(favoriteMangas[index - 1]);
         },
-        child: StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: favoriteMangas.length + 1,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Truyện ưa thích",
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              );
-            }
-            return _buildMangaCard(favoriteMangas[index - 1]);
-          },
-          staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-          //mainAxisSpacing: 4.0,
-          //crossAxisSpacing: 4.0,
-          shrinkWrap: true,
-        ),
+        staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+        //mainAxisSpacing: 4.0,
+        //crossAxisSpacing: 4.0,
+        shrinkWrap: true,
       ),
     );
   }

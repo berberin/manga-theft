@@ -18,13 +18,7 @@ class ChapterScreen extends StatefulWidget {
   final List<String> preloadUrl;
   final MangaDetailState mangaDetailState;
 
-  const ChapterScreen(
-      {Key key,
-      this.chaptersInfo,
-      this.index,
-      this.mangaMeta,
-      this.preloadUrl,
-      this.mangaDetailState})
+  const ChapterScreen({Key key, this.chaptersInfo, this.index, this.mangaMeta, this.preloadUrl, this.mangaDetailState})
       : super(key: key);
   @override
   _ChapterScreenState createState() => _ChapterScreenState();
@@ -32,8 +26,7 @@ class ChapterScreen extends StatefulWidget {
 
 class _ChapterScreenState extends State<ChapterScreen> {
   Future<List<String>> _futureImgsUrl;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   List<String> _preloadUrl;
 
   @override
@@ -41,8 +34,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
     super.initState();
     HiveProvider.addToReadBox(widget.chaptersInfo[widget.index]);
     if (widget.preloadUrl == null) {
-      _futureImgsUrl =
-          MangaProvider.getPages(widget.chaptersInfo[widget.index].url);
+      _futureImgsUrl = MangaProvider.getPages(widget.chaptersInfo[widget.index].url);
     } else {
       _futureImgsUrl = Future.microtask(() {
         return widget.preloadUrl;
@@ -63,8 +55,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
 
   void getPreloadUrl() async {
     if (widget.index - 1 >= 0) {
-      _preloadUrl = await MangaProvider.getPages(
-          widget.chaptersInfo[widget.index - 1].url);
+      _preloadUrl = await MangaProvider.getPages(widget.chaptersInfo[widget.index - 1].url);
       for (var url in _preloadUrl) {
         CacheProvider.getImage(url);
       }
@@ -84,8 +75,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             if (snapshot.hasData) {
               listImageSliver = SliverList(
                 delegate: SliverChildListDelegate(
-                  List.generate(snapshot.data.length,
-                      (index) => MangaImage(imageUrl: snapshot.data[index])),
+                  List.generate(snapshot.data.length, (index) => MangaImage(imageUrl: snapshot.data[index])),
                   addRepaintBoundaries: false,
                 ),
               );
@@ -102,8 +92,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            _futureImgsUrl = MangaProvider.getPages(
-                                widget.chaptersInfo[widget.index].url);
+                            _futureImgsUrl = MangaProvider.getPages(widget.chaptersInfo[widget.index].url);
                           });
                         },
                         child: Text("TẢI LẠI")),
@@ -133,8 +122,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       ),
                     ),
                     backgroundColor: Colors.transparent,
-                    iconTheme:
-                        IconTheme.of(context).copyWith(color: Colors.black54),
+                    iconTheme: IconTheme.of(context).copyWith(color: Colors.black54),
                     expandedHeight: 150,
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: false,
@@ -158,8 +146,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                                 children: [
                                   Text(
                                     widget.mangaMeta.title,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                    style: Theme.of(context).textTheme.bodyText1,
                                     maxLines: 1,
                                   ),
                                   Text(
@@ -213,6 +200,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             index: widget.index - 1,
             mangaMeta: widget.mangaMeta,
             preloadUrl: _preloadUrl ?? null,
+            mangaDetailState: widget.mangaDetailState,
           ),
         ),
       ).then((value) {

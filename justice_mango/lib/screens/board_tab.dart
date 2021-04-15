@@ -22,8 +22,7 @@ class _BoardTabState extends State<BoardTab> {
   List<MangaMeta> mangas = <MangaMeta>[];
   Future<List<MangaMeta>> _futureMangas;
   List<MangaMeta> favoriteUpdate = <MangaMeta>[];
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   String randomName;
   String avatarSvg;
   int page;
@@ -152,6 +151,7 @@ class _BoardTabState extends State<BoardTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: nearlyWhite,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -159,8 +159,7 @@ class _BoardTabState extends State<BoardTab> {
             fit: FlexFit.loose,
             child: FutureBuilder(
               future: _futureMangas,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<MangaMeta>> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<List<MangaMeta>> snapshot) {
                 if (snapshot.hasData)
                   return _buildCards(mangas);
                 else if (snapshot.hasError)
@@ -243,8 +242,10 @@ class _BoardTabState extends State<BoardTab> {
       itemBuilder: (context, index) => MangaCard(
         mangaMeta: favoriteUpdate[index],
       ),
-      itemCount: favoriteUpdate.length,
+      itemCount: favoriteUpdate.length > 5 ? 5 : favoriteUpdate.length,
       physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      addRepaintBoundaries: false,
     );
   }
 }

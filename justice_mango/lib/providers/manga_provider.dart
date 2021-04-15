@@ -48,14 +48,8 @@ class MangaProvider {
 
     try {
       for (var item in items) {
-        String title = item
-            .querySelector("div.clearfix div.box_img")
-            .querySelector("a")
-            .attributes['title'];
-        String imgUrl = "http:" +
-            item
-                .querySelector("div figure div a img")
-                .attributes['data-original'];
+        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
+        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
         String url = item.querySelector("div figure div a").attributes['href'];
         String description = item.querySelector("div.box_text").text;
 
@@ -168,30 +162,30 @@ class MangaProvider {
       var response = await HttpProvider.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
       for (var meta in mangaMetas) {
-        await HiveProvider.addToMangaBox(meta);
+        //await HiveProvider.addToMangaBox(meta);
       }
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
     }
     // connectivity.none
-    var listFromDB = HiveProvider.mangaBox.values.where((element) {
-      if (element.title.toLowerCase().contains(searchString)) {
-        return true;
-      }
-      for (var alias in element.alias) {
-        if (alias.toLowerCase().contains(searchString)) {
-          return true;
-        }
-      }
-      return false;
-    }).toList();
+    // List<MangaMeta> listFromDB = HiveProvider.mangaBox.values.where((element) {
+    //   if (element.title.toLowerCase().contains(searchString)) {
+    //     return true;
+    //   }
+    //   for (var alias in element.alias) {
+    //     if (alias.toLowerCase().contains(searchString)) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // }).toList();
 
-    for (var meta in listFromDB) {
-      if (!mangaMetas.contains(meta)) {
-        mangaMetas.add(meta);
-      }
-    }
+    // for (var meta in listFromDB) {
+    //   if (!mangaMetas.contains(meta)) {
+    //     mangaMetas.add(meta);
+    //   }
+    // }
     return mangaMetas;
   }
 

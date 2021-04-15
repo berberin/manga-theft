@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justice_mango/app_theme.dart';
 
 class SettingTab extends StatefulWidget {
   @override
@@ -8,6 +9,11 @@ class SettingTab extends StatefulWidget {
 class _SettingTabState extends State<SettingTab> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: nearlyWhite,
+      body: Center(
+        child: Container(),
+      ),
+    );
   }
 }

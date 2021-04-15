@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justice_mango/app_theme.dart';
 
 class Tags extends StatelessWidget {
   final List<String> tags;
@@ -18,7 +19,7 @@ class Tags extends StatelessWidget {
         ),
         Wrap(
           spacing: 4,
-          runSpacing: -10,
+          runSpacing: 4,
           children: genTagsWidget(
             tags,
             context,
@@ -31,21 +32,51 @@ class Tags extends StatelessWidget {
   List<Widget> genTagsWidget(List<String> tags, BuildContext context) {
     var widgets = <Widget>[];
     for (var tag in tags) {
-      widgets.add(Chip(
-        backgroundColor: Colors.white,
-        elevation: 2,
-        //padding: EdgeInsets.all(8),
-        shape: StadiumBorder(
-          side: BorderSide(
-            width: 1,
-            color: Color(0xFF00B6F0),
+      // widgets.add(
+      //   Chip(
+      //     backgroundColor: Colors.white,
+      //     //elevation: 2,
+      //     //padding: EdgeInsets.all(8),
+      //     shape: StadiumBorder(
+      //       side: BorderSide(
+      //         width: 1,
+      //         color: Color(0xFF00B6F0),
+      //       ),
+      //     ),
+      //     label: Text(
+      //       tag,
+      //       style: Theme.of(context).textTheme.caption,
+      //     ),
+      //   ),
+      // );
+      widgets.add(
+        Container(
+          decoration: BoxDecoration(
+              color: nearlyWhite,
+              border: Border.all(
+                color: lightText,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(12),
+                topRight: const Radius.circular(12),
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 1.0,
+                  offset: Offset(1.0, 1.0),
+                ),
+              ]),
+          padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+          child: Text(
+            tag,
+            style: Theme.of(context).textTheme.caption.copyWith(
+                  fontSize: 9,
+                ),
           ),
         ),
-        label: Text(
-          tag,
-          style: Theme.of(context).textTheme.caption,
-        ),
-      ));
+      );
     }
     return widgets;
   }
