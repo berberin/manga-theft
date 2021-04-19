@@ -7,12 +7,30 @@ class SettingTab extends StatefulWidget {
 }
 
 class _SettingTabState extends State<SettingTab> {
+  bool checkedValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: nearlyWhite,
-      body: Center(
-        child: Container(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Text("Tuỳ chọn"),
+            CheckboxListTile(
+              title: Text("vi_nettruyen"),
+              value: checkedValue,
+              onChanged: (value) {
+                setState(() {
+                  checkedValue = value;
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
+            )
+          ],
+        ),
       ),
     );
   }
