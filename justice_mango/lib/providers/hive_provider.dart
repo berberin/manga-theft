@@ -37,8 +37,7 @@ class HiveProvider {
     return lastReadBox.get(mangaId);
   }
 
-  static Future<void> updateLastReadInfo(
-      {String mangaId, bool updateStatus = false}) async {
+  static Future<void> updateLastReadInfo({String mangaId, bool updateStatus = false}) async {
     var currentReadInfo = lastReadBox.get(mangaId);
     var chapters = await MangaProvider.getChaptersInfo(mangaId);
     if (currentReadInfo == null) {
@@ -57,11 +56,19 @@ class HiveProvider {
         ReadInfo(
           mangaId: mangaId,
           numberOfChapters: chapters.length,
-          newUpdate: updateStatus
-              ? (chapters.length > currentReadInfo.numberOfChapters)
-              : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex +
-              (chapters.length - currentReadInfo.numberOfChapters),
+
+          /* cập nhật trạng thái newUpdate khi thoả mãn 2 điều kiện
+             - updateStatus được set true
+             - chương cuối cùng trong phần cũ đã được đọc
+
+             true: số chương mới lớn hơn số chương cũ, đồng thời chương mới nhất đã được đọc
+             các trường hợp còn lại giữ nguyên giá trị cũ.
+           */
+          newUpdate:
+              updateStatus && isRead(chapterId: chapters[chapters.length - currentReadInfo.numberOfChapters].chapterId)
+                  ? (chapters.length > currentReadInfo.numberOfChapters)
+                  : currentReadInfo.newUpdate,
+          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }
