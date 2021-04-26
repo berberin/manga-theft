@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:justice_mango/app_theme.dart';
+import 'package:justice_mango/models/manga_meta.dart';
+import 'package:justice_mango/models/read_info.dart';
+import 'package:justice_mango/providers/hive_provider.dart';
 
 class SettingTab extends StatefulWidget {
   @override
@@ -28,6 +31,16 @@ class _SettingTabState extends State<SettingTab> {
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                List<MangaMeta> mangasFavo = HiveProvider.getFavoriteMangas();
+                ReadInfo infoFake =
+                    HiveProvider.getLastReadInfo(mangaId: mangasFavo[0].id);
+                infoFake.numberOfChapters = 1;
+                HiveProvider.lastReadBox.put(mangasFavo[0].id, infoFake);
+              },
+              child: Text('fake update'),
             )
           ],
         ),

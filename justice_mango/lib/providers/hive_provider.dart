@@ -37,7 +37,8 @@ class HiveProvider {
     return lastReadBox.get(mangaId);
   }
 
-  static Future<void> updateLastReadInfo({String mangaId, bool updateStatus = false}) async {
+  static Future<void> updateLastReadInfo(
+      {String mangaId, bool updateStatus = false}) async {
     var currentReadInfo = lastReadBox.get(mangaId);
     var chapters = await MangaProvider.getChaptersInfo(mangaId);
     if (currentReadInfo == null) {
@@ -56,8 +57,11 @@ class HiveProvider {
         ReadInfo(
           mangaId: mangaId,
           numberOfChapters: chapters.length,
-          newUpdate: updateStatus ? (chapters.length > currentReadInfo.numberOfChapters) : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+          newUpdate: updateStatus
+              ? (chapters.length > currentReadInfo.numberOfChapters)
+              : currentReadInfo.newUpdate,
+          lastReadIndex: currentReadInfo.lastReadIndex +
+              (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }
@@ -65,10 +69,8 @@ class HiveProvider {
 
   static void updateLastReadIndex({String mangaId, int readIndex}) async {
     var currentReadInfo = lastReadBox.get(mangaId);
-    if (currentReadInfo.lastReadIndex > readIndex) {
-      currentReadInfo.lastReadIndex = readIndex;
-      await lastReadBox.put(mangaId, currentReadInfo);
-    }
+    currentReadInfo.lastReadIndex = readIndex;
+    await lastReadBox.put(mangaId, currentReadInfo);
   }
 
   // need guaranteed updateLastReadInfo called before

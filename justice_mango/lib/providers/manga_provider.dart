@@ -24,10 +24,7 @@ class MangaProvider {
     var result = <MangaMeta>[];
     var favorite = HiveProvider.getFavoriteMangas();
     for (var manga in favorite) {
-      await HiveProvider.updateLastReadInfo(
-        mangaId: manga.id,
-        updateStatus: true,
-      );
+      await HiveProvider.updateLastReadInfo(mangaId: manga.id);
       if (HiveProvider.getLastReadInfo(mangaId: manga.id).newUpdate) {
         result.add(manga);
       }
@@ -48,8 +45,14 @@ class MangaProvider {
 
     try {
       for (var item in items) {
-        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
-        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
+        String title = item
+            .querySelector("div.clearfix div.box_img")
+            .querySelector("a")
+            .attributes['title'];
+        String imgUrl = "http:" +
+            item
+                .querySelector("div figure div a img")
+                .attributes['data-original'];
         String url = item.querySelector("div figure div a").attributes['href'];
         String description = item.querySelector("div.box_text").text;
 
