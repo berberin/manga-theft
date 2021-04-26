@@ -199,7 +199,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             chaptersInfo: widget.chaptersInfo,
             index: widget.index - 1,
             mangaMeta: widget.mangaMeta,
-            preloadUrl: _preloadUrl,
+            preloadUrl: _preloadUrl ?? null,
             mangaDetailState: widget.mangaDetailState,
           ),
         ),
