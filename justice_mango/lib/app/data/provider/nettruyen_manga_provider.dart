@@ -1,41 +1,43 @@
 import 'package:beautifulsoup/beautifulsoup.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
+import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/provider/http_provider.dart';
-import 'package:justice_mango/models/manga_meta.dart';
-import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:random_string/random_string.dart';
 
-class NettruyenMangaProvider {
-  NettruyenMangaProvider._();
+import 'manga_provider.dart';
 
-  static Future<List<MangaMeta>> getLatestManga({page: 1}) async {
+class NettruyenMangaProvider extends MangaProvider {
+  static const nametag = 'nettruyen';
+  static const locale = Locale('vi', 'VN');
+  Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
     var url = "http://www.nettruyen.com/tim-truyen?page=$page&r=$randomString";
     Response response = await HttpProvider.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
     for (var meta in mangaMetas) {
-      await HiveProvider.addToMangaBox(meta);
+      //await HiveProvider.addToMangaBox(meta);
     }
     return mangaMetas;
   }
 
-  static Future<List<MangaMeta>> getFavoriteUpdate() async {
+  Future<List<MangaMeta>> getFavoriteUpdate() async {
     var result = <MangaMeta>[];
-    var favorite = HiveProvider.getFavoriteMangas();
-    for (var manga in favorite) {
-      await HiveProvider.updateLastReadInfo(
-        mangaId: manga.id,
-        updateStatus: true,
-      );
-      if (HiveProvider.getLastReadInfo(mangaId: manga.id).newUpdate) {
-        result.add(manga);
-      }
-    }
+    //var favorite = HiveProvider.getFavoriteMangas();
+    // for (var manga in favorite) {
+    //   // await HiveProvider.updateLastReadInfo(
+    //   //    mangaId: manga.id,
+    //   //    updateStatus: true,
+    //   //  );
+    //   //  if (HiveProvider.getLastReadInfo(mangaId: manga.id).newUpdate) {
+    //   //    result.add(manga);
+    //   //  }
+    // }
     return result;
   }
 
-  static List<MangaMeta> _getMangaFromDOM(String body) {
+  List<MangaMeta> _getMangaFromDOM(String body) {
     var mangaMetas = <MangaMeta>[];
     var soup = Beautifulsoup(body);
     var items = soup.find_all("div.item");
@@ -116,7 +118,7 @@ class NettruyenMangaProvider {
     return mangaMetas;
   }
 
-  static Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
+  Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
     while (mangaId.length > 0) {
       String url =
@@ -135,7 +137,7 @@ class NettruyenMangaProvider {
     return chaptersInfo;
   }
 
-  static Future<List<String>> getPages(String chapterUrl) async {
+  Future<List<String>> getPages(String chapterUrl) async {
     List<String> pagesUrl = <String>[];
     if (chapterUrl.startsWith("/")) {
       chapterUrl = "http://www.nettruyen.com" + chapterUrl;
@@ -153,7 +155,7 @@ class NettruyenMangaProvider {
     return pagesUrl;
   }
 
-  static Future<List<MangaMeta>> search(String searchString) async {
+  Future<List<MangaMeta>> search(String searchString) async {
     var mangaMetas = <MangaMeta>[];
     if (searchString == "") return mangaMetas;
     searchString = searchString.toLowerCase();
@@ -189,35 +191,35 @@ class NettruyenMangaProvider {
     return mangaMetas;
   }
 
-  static List<MangaMeta> searchTag(String searchTag) {
-    return HiveProvider.mangaBox.values.where((element) {
-      for (var tag in element.tags) {
-        if (tag == searchTag) {
-          return true;
-        }
-      }
-      return false;
-    }).toList();
+  Future<List<MangaMeta>> searchTag(String searchTag) {
+    // return HiveProvider.mangaBox.values.where((element) {
+    //   for (var tag in element.tags) {
+    //     if (tag == searchTag) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // }).toList();
   }
 
-  static getRandomManga(String tag, int amount) {
-    List<MangaMeta> mangas = searchTag(tag);
-    mangas.shuffle();
-    return mangas.sublist(0, 5);
+  getRandomManga(String tag, int amount) {
+    // List<MangaMeta> mangas = searchTag(tag);
+    // mangas.shuffle();
+    // return mangas.sublist(0, 5);
   }
 
-  static getMangaMeta(String mangaId) async {
-    return HiveProvider.getMangaMeta(mangaId);
+  getMangaMeta(String mangaId) async {
+    // return HiveProvider.getMangaMeta(mangaId);
   }
 
-  static addMangaMeta(MangaMeta mangaMeta) async {
-    return await HiveProvider.addToMangaBox(mangaMeta);
+  addMangaMeta(MangaMeta mangaMeta) async {
+    // return await HiveProvider.addToMangaBox(mangaMeta);
   }
 
-  static Future<bool> inMangaBox(String mangaId) async {
-    if (HiveProvider.getMangaMeta(mangaId) == null) {
-      return false;
-    }
+  Future<bool> inMangaBox(String mangaId) async {
+    // if (HiveProvider.getMangaMeta(mangaId) == null) {
+    //   return false;
+    // }
     return true;
   }
 }
