@@ -1,4 +1,4 @@
-import 'hive_provider.dart';
+import '../../../providers/hive_provider.dart';
 import 'http_provider.dart';
 
 class Providers {

@@ -1,15 +1,13 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CacheProvider {
-  CacheProvider._();
-
-  static CustomCacheManager cacheManager = CustomCacheManager(Config(
+  CustomCacheManager cacheManager = CustomCacheManager(Config(
     'imageCacheManager',
     maxNrOfCacheObjects: 100,
     stalePeriod: const Duration(days: 7),
   ));
 
-  static getImage(String url) {
+  getImage(String url) {
     cacheManager.downloadFile(
       url,
       authHeaders: {"Referer": "http://www.nettruyen.com/"},

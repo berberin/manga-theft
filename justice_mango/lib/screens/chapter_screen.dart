@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:justice_mango/models/chapter_info.dart';
+import 'package:justice_mango/app/data/model/chapter_info.dart';
+import 'package:justice_mango/app/data/provider/cache_provider.dart';
 import 'package:justice_mango/models/manga_meta.dart';
-import 'package:justice_mango/providers/cache_provider.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
 import 'package:justice_mango/screens/manga_detail_screen.dart';

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:justice_mango/models/chapter_info.dart';
+import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/models/read_info.dart';
 import 'package:justice_mango/providers/manga_provider.dart';

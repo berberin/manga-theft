@@ -65,6 +65,11 @@ class _BoardTabState extends State<BoardTab> {
       });
     });
     _refreshController.refreshCompleted();
+    MangaProvider.getFavoriteUpdate().then((value) {
+      setState(() {
+        favoriteUpdate = value;
+      });
+    });
   }
 
   void _onLoading() async {

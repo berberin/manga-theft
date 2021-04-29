@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app_theme.dart';
-import 'package:justice_mango/models/chapter_info.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
 import 'package:justice_mango/providers/manga_provider.dart';
