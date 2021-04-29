@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
-import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/providers/nettruyen_manga_provider.dart';
 import 'package:justice_mango/screens/widget/manga_card.dart';
 
 class ExploreTab extends StatefulWidget {

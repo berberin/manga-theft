@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'app/route/pages.dart';
 import 'app/route/routes.dart';
+import 'app/theme/app_theme.dart';
 import 'app/util/translation.dart';
 
 void main() async {

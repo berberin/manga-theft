@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
-import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/providers/nettruyen_manga_provider.dart';
 import 'package:justice_mango/providers/name_provider.dart';
 import 'package:justice_mango/screens/widget/manga_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

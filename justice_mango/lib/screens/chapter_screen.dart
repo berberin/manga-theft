@@ -6,7 +6,7 @@ import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/provider/cache_provider.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
-import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/providers/nettruyen_manga_provider.dart';
 import 'package:justice_mango/screens/manga_detail_screen.dart';
 import 'package:justice_mango/screens/widget/manga_image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

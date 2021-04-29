@@ -3,7 +3,7 @@ import 'package:justice_mango/app_theme.dart';
 import 'package:justice_mango/models/manga_meta.dart';
 import 'package:justice_mango/models/read_info.dart';
 import 'package:justice_mango/providers/hive_provider.dart';
-import 'package:justice_mango/providers/manga_provider.dart';
+import 'package:justice_mango/providers/nettruyen_manga_provider.dart';
 
 class SettingTab extends StatefulWidget {
   @override
