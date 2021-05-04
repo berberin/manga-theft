@@ -2,17 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/route/routes.dart';
 
 import 'manga_frame.dart';
 
 class ShortMangaCard extends StatelessWidget {
-  final MangaMeta mangaMeta;
-  final MangaRepository mangaRepository;
+  final MangaMetaCombine metaCombine;
 
-  const ShortMangaCard({Key key, this.mangaMeta, this.mangaRepository}) : super(key: key);
+  const ShortMangaCard({Key key, this.metaCombine}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class ShortMangaCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(mangaMeta.imgUrl),
+              image: NetworkImage(metaCombine.mangaMeta.imgUrl),
               fit: BoxFit.cover,
             ),
           ),
@@ -53,8 +51,8 @@ class ShortMangaCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     MangaFrame(
-                      imageUrl: mangaMeta.imgUrl,
-                      width: MediaQuery.of(context).size.width / 3,
+                      imageUrl: metaCombine.mangaMeta.imgUrl,
+                      height: MediaQuery.of(context).size.width / 2.67,
                     ),
                     Flexible(
                       child: Container(
@@ -66,14 +64,14 @@ class ShortMangaCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 3.0),
                               child: Text(
-                                mangaMeta.title,
+                                metaCombine.mangaMeta.title,
                                 style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Text(
                                 //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
-                                mangaMeta.author,
+                                metaCombine.mangaMeta.author,
                                 style: Theme.of(context).textTheme.caption),
                             // Tags(
                             //   tags: mangaMeta.tags,
@@ -86,8 +84,7 @@ class ShortMangaCard extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.toNamed(Routes.MANGA_DETAIL, arguments: {
-                    'mangaMeta': mangaMeta,
-                    'mangaRepository': mangaRepository,
+                    'metaCombine': metaCombine,
                   });
                 },
               ),

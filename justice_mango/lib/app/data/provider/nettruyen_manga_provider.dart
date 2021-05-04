@@ -229,4 +229,9 @@ class NettruyenMangaProvider extends MangaProvider {
     // TODO: implement initData
     throw UnimplementedError();
   }
+
+  @override
+  Map<String, String> imageHeader() {
+    return {"Referer": "http://www.nettruyen.com/"};
+  }
 }

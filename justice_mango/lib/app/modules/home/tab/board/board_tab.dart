@@ -56,7 +56,7 @@ class BoardTab extends GetWidget<BoardController> {
                       : List.generate(
                           controller.favoriteUpdate.length > 5 ? 5 : controller.favoriteUpdate.length,
                           (index) => MangaCard(
-                            mangaMeta: controller.favoriteUpdate[index],
+                            metaCombine: controller.favoriteUpdate[index],
                           ),
                         ),
                 ),
@@ -104,7 +104,7 @@ class BoardTab extends GetWidget<BoardController> {
                     : List.generate(
                         controller.mangaBoard.length,
                         (index) => MangaCard(
-                          mangaMeta: controller.mangaBoard[index],
+                          metaCombine: controller.mangaBoard[index],
                         ),
                       ),
               ),

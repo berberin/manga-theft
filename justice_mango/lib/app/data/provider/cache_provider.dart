@@ -1,7 +1,7 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CacheProvider {
-  CustomCacheManager cacheManager = CustomCacheManager(Config(
+  static CustomCacheManager cacheManager = CustomCacheManager(Config(
     'imageCacheManager',
     maxNrOfCacheObjects: 100,
     stalePeriod: const Duration(days: 7),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
+import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,10 +19,10 @@ class BoardController extends GetxController {
   }
 
   // observe
-  List<MangaMeta> mangaBoard = <MangaMeta>[].obs;
+  List<MangaMetaCombine> mangaBoard = <MangaMetaCombine>[].obs;
 
   // todo: favorite update
-  List<MangaMeta> favoriteUpdate = <MangaMeta>[].obs;
+  List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
   int page = 1;
@@ -31,14 +32,19 @@ class BoardController extends GetxController {
     page = 1;
     try {
       var tmp = await SourceService.sourceRepositories[0].getLatestManga(page: page);
-      mangaBoard.assignAll(tmp);
+      mangaBoard.clear();
+      for (var mangaMeta in tmp) {
+        mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[0], mangaMeta));
+      }
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
     }
     for (int i = 1; i < SourceService.sourceRepositories.length; i++) {
       var tmp = await SourceService.sourceRepositories[i].getLatestManga(page: page);
-      mangaBoard.addAll(tmp);
+      for (var mangaMeta in tmp) {
+        mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[i], mangaMeta));
+      }
     }
     refreshController.refreshCompleted();
   }
@@ -53,7 +59,9 @@ class BoardController extends GetxController {
     for (var repo in SourceService.sourceRepositories) {
       try {
         var tmp = await repo.getLatestManga(page: page);
-        mangaBoard.addAll(tmp);
+        for (var mangaMeta in tmp) {
+          mangaBoard.add(MangaMetaCombine(repo, mangaMeta));
+        }
         hasError.value = false;
       } catch (e, stacktrace) {
         hasError.value = true;
@@ -64,6 +72,7 @@ class BoardController extends GetxController {
   }
 
   getUpdateFavorite() async {
+    favoriteUpdate.clear();
     List<String> favoriteKeys = HiveService.favoriteBox.keys.toList();
     for (var key in favoriteKeys) {
       MangaMeta mangaMeta = HiveService.getMangaMetaFavorite(key);
@@ -73,6 +82,10 @@ class BoardController extends GetxController {
             preId: mangaMeta.preId,
             updateStatus: true,
           );
+          if (HiveService.getReadInfo(repo.getSlug() + mangaMeta.preId).newUpdate ?? false) {
+            favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
+          }
+          break;
         }
       }
     }

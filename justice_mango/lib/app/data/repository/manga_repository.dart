@@ -53,6 +53,10 @@ class MangaRepository {
     await HiveService.putMangaMeta(provider.getId(mangaMeta.preId), mangaMeta);
   }
 
+  putMangaMetaFavorite(MangaMeta mangaMeta) async {
+    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
+  }
+
   MangaMeta getMangaMeta(String preId) {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
@@ -104,6 +108,10 @@ class MangaRepository {
     await HiveService.putMangaMetaFavorite(provider.getId(preId), mangaMeta);
   }
 
+  removeFavorite(String preId) async {
+    await HiveService.favoriteBox.delete(provider.getId(preId));
+  }
+
   int getLastReadIndex(String preId) {
     return HiveService.getReadInfo(provider.getId(preId)).lastReadIndex;
   }
@@ -120,5 +128,9 @@ class MangaRepository {
 
   bool isFavorite(String preId) {
     return HiveService.hasMangaMetaInFavorite(provider.getId(preId));
+  }
+
+  Map<String, String> imageHeader() {
+    return provider.imageHeader();
   }
 }

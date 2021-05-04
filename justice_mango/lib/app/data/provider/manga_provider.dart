@@ -37,4 +37,6 @@ abstract class MangaProvider {
   }
 
   Future initData();
+
+  Map<String, String> imageHeader();
 }

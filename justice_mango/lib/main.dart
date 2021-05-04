@@ -18,6 +18,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       // unknownRoute: GetPage(name: 'notfound', page: () => UnknownRoutePage()),
+      smartManagement: SmartManagement.keepFactory,
       initialRoute: Routes.HOME,
       getPages: AppPages.pages,
       locale: Locale('vi', 'VN'),

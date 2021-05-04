@@ -2,21 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/route/routes.dart';
 
 import 'manga_frame.dart';
 import 'tag.dart';
 
 class MangaCard extends StatelessWidget {
-  final MangaMeta mangaMeta;
-  final MangaRepository mangaRepository;
+  final MangaMetaCombine metaCombine;
 
   const MangaCard({
     Key key,
-    this.mangaMeta,
-    this.mangaRepository,
+    this.metaCombine,
   }) : super(key: key);
 
   @override
@@ -28,8 +25,7 @@ class MangaCard extends StatelessWidget {
         //   MaterialPageRoute(builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
         // );
         Get.toNamed(Routes.MANGA_DETAIL, arguments: {
-          'mangaMeta': mangaMeta,
-          'mangaRepository': mangaRepository,
+          'metaCombine': metaCombine,
         });
       },
       child: Container(
@@ -50,7 +46,7 @@ class MangaCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(mangaMeta.imgUrl),
+                image: NetworkImage(metaCombine.mangaMeta.imgUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -64,8 +60,8 @@ class MangaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MangaFrame(
-                      imageUrl: mangaMeta.imgUrl,
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      imageUrl: metaCombine.mangaMeta.imgUrl,
+                      width: MediaQuery.of(context).size.width / 3,
                     ),
                     Flexible(
                       child: Padding(
@@ -80,17 +76,17 @@ class MangaCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  mangaMeta.title,
+                                  metaCombine.mangaMeta.title,
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Text(
-                                  mangaMeta.author,
+                                  metaCombine.mangaMeta.author,
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 18.0),
                                   child: Text(
-                                    mangaMeta.description,
+                                    metaCombine.mangaMeta.description,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
@@ -99,7 +95,7 @@ class MangaCard extends StatelessWidget {
                               ],
                             ),
                             Tags(
-                              tags: mangaMeta.tags,
+                              tags: metaCombine.mangaMeta.tags,
                             )
                           ],
                         ),

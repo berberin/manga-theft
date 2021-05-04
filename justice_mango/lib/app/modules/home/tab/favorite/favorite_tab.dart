@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:justice_mango/app/gwidget/short_manga_card.dart';
 import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
@@ -29,7 +28,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                 ),
               ),
             ),
-            controller.favoriteMangas.isEmpty
+            controller.favoriteMetaCombine.isEmpty
                 ? Padding(
                     padding: EdgeInsets.all(24),
                     child: Center(
@@ -41,22 +40,14 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                   )
                 : Obx(
                     () => StaggeredGridView.countBuilder(
-                      itemCount: controller.favoriteMangas.length,
+                      itemCount: controller.favoriteMetaCombine.length,
                       crossAxisCount: 4,
                       itemBuilder: (context, index) {
-                        for (var repo in SourceService.allSourceRepositories) {
-                          if (controller.metaCombine[index].key.startsWith(repo.getSlug())) {
-                            return ShortMangaCard(
-                              mangaMeta: controller.favoriteMangas[index],
-                              mangaRepository: repo,
-                            );
-                          }
-                        }
                         return ShortMangaCard(
-                          mangaMeta: controller.favoriteMangas[index],
+                          metaCombine: controller.favoriteMetaCombine[index],
                         );
                       },
-                      staggeredTileBuilder: (index) => new StaggeredTile.fit(3),
+                      staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                     ),
