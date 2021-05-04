@@ -71,9 +71,9 @@
 //           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
 //         ),
 //       );
-//     }
+
+////     }
 //   }
-//
 //   static void updateLastReadIndex({String mangaId, int readIndex}) async {
 //     var currentReadInfo = lastReadBox.get(mangaId);
 //     currentReadInfo.lastReadIndex = readIndex;

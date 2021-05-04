@@ -68,8 +68,8 @@ class HiveService {
     return chapterReadInfo.containsKey(chapterId);
   }
 
-  static putReadInfo(String chapterId, ReadInfo readInfo) async {
-    await lastReadInfoBox.put(chapterId, readInfo);
+  static putReadInfo(String mangaId, ReadInfo readInfo) async {
+    await lastReadInfoBox.put(mangaId, readInfo);
   }
 
   static ReadInfo getReadInfo(String mangaId) {

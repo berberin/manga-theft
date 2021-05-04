@@ -17,7 +17,7 @@ class ChapterInfoAdapter extends TypeAdapter<ChapterInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ChapterInfo(
-      chapterId: fields[0] as int,
+      preChapterId: fields[0] as String,
       name: fields[1] as String,
       url: fields[2] as String,
     );
@@ -28,7 +28,7 @@ class ChapterInfoAdapter extends TypeAdapter<ChapterInfo> {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.chapterId)
+      ..write(obj.preChapterId)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)

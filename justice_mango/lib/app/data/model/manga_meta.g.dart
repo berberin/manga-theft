@@ -20,19 +20,20 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       alias: (fields[0] as List)?.cast<String>(),
       author: fields[1] as String,
       description: fields[2] as String,
-      id: fields[3] as String,
+      preId: fields[3] as String,
       imgUrl: fields[4] as String,
       status: fields[5] as String,
       tags: (fields[6] as List)?.cast<String>(),
       title: fields[7] as String,
       url: fields[8] as String,
+      lang: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MangaMeta obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.alias)
       ..writeByte(1)
@@ -40,7 +41,7 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.id)
+      ..write(obj.preId)
       ..writeByte(4)
       ..write(obj.imgUrl)
       ..writeByte(5)
@@ -50,7 +51,9 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       ..writeByte(7)
       ..write(obj.title)
       ..writeByte(8)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(9)
+      ..write(obj.lang);
   }
 
   @override

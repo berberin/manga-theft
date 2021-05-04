@@ -9,8 +9,8 @@ import 'package:random_string/random_string.dart';
 import 'manga_provider.dart';
 
 class NettruyenMangaProvider extends MangaProvider {
-  static const nametag = 'nettruyen';
-  static const locale = Locale('vi', 'VN');
+  final nametag = 'nettruyen';
+  final locale = Locale('vi', 'VN');
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
     var url = "http://www.nettruyen.com/tim-truyen?page=$page&r=$randomString";
@@ -101,12 +101,13 @@ class NettruyenMangaProvider extends MangaProvider {
           title: title,
           url: url,
           imgUrl: imgUrl,
-          id: id,
+          preId: id,
           alias: alias,
           author: author,
           tags: tags,
           description: description,
           status: status,
+          lang: 'vi',
         );
         mangaMetas.add(mangaMeta);
       }
@@ -221,5 +222,11 @@ class NettruyenMangaProvider extends MangaProvider {
     //   return false;
     // }
     return true;
+  }
+
+  @override
+  Future initData() {
+    // TODO: implement initData
+    throw UnimplementedError();
   }
 }

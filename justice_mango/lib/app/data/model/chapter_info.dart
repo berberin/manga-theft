@@ -5,17 +5,17 @@ part 'chapter_info.g.dart';
 @HiveType(typeId: 1)
 class ChapterInfo {
   @HiveField(0)
-  int chapterId;
+  String preChapterId;
   @HiveField(1)
   String name;
   @HiveField(2)
   String url;
 
-  ChapterInfo({this.chapterId, this.name, this.url});
+  ChapterInfo({this.preChapterId, this.name, this.url});
 
   factory ChapterInfo.fromJson(Map<String, dynamic> json) {
     return ChapterInfo(
-      chapterId: json['chapterId'],
+      preChapterId: json['chapterId'].toString(),
       name: json['name'],
       url: json['url'],
     );
@@ -23,7 +23,7 @@ class ChapterInfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['chapterId'] = this.chapterId;
+    data['chapterId'] = this.preChapterId;
     data['name'] = this.name;
     data['url'] = this.url;
     return data;
