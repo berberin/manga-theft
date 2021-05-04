@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/modules/reader/reader_screen.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
-import 'package:justice_mango/app/route/routes.dart';
 
 class ChapterCard extends StatelessWidget {
   final List<ChapterInfo> chaptersInfo;
@@ -17,13 +17,22 @@ class ChapterCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(
-          Routes.READER,
-          preventDuplicates: false,
-          arguments: ReaderScreenArgs(
-            metaCombine: metaCombine,
-            chaptersInfo: chaptersInfo,
-            index: index,
+        // Get.toNamed(
+        //   Routes.READER,
+        //   preventDuplicates: false,
+        //   arguments: ReaderScreenArgs(
+        //     metaCombine: metaCombine,
+        //     chaptersInfo: chaptersInfo,
+        //     index: index,
+        //   ),
+        // );
+        Get.to(
+          ReaderScreen(
+            readerScreenArgs: ReaderScreenArgs(
+              metaCombine: metaCombine,
+              chaptersInfo: chaptersInfo,
+              index: index,
+            ),
           ),
         );
       },
