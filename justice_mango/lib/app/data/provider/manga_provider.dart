@@ -24,6 +24,10 @@ abstract class MangaProvider {
   /// Get random manga from tag in source
   Future<List<MangaMeta>> getRandomManga(String tag, int amount);
 
+  Future<List<MangaMeta>> initData();
+
+  Map<String, String> imageHeader();
+
   String getId(String preId) {
     return "${locale.languageCode}>$nametag>$preId";
   }
@@ -35,8 +39,4 @@ abstract class MangaProvider {
   String getSlug() {
     return "${locale.languageCode}>$nametag";
   }
-
-  Future initData();
-
-  Map<String, String> imageHeader();
 }

@@ -12,8 +12,27 @@ class SourceService {
     // sources..
   ];
 
-  static addToSource(MangaRepository mangaRepository) {
+  static init() async {
+    for (var repo in sourceRepositories) {
+      try {
+        await repo.initData();
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        continue;
+      }
+    }
+  }
+
+  static addToSource(MangaRepository mangaRepository) async {
     sourceRepositories.add(mangaRepository);
+    try {
+      // fixme: need await?
+      mangaRepository.initData();
+    } catch (e, stacktrace) {
+      print(e);
+      print(stacktrace);
+    }
   }
 
   static removeSource(MangaProvider mangaProvider) {
