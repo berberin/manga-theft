@@ -24,9 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  get: ^4.1.4
   cupertino_icons: ^1.0.2
   hive: ^2.0.1
   hive_flutter: ^1.0.0
@@ -42,6 +40,7 @@ dependencies:
   jdenticon_dart: ^2.0.0
   flutter_svg: ^0.21.0+1
   flutter_speed_dial: ^3.0.5
+  flutter_focus_watcher: ^0.0.1
 
 
 dev_dependencies:
@@ -49,6 +48,22 @@ dev_dependencies:
     sdk: flutter
   hive_generator: ^1.0.1
   build_runner: ^1.12.2
+  flutter_launcher_icons: ^0.8.0
+  flutter_launcher_name: ^0.0.1
+
+dependency_overrides:
+  yaml: ^3.0.0
+  image: ^3.0.1
+
+flutter_launcher_name:
+  name: "Fluffy"
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/index.png"
+  image_path_ios: "assets/icons/index_solid.png"
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

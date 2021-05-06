@@ -28,7 +28,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.6.0"
   async:
     dependency: transitive
     description:
@@ -258,6 +258,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  flutter_focus_watcher:
+    dependency: "direct main"
+    description:
+      name: flutter_focus_watcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
+  flutter_launcher_icons:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1"
+  flutter_launcher_name:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_name
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   flutter_speed_dial:
     dependency: "direct main"
     description:
@@ -284,6 +305,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.4"
   glob:
     dependency: transitive
     description:
@@ -355,7 +383,7 @@ packages:
     source: hosted
     version: "4.0.0"
   image:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: image
       url: "https://pub.dartlang.org"
@@ -731,7 +759,7 @@ packages:
     source: hosted
     version: "5.1.0"
   yaml:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: yaml
       url: "https://pub.dartlang.org"
