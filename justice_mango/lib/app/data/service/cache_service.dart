@@ -1,16 +1,19 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:justice_mango/app/data/repository/manga_repository.dart';
 
-class CacheProvider {
+class CacheService {
+  CacheService._();
+
   static CustomCacheManager cacheManager = CustomCacheManager(Config(
     'imageCacheManager',
     maxNrOfCacheObjects: 100,
     stalePeriod: const Duration(days: 7),
   ));
 
-  getImage(String url) {
+  static getImage(String url, MangaRepository mangaRepository) {
     cacheManager.downloadFile(
       url,
-      authHeaders: {"Referer": "http://www.nettruyen.com/"},
+      authHeaders: mangaRepository.imageHeader(),
     );
   }
 }

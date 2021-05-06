@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/route/routes.dart';
+import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
 
 import 'manga_frame.dart';
 import 'tag.dart';
@@ -20,13 +20,14 @@ class MangaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => MangaDetail(mangaMeta: mangaMeta)),
-        // );
-        Get.toNamed(Routes.MANGA_DETAIL, arguments: {
-          'metaCombine': metaCombine,
-        });
+        // Get.toNamed(Routes.MANGA_DETAIL, arguments: {
+        //   'metaCombine': metaCombine,
+        // });
+        Get.to(
+          () => MangaDetailScreen(
+            metaCombine: metaCombine,
+          ),
+        );
       },
       child: Container(
         margin: EdgeInsets.all(5),

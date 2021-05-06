@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:justice_mango/app/data/provider/cache_provider.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:justice_mango/app/data/service/cache_service.dart';
 import 'package:random_string/random_string.dart';
 
 class MangaImage extends StatefulWidget {
@@ -25,7 +25,7 @@ class _MangaImageState extends State<MangaImage> {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      cacheManager: CacheProvider.cacheManager,
+      cacheManager: CacheService.cacheManager,
       imageUrl: imageUrl,
       //httpHeaders: {"Referer": "http://www.nettruyen.com/"},
       httpHeaders: widget.repo.imageHeader(),
