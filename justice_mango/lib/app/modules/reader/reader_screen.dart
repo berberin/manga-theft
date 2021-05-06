@@ -16,8 +16,6 @@ class ReaderScreen extends StatefulWidget {
 }
 
 class _ReaderScreenState extends State<ReaderScreen> {
-  ReaderController controller;
-
   String getChapterId() {
     return widget.readerScreenArgs.chaptersInfo[widget.readerScreenArgs.index].preChapterId;
   }
@@ -26,14 +24,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
   void initState() {
     super.initState();
     Get.put(
-        ReaderController(
-          chaptersInfo: widget.readerScreenArgs.chaptersInfo,
-          index: widget.readerScreenArgs.index,
-          metaCombine: widget.readerScreenArgs.metaCombine,
-          preloadUrl: widget.readerScreenArgs.preloadUrl,
-        ),
-        tag: getChapterId());
-    controller = Get.find(tag: getChapterId());
+      ReaderController(
+        chaptersInfo: widget.readerScreenArgs.chaptersInfo,
+        index: widget.readerScreenArgs.index,
+        metaCombine: widget.readerScreenArgs.metaCombine,
+        preloadUrl: widget.readerScreenArgs.preloadUrl,
+      ),
+      tag: getChapterId(),
+    );
   }
 
   @override
@@ -44,12 +42,12 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GetBuilder<ReaderController>(
-        tag: getChapterId(),
-        builder: (_) => RefreshConfiguration(
-          maxUnderScrollExtent: 50,
-          footerTriggerDistance: -50,
+    return GetBuilder<ReaderController>(
+      tag: getChapterId(),
+      builder: (controller) => Scaffold(
+        body: RefreshConfiguration(
+          maxUnderScrollExtent: 75,
+          footerTriggerDistance: -75,
           child: SmartRefresher(
             controller: controller.refreshController,
             enablePullUp: true,
@@ -65,13 +63,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
               failedText: 'failedPrevChapter'.tr,
               refreshingText: 'loadingPrevChapter'.tr,
               releaseText: 'releasePrevChapter'.tr,
+              completeText: 'completeText'.tr,
             ),
             onLoading: controller.toNextChapter,
             onRefresh: controller.toPrevChapter,
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
-                _buildSliverAppBar(context),
+                _buildSliverAppBar(controller),
                 Obx(
                   () => SliverList(
                     delegate: SliverChildListDelegate(
@@ -106,7 +105,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     );
   }
 
-  _buildSliverAppBar(BuildContext context) {
+  _buildSliverAppBar(controller) {
     return Obx(
       () => SliverAppBar(
         title: Text(
@@ -140,13 +139,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     children: [
                       Text(
                         controller.metaCombine.mangaMeta.title,
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Get.textTheme.bodyText1,
                         maxLines: 1,
                       ),
                       Obx(
                         () => Text(
                           "#${(controller.chaptersInfo.length - controller.index).toString()} / ${controller.chaptersInfo.length}",
-                          style: Theme.of(context).textTheme.caption,
+                          style: Get.textTheme.caption,
                         ),
                       ),
                     ],

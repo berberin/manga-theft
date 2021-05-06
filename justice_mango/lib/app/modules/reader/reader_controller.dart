@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/data/service/cache_service.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
@@ -25,10 +26,6 @@ class ReaderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // ReaderScreenArgs args = Get.arguments;
-    // chaptersInfo = args.chaptersInfo;
-    // index = args.index;
-    // metaCombine = args.metaCombine;
     refreshController = RefreshController(initialRefresh: false);
     if ((preloadUrl?.length ?? 0) > 0) {
       imgUrls.assignAll(preloadUrl);
@@ -36,7 +33,7 @@ class ReaderController extends GetxController {
       getPages();
     }
     getPreloadPages();
-    MangaDetailController mangaDetailController = Get.find();
+    MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
     mangaDetailController.setIsRead(index);
   }
 
@@ -47,6 +44,7 @@ class ReaderController extends GetxController {
   }
 
   void getPages() async {
+    await Future.delayed(Duration(seconds: 2));
     try {
       imgUrls.assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
       hasError.value = false;
@@ -64,10 +62,9 @@ class ReaderController extends GetxController {
     await Future.delayed(Duration(seconds: 2));
     metaCombine.repo.getPages(chaptersInfo[index].url).then((value) {
       preloadUrl.assignAll(value);
-      // for (var url in _preloadUrl) {
-      //   CacheProvider.getImage(url);
-      // }
-      // todo: get cache
+      for (var url in preloadUrl) {
+        CacheService.getImage(url, metaCombine.repo);
+      }
     });
   }
 
@@ -85,7 +82,6 @@ class ReaderController extends GetxController {
       //   getPreloadPages();
       // }
 
-      // dcm binding
       // Get.offNamed(
       //   Routes.READER,
       //   preventDuplicates: false,
@@ -96,8 +92,8 @@ class ReaderController extends GetxController {
       //     preloadUrl: preloadUrl,
       //   ),
       // );
-      Get.to(
-        ReaderScreen(
+      Get.off(
+        () => ReaderScreen(
           readerScreenArgs: ReaderScreenArgs(
             chaptersInfo: chaptersInfo,
             index: index - 1,
@@ -105,6 +101,7 @@ class ReaderController extends GetxController {
             preloadUrl: preloadUrl,
           ),
         ),
+        // Getx prevent duplicate routes by default
         preventDuplicates: false,
       );
       refreshController.loadComplete();
@@ -114,7 +111,7 @@ class ReaderController extends GetxController {
 
   void toPrevChapter() async {
     if (index + 1 < chaptersInfo.length) {
-      // xử lý để tối ưu preload url
+      // tối ưu preload url
       index = index + 1;
       update();
       if ((imgUrls?.length ?? 0) > 0) {

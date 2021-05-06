@@ -3,45 +3,72 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
+import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/gwidget/chapter_card.dart';
 import 'package:justice_mango/app/gwidget/manga_frame.dart';
 import 'package:justice_mango/app/gwidget/tag.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
-class MangaDetailScreen extends GetWidget<MangaDetailController> {
+class MangaDetailScreen extends StatefulWidget {
+  final MangaMetaCombine metaCombine;
+
+  const MangaDetailScreen({Key key, this.metaCombine}) : super(key: key);
+  @override
+  _MangaDetailScreenState createState() => _MangaDetailScreenState();
+}
+
+class _MangaDetailScreenState extends State<MangaDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Get.put(
+      MangaDetailController(metaCombine: widget.metaCombine),
+      tag: widget.metaCombine.mangaMeta.preId,
+    );
+  }
+
+  @override
+  void dispose() {
+    Get.delete(tag: widget.metaCombine.mangaMeta.preId);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: _fab(),
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(context),
-          _buildDescription(context),
-          Obx(
-            () => SliverList(
-              delegate: SliverChildListDelegate(
-                List.generate(
-                  controller.chaptersInfo.length,
-                  (index) {
-                    return ChapterCard(
-                      chaptersInfo: controller.chaptersInfo,
-                      index: index,
-                      metaCombine: controller.metaCombine,
-                      isRead: controller.readArray[index],
-                    );
-                  },
+    return GetBuilder<MangaDetailController>(
+      tag: widget.metaCombine.mangaMeta.preId,
+      builder: (controller) => Scaffold(
+        floatingActionButton: _fab(controller),
+        body: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(controller),
+            _buildDescription(controller),
+            Obx(
+              () => SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    controller.chaptersInfo.length,
+                    (index) {
+                      return ChapterCard(
+                        chaptersInfo: controller.chaptersInfo,
+                        index: index,
+                        metaCombine: controller.metaCombine,
+                        isRead: controller.readArray[index],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-          SliverPadding(padding: EdgeInsets.all(24)),
-        ],
+            SliverPadding(padding: EdgeInsets.all(24)),
+          ],
+        ),
       ),
     );
   }
 
-  SliverToBoxAdapter _buildDescription(BuildContext context) {
+  SliverToBoxAdapter _buildDescription(controller) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,19 +80,19 @@ class MangaDetailScreen extends GetWidget<MangaDetailController> {
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                        "Tên khác: ${controller.metaCombine.mangaMeta.alias.toString().replaceAll("[", "").replaceAll("]", "")}"),
+                        "${"alias:".tr} ${controller.metaCombine.mangaMeta.alias.toString().replaceAll("[", "").replaceAll("]", "")}"),
                   )
                 : Container(),
             Text(
               controller.metaCombine.mangaMeta.description,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Get.textTheme.bodyText2,
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               controller.metaCombine.mangaMeta.status,
-              style: Theme.of(context).textTheme.caption,
+              style: Get.textTheme.caption,
             ),
             SizedBox(
               height: 10,
@@ -79,7 +106,7 @@ class MangaDetailScreen extends GetWidget<MangaDetailController> {
     );
   }
 
-  SliverAppBar _buildSliverAppBar(BuildContext context) {
+  SliverAppBar _buildSliverAppBar(controller) {
     return SliverAppBar(
       title: Text(
         controller.metaCombine.mangaMeta.title,
@@ -123,12 +150,12 @@ class MangaDetailScreen extends GetWidget<MangaDetailController> {
                           children: [
                             Text(
                               controller.metaCombine.mangaMeta.title,
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Get.textTheme.headline6,
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               controller.metaCombine.mangaMeta.author,
-                              style: Theme.of(context).textTheme.caption,
+                              style: Get.textTheme.caption,
                             ),
                           ],
                         ),
@@ -144,7 +171,7 @@ class MangaDetailScreen extends GetWidget<MangaDetailController> {
     );
   }
 
-  Widget _fab() {
+  Widget _fab(controller) {
     return Obx(
       () => SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,

@@ -27,7 +27,7 @@ class ChapterCard extends StatelessWidget {
         //   ),
         // );
         Get.to(
-          ReaderScreen(
+          () => ReaderScreen(
             readerScreenArgs: ReaderScreenArgs(
               metaCombine: metaCombine,
               chaptersInfo: chaptersInfo,
