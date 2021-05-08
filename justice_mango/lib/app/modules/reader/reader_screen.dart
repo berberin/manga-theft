@@ -46,7 +46,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
       tag: getChapterId(),
       builder: (controller) => Scaffold(
         body: RefreshConfiguration(
-          maxUnderScrollExtent: 75,
+          maxUnderScrollExtent: 70,
           footerTriggerDistance: -75,
           child: SmartRefresher(
             controller: controller.refreshController,
@@ -75,17 +75,19 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   () => SliverList(
                     delegate: SliverChildListDelegate(
                       controller.hasError.value
-                          ? Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(24),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.getPages();
-                                  },
-                                  child: Text('reload'.tr),
+                          ? [
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(24),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      controller.getPages();
+                                    },
+                                    child: Text('reload'.tr),
+                                  ),
                                 ),
-                              ),
-                            )
+                              )
+                            ]
                           : List.generate(
                               controller.imgUrls.length,
                               (index) => MangaImage(
