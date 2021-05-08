@@ -10,6 +10,7 @@ class BoardController extends GetxController {
   void onInit() {
     super.onInit();
     getLatestList(page);
+    getUpdateFavorite();
   }
 
   @override
@@ -46,6 +47,7 @@ class BoardController extends GetxController {
         mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[i], mangaMeta));
       }
     }
+    getUpdateFavorite();
     refreshController.refreshCompleted();
   }
 
@@ -73,7 +75,7 @@ class BoardController extends GetxController {
 
   getUpdateFavorite() async {
     favoriteUpdate.clear();
-    List<String> favoriteKeys = HiveService.favoriteBox.keys.toList();
+    var favoriteKeys = HiveService.favoriteBox.keys.toList();
     for (var key in favoriteKeys) {
       MangaMeta mangaMeta = HiveService.getMangaMetaFavorite(key);
       for (var repo in SourceService.allSourceRepositories) {
