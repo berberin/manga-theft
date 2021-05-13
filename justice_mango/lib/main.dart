@@ -13,16 +13,17 @@ import 'app/util/translation.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SourceService.addToSource(MangaRepository(NettruyenMangaProvider()));
   await HiveService.init();
+  // for testing
+  SourceService.addToSource(MangaRepository(NettruyenMangaProvider()));
+  //SourceService.init();
   runApp(
     GetMaterialApp(
-      // unknownRoute: GetPage(name: 'notfound', page: () => UnknownRoutePage()),
       // smartManagement: SmartManagement.keepFactory,
       initialRoute: Routes.HOME,
       getPages: AppPages.pages,
-      locale: Locale('vi', 'VN'),
-      //locale: Get.deviceLocale.languageCode == 'vi' ? Locale('vi', 'VN') : Locale('en', 'US'),
+      // locale: Locale('vi', 'VN'),
+      locale: Get.deviceLocale.languageCode == 'vi' ? Locale('vi', 'VN') : Locale('en', 'US'),
       translationsKeys: translationMap,
       debugShowCheckedModeBanner: false,
       theme: appThemeData,

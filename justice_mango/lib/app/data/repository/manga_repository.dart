@@ -9,8 +9,10 @@ class MangaRepository {
 
   MangaRepository(this.provider);
 
-  Future<List<MangaMeta>> getLatestManga({page: 1}) {
-    return provider.getLatestManga(page: page);
+  Future<List<MangaMeta>> getLatestManga({page: 1}) async {
+    List<MangaMeta> mangas = await provider.getLatestManga(page: page);
+    checkAndPutToMangaBox(mangas);
+    return mangas;
   }
 
   Future<List<ChapterInfo>> getChaptersInfo(String mangaId) {
@@ -33,15 +35,19 @@ class MangaRepository {
     return provider.getRandomManga(tag, amount);
   }
 
-  String getSlug() {
-    return provider.getSlug();
-  }
+  String get slug => provider.slug;
 
   initData() async {
-    if (HiveService.getMangaMeta(provider.locale.languageCode + provider.nametag) == null) {
-      await provider.initData();
+    int count = 0;
+    if (HiveService.getMangaMeta('${provider.locale.languageCode}@${provider.nametag}') == null) {
+      List<MangaMeta> mangas = await provider.initData();
+      for (var meta in mangas) {
+        await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
+        count++;
+        print(count);
+      }
       await HiveService.putMangaMeta(
-        provider.locale.languageCode + provider.nametag,
+        '${provider.locale.languageCode}@${provider.nametag}',
         MangaMeta(
           title: 'Mothers Box',
         ),
@@ -132,5 +138,16 @@ class MangaRepository {
 
   Map<String, String> imageHeader() {
     return provider.imageHeader();
+  }
+
+  int checkAndPutToMangaBox(List<MangaMeta> mangas) {
+    int count = 0;
+    for (var meta in mangas) {
+      if (!HiveService.hasMangaMeta(provider.getId(meta.preId))) {
+        HiveService.putMangaMeta(provider.getId(meta.preId), meta);
+        count++;
+      }
+    }
+    return count;
   }
 }

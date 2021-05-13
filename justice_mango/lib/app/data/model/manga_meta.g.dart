@@ -27,13 +27,14 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       title: fields[7] as String,
       url: fields[8] as String,
       lang: fields[9] as String,
+      repoSlug: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MangaMeta obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.alias)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       ..writeByte(8)
       ..write(obj.url)
       ..writeByte(9)
-      ..write(obj.lang);
+      ..write(obj.lang)
+      ..writeByte(10)
+      ..write(obj.repoSlug);
   }
 
   @override

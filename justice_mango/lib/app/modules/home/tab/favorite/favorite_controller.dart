@@ -17,12 +17,12 @@ class FavoriteController extends GetxController {
   }
 
   refreshUpdate() async {
-    var favoriteKeys = HiveService.favoriteBox.keys.toList();
+    var favoriteMetas = HiveService.favoriteBox.values.toList();
     favoriteMetaCombine.clear();
-    for (var key in favoriteKeys) {
+    for (var mangaMeta in favoriteMetas) {
       for (var repo in SourceService.allSourceRepositories) {
-        if (key.toString().startsWith(repo.getSlug())) {
-          favoriteMetaCombine.add(MangaMetaCombine(repo, HiveService.getMangaMetaFavorite(key)));
+        if (mangaMeta.repoSlug == repo.slug) {
+          favoriteMetaCombine.add(MangaMetaCombine(repo, mangaMeta));
         }
         break;
       }

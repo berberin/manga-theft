@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
@@ -10,6 +9,7 @@ class BoardController extends GetxController {
   void onInit() {
     super.onInit();
     getLatestList(page);
+    getUpdateFavorite();
   }
 
   @override
@@ -46,6 +46,7 @@ class BoardController extends GetxController {
         mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[i], mangaMeta));
       }
     }
+    getUpdateFavorite();
     refreshController.refreshCompleted();
   }
 
@@ -73,16 +74,15 @@ class BoardController extends GetxController {
 
   getUpdateFavorite() async {
     favoriteUpdate.clear();
-    List<String> favoriteKeys = HiveService.favoriteBox.keys.toList();
-    for (var key in favoriteKeys) {
-      MangaMeta mangaMeta = HiveService.getMangaMetaFavorite(key);
+    var favoriteMetas = HiveService.favoriteBox.values.toList();
+    for (var mangaMeta in favoriteMetas) {
       for (var repo in SourceService.allSourceRepositories) {
-        if (key.startsWith(repo.getSlug())) {
+        if (mangaMeta.repoSlug == repo.slug) {
           repo.updateLastReadInfo(
             preId: mangaMeta.preId,
             updateStatus: true,
           );
-          if (HiveService.getReadInfo(repo.getSlug() + mangaMeta.preId).newUpdate ?? false) {
+          if (HiveService.getReadInfo(repo.slug + mangaMeta.preId).newUpdate ?? false) {
             favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
           }
           break;

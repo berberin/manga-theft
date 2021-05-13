@@ -28,18 +28,18 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                 ),
               ),
             ),
-            controller.favoriteMetaCombine.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Center(
-                      child: Text(
-                        'dontHaveAnyFavorite'.tr,
-                        style: Get.textTheme.bodyText2,
+            Obx(
+              () => controller.favoriteMetaCombine.isEmpty
+                  ? Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Center(
+                        child: Text(
+                          'dontHaveAnyFavorite'.tr,
+                          style: Get.textTheme.bodyText2,
+                        ),
                       ),
-                    ),
-                  )
-                : Obx(
-                    () => StaggeredGridView.countBuilder(
+                    )
+                  : StaggeredGridView.countBuilder(
                       itemCount: controller.favoriteMetaCombine.length,
                       crossAxisCount: 4,
                       itemBuilder: (context, index) {
@@ -51,7 +51,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                     ),
-                  ),
+            )
           ],
         ),
       ),

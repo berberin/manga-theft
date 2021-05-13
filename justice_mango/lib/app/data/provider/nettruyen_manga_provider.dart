@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:beautifulsoup/beautifulsoup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/provider/http_provider.dart';
+import 'package:justice_mango/app/data/provider/nettruyen_http_provider.dart';
+import 'package:justice_mango/app/data/repository/http_repository.dart';
+import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:random_string/random_string.dart';
 
 import 'manga_provider.dart';
@@ -11,30 +16,17 @@ import 'manga_provider.dart';
 class NettruyenMangaProvider extends MangaProvider {
   final nametag = 'nettruyen';
   final locale = Locale('vi', 'VN');
+  final httpRepo = HttpRepository(NettruyenHttpProvider());
+
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
     var url = "http://www.nettruyen.com/tim-truyen?page=$page&r=$randomString";
-    Response response = await HttpProvider.get(url);
+    Response response = await httpRepo.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
     for (var meta in mangaMetas) {
       //await HiveProvider.addToMangaBox(meta);
     }
     return mangaMetas;
-  }
-
-  Future<List<MangaMeta>> getFavoriteUpdate() async {
-    var result = <MangaMeta>[];
-    //var favorite = HiveProvider.getFavoriteMangas();
-    // for (var manga in favorite) {
-    //   // await HiveProvider.updateLastReadInfo(
-    //   //    mangaId: manga.id,
-    //   //    updateStatus: true,
-    //   //  );
-    //   //  if (HiveProvider.getLastReadInfo(mangaId: manga.id).newUpdate) {
-    //   //    result.add(manga);
-    //   //  }
-    // }
-    return result;
   }
 
   List<MangaMeta> _getMangaFromDOM(String body) {
@@ -124,7 +116,7 @@ class NettruyenMangaProvider extends MangaProvider {
     while (mangaId.length > 0) {
       String url =
           "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
-      var response = await HttpProvider.get(url);
+      var response = await httpRepo.get(url);
       try {
         for (var item in response.data['chapters']) {
           ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
@@ -143,7 +135,7 @@ class NettruyenMangaProvider extends MangaProvider {
     if (chapterUrl.startsWith("/")) {
       chapterUrl = "http://www.nettruyen.com" + chapterUrl;
     }
-    var response = await HttpProvider.get(chapterUrl);
+    var response = await httpRepo.get(chapterUrl);
     var soup = Beautifulsoup(response.data.toString());
     var pages = soup.find_all("div.page-chapter img");
 
@@ -162,7 +154,7 @@ class NettruyenMangaProvider extends MangaProvider {
     searchString = searchString.toLowerCase();
     try {
       var url = "http://www.nettruyen.com/tim-truyen?keyword=$searchString";
-      var response = await HttpProvider.get(url);
+      var response = await httpRepo.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
       for (var meta in mangaMetas) {
         //await HiveProvider.addToMangaBox(meta);
@@ -192,42 +184,30 @@ class NettruyenMangaProvider extends MangaProvider {
     return mangaMetas;
   }
 
-  Future<List<MangaMeta>> searchTag(String searchTag) {
-    // return HiveProvider.mangaBox.values.where((element) {
-    //   for (var tag in element.tags) {
-    //     if (tag == searchTag) {
-    //       return true;
-    //     }
-    //   }
-    //   return false;
-    // }).toList();
+  Future<List<MangaMeta>> searchTag(String searchTag) async {
+    // TODO: get from source provider
+    return HiveService.mangaBox.values.where((element) {
+      for (var tag in element.tags) {
+        if (tag == searchTag) {
+          return true;
+        }
+      }
+      return false;
+    }).toList();
   }
 
-  getRandomManga(String tag, int amount) {
-    // List<MangaMeta> mangas = searchTag(tag);
-    // mangas.shuffle();
-    // return mangas.sublist(0, 5);
-  }
-
-  getMangaMeta(String mangaId) async {
-    // return HiveProvider.getMangaMeta(mangaId);
-  }
-
-  addMangaMeta(MangaMeta mangaMeta) async {
-    // return await HiveProvider.addToMangaBox(mangaMeta);
-  }
-
-  Future<bool> inMangaBox(String mangaId) async {
-    // if (HiveProvider.getMangaMeta(mangaId) == null) {
-    //   return false;
-    // }
-    return true;
+  getRandomManga(String tag, int amount) async {
+    List<MangaMeta> mangas = await searchTag(tag);
+    mangas.shuffle();
+    return mangas.sublist(0, 6);
   }
 
   @override
-  Future initData() {
-    // TODO: implement initData
-    throw UnimplementedError();
+  Future<List<MangaMeta>> initData() async {
+    String assetsStr = 'assets/data/nettruyen_data.json';
+    String jsonString = await rootBundle.loadString(assetsStr);
+    List<dynamic> jsonArr = jsonDecode(jsonString);
+    return List<MangaMeta>.generate(jsonArr.length, (index) => MangaMeta.fromJson(jsonArr[index]));
   }
 
   @override

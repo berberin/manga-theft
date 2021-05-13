@@ -16,8 +16,8 @@ class ReaderController extends GetxController {
   List<String> imgUrls;
   Rx<bool> hasError;
 
-  ReaderController({this.chaptersInfo, this.index, this.metaCombine, this.preloadUrl}) {
-    preloadUrl = <String>[];
+  ReaderController({this.chaptersInfo, this.index, this.metaCombine, List<String> preloadUrl}) {
+    this.preloadUrl = preloadUrl ?? <String>[];
     imgUrls = <String>[].obs;
     hasError = false.obs;
   }
@@ -59,7 +59,7 @@ class ReaderController extends GetxController {
     if (index - 1 < 0) {
       return;
     }
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 5));
     metaCombine.repo.getPages(chaptersInfo[index].url).then((value) {
       preloadUrl.assignAll(value);
       for (var url in preloadUrl) {

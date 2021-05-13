@@ -25,23 +25,26 @@ dependencies:
     sdk: flutter
 
   get: ^4.1.4
-  cupertino_icons: ^1.0.2
+
   hive: ^2.0.1
+  flutter_cache_manager: ^3.0.1
   hive_flutter: ^1.0.0
   dio: ^4.0.0
-  beautifulsoup: ^0.0.1
-  pull_to_refresh: ^1.6.4
-  random_string: ^2.1.0
-  flutter_staggered_grid_view: ^0.3.4
-  flutter_cache_manager: ^3.0.1
   cached_network_image: ^3.0.0
-  equatable: ^2.0.0
+  beautifulsoup: ^0.0.1
+
+  pull_to_refresh: ^1.6.4
+  flutter_staggered_grid_view: ^0.3.4
   google_fonts: ^2.0.0-nullsafety.0
-  jdenticon_dart: ^2.0.0
-  flutter_svg: ^0.21.0+1
   flutter_speed_dial: ^3.0.5
   flutter_focus_watcher: ^0.0.1
 
+  random_string: ^2.1.0
+  string_to_hex: ^0.2.1+30
+  cupertino_icons: ^1.0.2
+  jdenticon_dart: ^2.0.0
+  flutter_svg: ^0.21.0+1
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

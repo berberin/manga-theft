@@ -25,6 +25,8 @@ class MangaMeta extends Equatable {
   String url;
   @HiveField(9)
   String lang;
+  @HiveField(10)
+  String repoSlug;
 
   MangaMeta(
       {this.alias,
@@ -36,7 +38,8 @@ class MangaMeta extends Equatable {
       this.tags,
       this.title,
       this.url,
-      this.lang});
+      this.lang,
+      this.repoSlug});
 
   factory MangaMeta.fromJson(Map<String, dynamic> json) {
     return MangaMeta(
@@ -50,6 +53,7 @@ class MangaMeta extends Equatable {
       title: json['title'],
       url: json['url'],
       lang: json['lang'],
+      repoSlug: json['repoSlug'],
     );
   }
 
@@ -69,7 +73,7 @@ class MangaMeta extends Equatable {
     if (this.tags != null) {
       data['tags'] = this.tags;
     }
-
+    data['repoSlug'] = this.repoSlug;
     return data;
   }
 

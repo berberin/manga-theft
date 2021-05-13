@@ -1,11 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:get/get.dart';
+import 'package:justice_mango/app/gwidget/manga_card.dart';
 import 'package:justice_mango/app/modules/home/tab/explore/explore_controller.dart';
+import 'package:justice_mango/app/theme/color_theme.dart';
 
 class ExploreTab extends GetWidget<ExploreController> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container();
+    return Scaffold(
+      backgroundColor: nearlyWhite,
+      body: FocusWatcher(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: nearlyWhite,
+              floating: true,
+              title: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: TextFormField(
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: mainColor,
+                        ),
+                        keyboardType: TextInputType.text,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          labelText: 'searchManga'.tr,
+                          border: InputBorder.none,
+                          helperStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xffB9BABC),
+                          ),
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            letterSpacing: 0.2,
+                            color: Color(0xffB9BABC),
+                          ),
+                        ),
+                        controller: controller.textSearchController,
+                        onEditingComplete: () => controller.search(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.search,
+                        color: Color(0xffB9BABC),
+                      ),
+                      onTap: () => controller.search(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            Text(
+              'randomManga:'.tr,
+              style: Get.textTheme.headline5.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                letterSpacing: 0.27,
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 16,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    controller.randomMangaList.length,
+                    (index) => MangaCard(
+                      metaCombine: controller.randomMangaList[index],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
