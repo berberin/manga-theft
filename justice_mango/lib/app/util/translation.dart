@@ -20,6 +20,9 @@ const Map<String, Map<String, String>> translationMap = {
     'favorites': 'Truyện ưa thích',
     'dontHaveAnyFavorite': 'Chưa có truyện ưa thích.',
 
+    // explore tab
+    'findManga': 'Tìm truyện ...',
+
     // manga detail
     'readNow': 'Đọc ngay',
     'favorite!': 'Truyện ưa thích!',
@@ -57,6 +60,9 @@ const Map<String, Map<String, String>> translationMap = {
     // favorite tab
     'favorites': 'Favorite mangas',
     'dontHaveAnyFavorite': 'No favorite mangas',
+
+    // explore tab
+    'findManga': 'Search ...',
 
     // manga detail
     'readNow': 'Start reading',
