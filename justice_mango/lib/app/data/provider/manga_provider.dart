@@ -36,7 +36,7 @@ abstract class MangaProvider {
     return "${locale.languageCode}>$nametag>$preChapterId";
   }
 
-  String getSlug() {
+  String get slug {
     return "${locale.languageCode}>$nametag>";
   }
 }

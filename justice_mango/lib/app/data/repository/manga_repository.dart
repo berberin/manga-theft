@@ -35,9 +35,7 @@ class MangaRepository {
     return provider.getRandomManga(tag, amount);
   }
 
-  String getSlug() {
-    return provider.getSlug();
-  }
+  String get slug => provider.slug;
 
   initData() async {
     int count = 0;

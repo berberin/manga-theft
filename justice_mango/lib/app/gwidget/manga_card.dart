@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
+import 'package:justice_mango/app/theme/color_theme.dart';
 
 import 'manga_frame.dart';
 import 'tag.dart';
@@ -60,9 +61,33 @@ class MangaCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MangaFrame(
-                      imageUrl: metaCombine.mangaMeta.imgUrl,
-                      width: MediaQuery.of(context).size.width / 3,
+                    Stack(
+                      children: [
+                        MangaFrame(
+                          imageUrl: metaCombine.mangaMeta.imgUrl,
+                          width: MediaQuery.of(context).size.width / 3,
+                        ),
+                        Positioned(
+                          top: 5,
+                          left: 5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: spacer.withOpacity(0.7),
+                              borderRadius: BorderRadius.all(Radius.circular(1)),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 0,
+                            ),
+                            child: Text(
+                              metaCombine.mangaMeta.lang,
+                              style: Get.textTheme.bodyText2.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Flexible(
                       child: Padding(
