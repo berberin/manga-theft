@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:get/get.dart';
@@ -62,33 +63,97 @@ class ExploreTab extends GetWidget<ExploreController> {
                 ],
               ),
             ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Divider(),
-                  Text(
-                    'randomManga'.tr,
-                    style: Get.textTheme.headline5.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      letterSpacing: 0.27,
-                    ),
-                  ),
-                ],
+            Obx(
+              () => SliverToBoxAdapter(
+                child: controller.searchComplete.value
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'searchResult'.tr,
+                              style: Get.textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                letterSpacing: 0.27,
+                              ),
+                            ),
+                            IconButton(icon: Icon(Icons.clear_all_rounded), onPressed: () => controller.clearSearch()),
+                          ],
+                        ),
+                      )
+                    : Container(),
               ),
             ),
-            SliverPadding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 16,
+            Obx(
+              () => SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 16,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    (controller.searchComplete.value && controller.mangaSearchResult.isEmpty)
+                        ? <Widget>[
+                            Text(
+                              'noResult'.tr,
+                              style: Get.textTheme.caption,
+                            )
+                          ]
+                        : <Widget>[] +
+                            List.generate(
+                              controller.mangaSearchResult.length,
+                              (index) => MangaCard(
+                                metaCombine: controller.mangaSearchResult[index],
+                              ),
+                            ),
+                    addRepaintBoundaries: false,
+                  ),
+                ),
               ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  List.generate(
-                    controller.randomMangaList.length,
-                    (index) => MangaCard(
-                      metaCombine: controller.randomMangaList[index],
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          'randomManga'.tr,
+                          style: Get.textTheme.headline5.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            letterSpacing: 0.27,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.refresh_rounded),
+                          onPressed: () => controller.getRandomManga(delayedDuration: Duration(seconds: 0)),
+                        ),
+                      ],
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Obx(
+              () => SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 16,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    List.generate(
+                      controller.randomMangaList.length,
+                      (index) => MangaCard(
+                        metaCombine: controller.randomMangaList[index],
+                      ),
+                    ),
+                    addRepaintBoundaries: false,
                   ),
                 ),
               ),
