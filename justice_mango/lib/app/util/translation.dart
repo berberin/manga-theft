@@ -63,7 +63,7 @@ const Map<String, Map<String, String>> translationMap = {
     'dontHaveAnyFavorite': 'No favorite mangas',
 
     // explore tab
-    'findManga': 'Search ...',
+    'searchManga': 'Search ...',
     'randomManga': 'Random mangas',
 
     // manga detail
