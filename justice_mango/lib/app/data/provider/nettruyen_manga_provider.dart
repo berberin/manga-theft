@@ -100,6 +100,7 @@ class NettruyenMangaProvider extends MangaProvider {
           description: description,
           status: status,
           lang: 'vi',
+          repoSlug: slug,
         );
         mangaMetas.add(mangaMeta);
       }
