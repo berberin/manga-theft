@@ -35,10 +35,10 @@ class NettruyenMangaProvider extends MangaProvider {
     var items = soup.find_all("div.item");
 
     final regId = RegExp(r'\d+');
-    final regAuthor = RegExp(r'Tác giả:</label>(.+?)</p>');
-    final regTags = RegExp(r'Thể loại:</label>(.+?)</p>');
-    final regStatus = RegExp(r'Tình trạng:</label>(.+?)</p>');
-    final regAlias = RegExp(r'Tên khác:</label>(.+?)</p>');
+    final regAuthor = RegExp(r'Tác giả:</label>(.*?)</p>');
+    final regTags = RegExp(r'Thể loại:</label>(.*?)</p>');
+    final regStatus = RegExp(r'Tình trạng:</label>(.*?)</p>');
+    final regAlias = RegExp(r'Tên khác:</label>(.*?)</p>');
 
     try {
       for (var item in items) {
@@ -100,6 +100,7 @@ class NettruyenMangaProvider extends MangaProvider {
           description: description,
           status: status,
           lang: 'vi',
+          repoSlug: slug,
         );
         mangaMetas.add(mangaMeta);
       }

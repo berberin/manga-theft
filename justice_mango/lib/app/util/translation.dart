@@ -21,8 +21,10 @@ const Map<String, Map<String, String>> translationMap = {
     'dontHaveAnyFavorite': 'Chưa có truyện ưa thích.',
 
     // explore tab
-    'findManga': 'Tìm truyện ...',
+    'searchManga': 'Tìm truyện ...',
     'randomManga': 'Truyện ngẫu nhiên',
+    'noResult': 'Không tìm thấy kết quả phù hợp',
+    'searchResult': 'Kết quả tìm kiếm',
 
     // manga detail
     'readNow': 'Đọc ngay',
@@ -65,6 +67,8 @@ const Map<String, Map<String, String>> translationMap = {
     // explore tab
     'searchManga': 'Search ...',
     'randomManga': 'Random mangas',
+    'noResult': 'No result.',
+    'searchResult': 'Search result',
 
     // manga detail
     'readNow': 'Start reading',

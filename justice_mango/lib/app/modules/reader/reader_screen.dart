@@ -96,6 +96,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                               ),
                             ),
                       addRepaintBoundaries: false,
+                      addAutomaticKeepAlives: true,
                     ),
                   ),
                 )
