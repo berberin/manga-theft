@@ -62,13 +62,19 @@ class ExploreTab extends GetWidget<ExploreController> {
                 ],
               ),
             ),
-            Divider(),
-            Text(
-              'randomManga:'.tr,
-              style: Get.textTheme.headline5.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                letterSpacing: 0.27,
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Divider(),
+                  Text(
+                    'randomManga'.tr,
+                    style: Get.textTheme.headline5.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      letterSpacing: 0.27,
+                    ),
+                  ),
+                ],
               ),
             ),
             SliverPadding(
