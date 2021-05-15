@@ -177,12 +177,6 @@ class NettruyenMangaProvider extends MangaProvider {
     }).toList();
   }
 
-  getRandomManga(String tag, int amount) async {
-    List<MangaMeta> mangas = await searchTag(tag);
-    mangas.shuffle();
-    return mangas.sublist(0, 6);
-  }
-
   @override
   Future<List<MangaMeta>> initData() async {
     String assetsStr = 'assets/data/nettruyen_data.json';

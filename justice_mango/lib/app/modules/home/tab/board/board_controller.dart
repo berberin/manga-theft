@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BoardController extends GetxController {
   @override
@@ -10,6 +13,19 @@ class BoardController extends GetxController {
     super.onInit();
     getLatestList(page);
     getUpdateFavorite();
+    getUID().then((value) {
+      avatarSvg.value = Jdenticon.toSvg(
+        value,
+        colorSaturation: 0.48,
+        grayscaleSaturation: 0.48,
+        colorLightnessMinValue: 0.84,
+        colorLightnessMaxValue: 0.84,
+        grayscaleLightnessMinValue: 0.84,
+        grayscaleLightnessMaxValue: 0.84,
+        backColor: '#2a4766ff',
+        hues: [207],
+      );
+    });
   }
 
   @override
@@ -25,6 +41,7 @@ class BoardController extends GetxController {
   List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
+  var avatarSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"></svg>'.obs;
   int page = 1;
   var hasError = false.obs;
 
@@ -100,5 +117,15 @@ class BoardController extends GetxController {
         }
       }
     }
+  }
+
+  Future<String> getUID() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String uid = preferences.getString('uid');
+    if (uid == null) {
+      uid = randomString(10);
+      await preferences.setString('uid', uid);
+    }
+    return uid;
   }
 }

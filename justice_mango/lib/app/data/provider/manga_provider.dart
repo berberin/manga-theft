@@ -25,9 +25,6 @@ abstract class MangaProvider {
   /// Search a tag in source
   Future<List<MangaMeta>> searchTag(String searchTag);
 
-  /// Get random manga from tag in source
-  Future<List<MangaMeta>> getRandomManga(String tag, int amount);
-
   String getId(String preId) {
     return "${locale.languageCode}>$nametag>$preId";
   }
