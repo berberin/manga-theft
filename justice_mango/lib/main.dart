@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/provider/nettruyen_manga_provider.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
-import 'package:justice_mango/app/data/service/source_service.dart';
 
+import 'app/data/provider/sources/manganelo/nelo_manga_provider.dart';
+import 'app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
+import 'app/data/repository/manga_repository.dart';
 import 'app/data/service/hive_service.dart';
+import 'app/data/service/source_service.dart';
 import 'app/route/pages.dart';
 import 'app/route/routes.dart';
 import 'app/theme/app_theme.dart';
@@ -16,6 +17,7 @@ void main() async {
   await HiveService.init();
   // for testing
   SourceService.addToSource(MangaRepository(NettruyenMangaProvider()));
+  SourceService.addToSource(MangaRepository(NeloMangaProvider()));
   //SourceService.init();
   runApp(
     GetMaterialApp(
