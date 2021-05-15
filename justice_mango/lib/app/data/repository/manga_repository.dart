@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
@@ -33,8 +35,14 @@ class MangaRepository {
     return provider.searchTag(searchTag);
   }
 
-  Future<List<MangaMeta>> getRandomManga(String tag, int amount) {
-    return provider.getRandomManga(tag, amount);
+  List<MangaMeta> getRandomManga(String tag, int amount) {
+    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
+    Random random = Random();
+    List<MangaMeta> results = <MangaMeta>[];
+    for (int i = 0; i < amount; i++) {
+      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+    }
+    return results;
   }
 
   String get slug => provider.slug;
@@ -52,6 +60,7 @@ class MangaRepository {
         '${provider.locale.languageCode}@${provider.nametag}',
         MangaMeta(
           title: 'Mothers Box',
+          repoSlug: slug,
         ),
       );
     }

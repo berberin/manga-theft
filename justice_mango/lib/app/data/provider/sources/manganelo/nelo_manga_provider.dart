@@ -48,12 +48,6 @@ class NeloMangaProvider extends MangaProvider {
   }
 
   @override
-  Future<List<MangaMeta>> getRandomManga(String tag, int amount) {
-    // TODO: implement getRandomManga
-    throw UnimplementedError();
-  }
-
-  @override
   Map<String, String> imageHeader() {
     return {
       "Referer": "https: //manganelo.com/",
@@ -62,6 +56,7 @@ class NeloMangaProvider extends MangaProvider {
 
   @override
   Future<List<MangaMeta>> initData() async {
+    return [];
     String assetsStr = 'assets/data/manganelo_data.json';
     String jsonString = await rootBundle.loadString(assetsStr);
     List<dynamic> jsonArr = jsonDecode(jsonString);
@@ -134,7 +129,7 @@ class NeloMangaProvider extends MangaProvider {
         String id = regId.firstMatch(url).group(1);
 
         String imgUrl = item.querySelector("img.img-loading").attributes['src'];
-        String description = item.querySelector("div.genres-item-description").text;
+        //String description = item.querySelector("div.genres-item-description").text;
         String author = item.querySelector("span.genres-item-author")?.text ?? "";
 
         // note: trick giảm thời gian chờ
@@ -145,6 +140,9 @@ class NeloMangaProvider extends MangaProvider {
           // retrieve info from network
           Response response = await httpRepo.get(url);
           String body = response.data.toString();
+          var soupDescription = Beautifulsoup(body);
+          String description = soupDescription.find_all("div.panel-story-info-description")?.elementAt(0)?.text ?? "";
+
           var aliasesMatch = regAlias.firstMatch(body);
           List<String> aliases = [];
           if (aliasesMatch == null) {
@@ -249,7 +247,7 @@ class NeloMangaProvider extends MangaProvider {
           }
 
           var soupDescription = Beautifulsoup(body);
-          String description = soupDescription.find(id: "panel-story-info-description")?.text ?? "";
+          String description = soupDescription.find_all("div.panel-story-info-description")?.elementAt(0)?.text ?? "";
 
           MangaMeta mangaMeta = MangaMeta(
             title: title,
