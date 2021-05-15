@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'manga_meta.g.dart';
@@ -39,7 +40,7 @@ class MangaMeta extends Equatable {
       this.title,
       this.url,
       this.lang,
-      this.repoSlug});
+      @required this.repoSlug});
 
   factory MangaMeta.fromJson(Map<String, dynamic> json) {
     return MangaMeta(

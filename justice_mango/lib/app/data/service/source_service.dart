@@ -1,5 +1,6 @@
 import 'package:justice_mango/app/data/provider/manga_provider.dart';
-import 'package:justice_mango/app/data/provider/nettruyen_manga_provider.dart';
+import 'package:justice_mango/app/data/provider/sources/manganelo/nelo_manga_provider.dart';
+import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 
 class SourceService {
@@ -8,7 +9,7 @@ class SourceService {
 
   static List<MangaRepository> allSourceRepositories = <MangaRepository>[
     MangaRepository(NettruyenMangaProvider()),
-
+    MangaRepository(NeloMangaProvider()),
     // sources..
   ];
 
