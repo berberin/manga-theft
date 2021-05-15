@@ -56,7 +56,6 @@ class NeloMangaProvider extends MangaProvider {
 
   @override
   Future<List<MangaMeta>> initData() async {
-    return [];
     String assetsStr = 'assets/data/manganelo_data.json';
     String jsonString = await rootBundle.loadString(assetsStr);
     List<dynamic> jsonArr = jsonDecode(jsonString);

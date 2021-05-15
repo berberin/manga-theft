@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app/gwidget/manga_card.dart';
 import 'package:justice_mango/app/modules/home/home_controller.dart';
 import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
@@ -119,7 +118,7 @@ class BoardTab extends GetWidget<BoardController> {
     return Row(
       children: [
         SvgPicture.string(
-          Jdenticon.toSvg('message'),
+          controller.avatarSvg,
           fit: BoxFit.fill,
           height: 40,
         ),
@@ -132,10 +131,6 @@ class BoardTab extends GetWidget<BoardController> {
                 "hello!".tr,
                 style: Get.textTheme.headline6,
               ),
-              Text(
-                'Senjou',
-                style: Get.textTheme.caption,
-              )
             ],
           ),
         ),
