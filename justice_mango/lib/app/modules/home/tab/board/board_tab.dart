@@ -117,10 +117,12 @@ class BoardTab extends GetWidget<BoardController> {
   Widget _welcomeBar() {
     return Row(
       children: [
-        SvgPicture.string(
-          controller.avatarSvg,
-          fit: BoxFit.fill,
-          height: 40,
+        Obx(
+          () => SvgPicture.string(
+            controller.avatarSvg.value,
+            fit: BoxFit.fill,
+            height: 40,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -14,7 +14,7 @@ class BoardController extends GetxController {
     getLatestList(page);
     getUpdateFavorite();
     getUID().then((value) {
-      avatarSvg = Jdenticon.toSvg(
+      avatarSvg.value = Jdenticon.toSvg(
         value,
         colorSaturation: 0.48,
         grayscaleSaturation: 0.48,
@@ -41,7 +41,7 @@ class BoardController extends GetxController {
   List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
-  String avatarSvg = '';
+  var avatarSvg = ''.obs;
   int page = 1;
   var hasError = false.obs;
 
