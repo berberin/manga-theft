@@ -15,16 +15,18 @@ class MangaRepository {
     return mangas;
   }
 
-  Future<List<ChapterInfo>> getChaptersInfo(String mangaId) {
-    return provider.getChaptersInfo(mangaId);
+  Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta) {
+    return provider.getChaptersInfo(mangaMeta);
   }
 
   Future<List<String>> getPages(String chapterUrl) {
     return provider.getPages(chapterUrl);
   }
 
-  Future<List<MangaMeta>> search(String searchString) {
-    return provider.search(searchString);
+  Future<List<MangaMeta>> search(String searchString) async {
+    List<MangaMeta> metas = await provider.search(searchString);
+    checkAndPutToMangaBox(metas);
+    return metas;
   }
 
   Future<List<MangaMeta>> searchTag(String searchTag) {
@@ -70,7 +72,8 @@ class MangaRepository {
   updateLastReadInfo({String preId, bool updateStatus = false}) async {
     String mangaId = provider.getId(preId);
     var currentReadInfo = HiveService.getReadInfo(mangaId);
-    var chapters = await provider.getChaptersInfo(preId);
+    var mangaMeta = HiveService.getMangaMeta(mangaId);
+    var chapters = await provider.getChaptersInfo(mangaMeta);
     if (currentReadInfo == null) {
       await HiveService.putReadInfo(
         mangaId,

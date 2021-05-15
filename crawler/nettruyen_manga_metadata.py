@@ -79,9 +79,10 @@ for i in range(1, 550):
             "description": description,
             "status": status,
             "lang": 'vi',
+            "repoSlug": 'vi>nettruyen>'
         })
     print(len(manga_list))
 
-with open('data.json', 'w', encoding='utf-8') as f:
+with open('nettruyen_data.json', 'w', encoding='utf-8') as f:
     json.dump(manga_list, f, ensure_ascii=False, indent=4)
 

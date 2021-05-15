@@ -23,8 +23,8 @@ class FavoriteController extends GetxController {
       for (var repo in SourceService.allSourceRepositories) {
         if (mangaMeta.repoSlug == repo.slug) {
           favoriteMetaCombine.add(MangaMetaCombine(repo, mangaMeta));
+          break;
         }
-        break;
       }
     }
     //sorting

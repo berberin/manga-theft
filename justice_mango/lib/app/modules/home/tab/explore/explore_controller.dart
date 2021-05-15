@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
@@ -7,15 +9,15 @@ import 'package:justice_mango/app/data/service/source_service.dart';
 
 class ExploreController extends GetxController {
   TextEditingController textSearchController;
-  bool searchComplete;
+  var searchComplete = false.obs;
   List<MangaMetaCombine> mangaSearchResult;
   List<MangaMetaCombine> randomMangaList;
+  String currentSearch;
 
   @override
   void onInit() {
     super.onInit();
     textSearchController = TextEditingController();
-    searchComplete = false;
     mangaSearchResult = <MangaMetaCombine>[].obs;
     randomMangaList = <MangaMetaCombine>[].obs;
     getRandomManga();
@@ -23,28 +25,34 @@ class ExploreController extends GetxController {
 
   search() async {
     String textSearch = textSearchController.text;
-    if (textSearch.length <= 2) {
+    if (textSearch.length <= 2 || (textSearch == currentSearch && searchComplete.value)) {
       return;
     }
+    clearSearch();
     for (var repo in SourceService.sourceRepositories) {
       List<MangaMeta> metas = await repo.search(textSearch);
       for (var meta in metas) {
         mangaSearchResult.add(MangaMetaCombine(repo, meta));
       }
     }
-    searchComplete = true;
+    searchComplete.value = true;
+    currentSearch = textSearch;
   }
 
   clearSearch() {
     mangaSearchResult.clear();
-    searchComplete = false;
+    searchComplete.value = false;
   }
 
-  getRandomManga() async {
-    var mangaKeys = HiveService.mangaBox.keys.toList();
-    mangaKeys.shuffle();
+  getRandomManga({Duration delayedDuration: const Duration(seconds: 2)}) async {
+    // note: wait hive db init first time
+    await Future.delayed(delayedDuration);
+    int boxLength = HiveService.mangaBox.length;
+    Random random = Random();
+    randomMangaList.clear();
     for (int i = 0; i < 30; i++) {
-      var mangaMeta = HiveService.getMangaMeta(mangaKeys[i]);
+      var index = random.nextInt(boxLength);
+      var mangaMeta = HiveService.mangaBox.getAt(index);
       for (var repo in SourceService.sourceRepositories) {
         if (mangaMeta.repoSlug == repo.slug) {
           randomMangaList.add(MangaMetaCombine(repo, mangaMeta));

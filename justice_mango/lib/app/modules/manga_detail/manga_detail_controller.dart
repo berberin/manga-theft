@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:justice_mango/app/modules/reader/reader_screen.dart';
+import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 
 class MangaDetailController extends GetxController {
   MangaMetaCombine metaCombine;
@@ -19,7 +21,7 @@ class MangaDetailController extends GetxController {
   void onInit() {
     super.onInit();
     isFavorite.value = metaCombine.repo.isFavorite(metaCombine.mangaMeta.preId);
-    metaCombine.repo.getChaptersInfo(metaCombine.mangaMeta.preId).then((value) {
+    metaCombine.repo.getChaptersInfo(metaCombine.mangaMeta).then((value) {
       chaptersInfo.assignAll(value);
       for (var chapter in chaptersInfo) {
         readArray.add(metaCombine.repo.isRead(chapter.preChapterId));
@@ -29,11 +31,23 @@ class MangaDetailController extends GetxController {
   }
 
   goToLastReadChapter() {
-    //todo: implement
+    Get.to(
+      () => ReaderScreen(
+        readerScreenArgs: ReaderScreenArgs(
+          chaptersInfo: chaptersInfo,
+          index: metaCombine.repo.getLastReadIndex(metaCombine.mangaMeta.preId),
+          metaCombine: metaCombine,
+        ),
+      ),
+    );
   }
 
   setIsRead(int index) async {
     await metaCombine.repo.markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
+    await metaCombine.repo.updateLastReadIndex(
+      preId: metaCombine.mangaMeta.preId,
+      readIndex: index,
+    );
     readArray[index] = true;
     // mục đích delay: để hiển thị đã đọc không xuất hiện trước khi vào màn đọc [ux]
     await Future.delayed(Duration(seconds: 1));
