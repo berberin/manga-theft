@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/provider/nettruyen_http_provider.dart';
+import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_http_provider.dart';
 import 'package:justice_mango/app/data/repository/http_repository.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:random_string/random_string.dart';
 
-import 'manga_provider.dart';
+import '../../manga_provider.dart';
 
 class NettruyenMangaProvider extends MangaProvider {
   final nametag = 'nettruyen';
@@ -112,8 +112,9 @@ class NettruyenMangaProvider extends MangaProvider {
     return mangaMetas;
   }
 
-  Future<List<ChapterInfo>> getChaptersInfo(String mangaId) async {
+  Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta) async {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
+    String mangaId = mangaMeta.preId;
     while (mangaId.length > 0) {
       String url =
           "http://www.nettruyen.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
@@ -157,31 +158,10 @@ class NettruyenMangaProvider extends MangaProvider {
       var url = "http://www.nettruyen.com/tim-truyen?keyword=$searchString";
       var response = await httpRepo.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
-      for (var meta in mangaMetas) {
-        //await HiveProvider.addToMangaBox(meta);
-      }
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
     }
-    // connectivity.none
-    // List<MangaMeta> listFromDB = HiveProvider.mangaBox.values.where((element) {
-    //   if (element.title.toLowerCase().contains(searchString)) {
-    //     return true;
-    //   }
-    //   for (var alias in element.alias) {
-    //     if (alias.toLowerCase().contains(searchString)) {
-    //       return true;
-    //     }
-    //   }
-    //   return false;
-    // }).toList();
-
-    // for (var meta in listFromDB) {
-    //   if (!mangaMetas.contains(meta)) {
-    //     mangaMetas.add(meta);
-    //   }
-    // }
     return mangaMetas;
   }
 
