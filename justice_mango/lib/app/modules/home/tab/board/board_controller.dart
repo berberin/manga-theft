@@ -41,7 +41,7 @@ class BoardController extends GetxController {
   List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
-  var avatarSvg = ''.obs;
+  var avatarSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"></svg>'.obs;
   int page = 1;
   var hasError = false.obs;
 
