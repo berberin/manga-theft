@@ -17,7 +17,7 @@ class ReaderScreen extends StatefulWidget {
 
 class _ReaderScreenState extends State<ReaderScreen> {
   String getChapterId() {
-    return widget.readerScreenArgs.chaptersInfo[widget.readerScreenArgs.index].preChapterId;
+    return widget.readerScreenArgs.chaptersInfo[widget.readerScreenArgs.index].url;
   }
 
   @override
