@@ -60,7 +60,7 @@ class ReaderController extends GetxController {
       return;
     }
     await Future.delayed(Duration(seconds: 5));
-    metaCombine.repo.getPages(chaptersInfo[index].url).then((value) {
+    metaCombine.repo.getPages(chaptersInfo[index - 1].url).then((value) {
       preloadUrl.assignAll(value);
       for (var url in preloadUrl) {
         CacheService.getImage(url, metaCombine.repo);
