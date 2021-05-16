@@ -42,6 +42,8 @@ dependencies:
   jdenticon_dart: ^2.0.0
   flutter_svg: ^0.21.0+1
   flutter_speed_dial: ^3.0.5
+  shared_preferences: ^2.0.5
+  provider: ^5.0.0
 
 
 dev_dependencies:

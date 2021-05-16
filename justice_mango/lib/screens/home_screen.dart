@@ -42,7 +42,8 @@ class HomeScreenState extends State<HomeScreen> {
             iconSize: 15,
             selectedFontSize: 10,
 
-            items: const <BottomNavigationBarItem>[
+            // items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.system_update_tv_rounded,
