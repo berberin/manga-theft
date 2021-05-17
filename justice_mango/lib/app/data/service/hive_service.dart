@@ -35,7 +35,7 @@ class HiveService {
   static Box<MangaMeta> favoriteBox;
   static Box<ChapterInfo> chapterReadInfo;
   static Box<ReadInfo> lastReadInfoBox;
-  static Box<List<RecentRead>> recentReadBox;
+  static Box recentReadBox;
 
   static putMangaMeta(String mangaId, MangaMeta mangaMeta) async {
     await mangaBox.put(mangaId, mangaMeta);
@@ -86,7 +86,7 @@ class HiveService {
   }
 
   static List<RecentRead> getRecentReadBox() {
-    return recentReadBox.get(1) ?? <RecentRead>[];
+    return List<RecentRead>.from(recentReadBox.get(1) ?? []);
   }
 
   static putToRecentReadBox(List<RecentRead> list) async {
