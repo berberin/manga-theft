@@ -5,6 +5,7 @@ const Map<String, Map<String, String>> translationMap = {
     'favorite': 'Ưa thích',
     'explore': 'Khám phá',
     'setting': 'Cài đặt',
+    'recent': 'Gần đây',
 
     // board
     'loading': 'Đang tải...',
@@ -25,6 +26,10 @@ const Map<String, Map<String, String>> translationMap = {
     'randomManga': 'Truyện ngẫu nhiên',
     'noResult': 'Không tìm thấy kết quả phù hợp',
     'searchResult': 'Kết quả tìm kiếm',
+
+    //recent tab
+    'recentManga': 'Truyện đọc gần đây',
+    'noRecentManga': 'Không có truyện đọc gần đây',
 
     // manga detail
     'readNow': 'Đọc ngay',
@@ -49,6 +54,7 @@ const Map<String, Map<String, String>> translationMap = {
     'favorite': 'Favorite',
     'explore': 'Explore',
     'setting': 'Setting',
+    'recent': 'Recent',
 
     // board
     'loading': 'Loading ...',
@@ -69,6 +75,10 @@ const Map<String, Map<String, String>> translationMap = {
     'randomManga': 'Random mangas',
     'noResult': 'No result.',
     'searchResult': 'Search result',
+
+    //recent tab
+    'recentManga': 'Recently read',
+    'noRecentManga': 'No recently read',
 
     // manga detail
     'readNow': 'Start reading',

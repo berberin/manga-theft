@@ -39,7 +39,9 @@ class MangaRepository {
 
   initData() async {
     int count = 0;
-    if (HiveService.getMangaMeta('${provider.locale.languageCode}@${provider.nametag}') == null) {
+    if (HiveService.getMangaMeta(
+            '${provider.locale.languageCode}@${provider.nametag}') ==
+        null) {
       List<MangaMeta> mangas = await provider.initData();
       for (var meta in mangas) {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
@@ -60,7 +62,8 @@ class MangaRepository {
   }
 
   putMangaMetaFavorite(MangaMeta mangaMeta) async {
-    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
+    await HiveService.putMangaMetaFavorite(
+        provider.getId(mangaMeta.preId), mangaMeta);
   }
 
   MangaMeta getMangaMeta(String preId) {
@@ -94,11 +97,13 @@ class MangaRepository {
           // true: số chương mới lớn hơn số chương cũ, đồng thời chương mới nhất đã được đọc
           // các trường hợp còn lại giữ nguyên giá trị cũ.
           newUpdate: updateStatus &&
-                  isRead(
-                      provider.getChapterId(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
+                  isRead(provider.getChapterId(chapters[
+                          chapters.length - currentReadInfo.numberOfChapters]
+                      .preChapterId))
               ? (chapters.length > currentReadInfo.numberOfChapters)
               : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+          lastReadIndex: currentReadInfo.lastReadIndex +
+              (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }

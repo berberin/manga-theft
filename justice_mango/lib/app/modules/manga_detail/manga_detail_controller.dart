@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/data/model/recent_read.dart';
+import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 
@@ -43,7 +46,8 @@ class MangaDetailController extends GetxController {
   }
 
   setIsRead(int index) async {
-    await metaCombine.repo.markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
+    await metaCombine.repo
+        .markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
     await metaCombine.repo.updateLastReadIndex(
       preId: metaCombine.mangaMeta.preId,
       readIndex: index,
@@ -66,5 +70,21 @@ class MangaDetailController extends GetxController {
     isFavorite.value = false;
     FavoriteController favoriteTabController = Get.find();
     favoriteTabController.refreshUpdate();
+  }
+
+  List<RecentRead> recentList;
+  addToRecentRead() async {
+    recentList = HiveService.getRecentReadBox();
+    if (recentList.length > 30) {
+      recentList.removeAt(0);
+    }
+    if (recentList
+        .contains(RecentRead(metaCombine.mangaMeta, DateTime.now()))) {
+      recentList.remove(RecentRead(metaCombine.mangaMeta, DateTime.now()));
+    }
+    recentList.add(RecentRead(metaCombine.mangaMeta, DateTime.now()));
+    await HiveService.putToRecentReadBox(recentList);
+    RecentController recentController = Get.find();
+    recentController.refreshRecent();
   }
 }
