@@ -86,10 +86,10 @@ class HiveService {
   }
 
   static List<RecentRead> getRecentReadBox() {
-    return List<RecentRead>.from(recentReadBox.get(1)) ?? <RecentRead>[];
+    return List<RecentRead>.from(recentReadBox.get(2) ?? []);
   }
 
   static putToRecentReadBox(List<RecentRead> list) async {
-    await recentReadBox.put(1, list);
+    await recentReadBox.put(2, list);
   }
 }
