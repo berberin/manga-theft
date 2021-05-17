@@ -24,7 +24,7 @@ class MangaDetailController extends GetxController {
   void onInit() {
     super.onInit();
     isFavorite.value = metaCombine.repo.isFavorite(metaCombine.mangaMeta.preId);
-    metaCombine.repo.getChaptersInfo(metaCombine.mangaMeta.preId).then((value) {
+    metaCombine.repo.getChaptersInfo(metaCombine.mangaMeta).then((value) {
       chaptersInfo.assignAll(value);
       for (var chapter in chaptersInfo) {
         readArray.add(metaCombine.repo.isRead(chapter.preChapterId));

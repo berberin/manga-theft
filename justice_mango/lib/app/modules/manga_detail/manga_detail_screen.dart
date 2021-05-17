@@ -47,17 +47,26 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
             Obx(
               () => SliverList(
                 delegate: SliverChildListDelegate(
-                  List.generate(
-                    controller.chaptersInfo.length,
-                    (index) {
-                      return ChapterCard(
-                        chaptersInfo: controller.chaptersInfo,
-                        index: index,
-                        metaCombine: controller.metaCombine,
-                        isRead: controller.readArray[index],
-                      );
-                    },
-                  ),
+                  controller.chaptersInfo.isEmpty
+                      ? [
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        ]
+                      : List.generate(
+                          controller.chaptersInfo.length,
+                          (index) {
+                            return ChapterCard(
+                              chaptersInfo: controller.chaptersInfo,
+                              index: index,
+                              metaCombine: controller.metaCombine,
+                              isRead: controller.readArray[index],
+                            );
+                          },
+                        ),
                 ),
               ),
             ),

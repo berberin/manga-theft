@@ -64,7 +64,7 @@ const Map<String, Map<String, String>> translationMap = {
     'noUpdateFound': 'No new updates',
     'updateJustNow': 'Just updated',
     'reload': 'Reload',
-    'hello!': 'Konichiwa minna-san',
+    'hello!': 'Hallo!',
 
     // favorite tab
     'favorites': 'Favorite mangas',

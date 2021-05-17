@@ -6,6 +6,7 @@ import 'package:justice_mango/app/modules/reader/reader_controller.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 import 'package:justice_mango/app/modules/reader/widget/manga_image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:random_string/random_string.dart';
 
 class ReaderScreen extends StatefulWidget {
   final ReaderScreenArgs readerScreenArgs;
@@ -16,9 +17,7 @@ class ReaderScreen extends StatefulWidget {
 }
 
 class _ReaderScreenState extends State<ReaderScreen> {
-  String getChapterId() {
-    return widget.readerScreenArgs.chaptersInfo[widget.readerScreenArgs.index].preChapterId;
-  }
+  String tag = randomAlpha(3);
 
   @override
   void initState() {
@@ -30,20 +29,20 @@ class _ReaderScreenState extends State<ReaderScreen> {
         metaCombine: widget.readerScreenArgs.metaCombine,
         preloadUrl: widget.readerScreenArgs.preloadUrl,
       ),
-      tag: getChapterId(),
+      tag: tag,
     );
   }
 
   @override
   void dispose() {
-    Get.delete(tag: getChapterId());
+    Get.delete(tag: tag);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ReaderController>(
-      tag: getChapterId(),
+      tag: tag,
       builder: (controller) => Scaffold(
         body: RefreshConfiguration(
           maxUnderScrollExtent: 70,
@@ -96,7 +95,6 @@ class _ReaderScreenState extends State<ReaderScreen> {
                               ),
                             ),
                       addRepaintBoundaries: false,
-                      addAutomaticKeepAlives: true,
                     ),
                   ),
                 )

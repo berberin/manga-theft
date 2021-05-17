@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
@@ -15,24 +17,32 @@ class MangaRepository {
     return mangas;
   }
 
-  Future<List<ChapterInfo>> getChaptersInfo(String mangaId) {
-    return provider.getChaptersInfo(mangaId);
+  Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta) {
+    return provider.getChaptersInfo(mangaMeta);
   }
 
   Future<List<String>> getPages(String chapterUrl) {
     return provider.getPages(chapterUrl);
   }
 
-  Future<List<MangaMeta>> search(String searchString) {
-    return provider.search(searchString);
+  Future<List<MangaMeta>> search(String searchString) async {
+    List<MangaMeta> metas = await provider.search(searchString);
+    checkAndPutToMangaBox(metas);
+    return metas;
   }
 
   Future<List<MangaMeta>> searchTag(String searchTag) {
     return provider.searchTag(searchTag);
   }
 
-  Future<List<MangaMeta>> getRandomManga(String tag, int amount) {
-    return provider.getRandomManga(tag, amount);
+  List<MangaMeta> getRandomManga(String tag, int amount) {
+    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
+    Random random = Random();
+    List<MangaMeta> results = <MangaMeta>[];
+    for (int i = 0; i < amount; i++) {
+      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+    }
+    return results;
   }
 
   String get slug => provider.slug;
@@ -52,6 +62,7 @@ class MangaRepository {
         '${provider.locale.languageCode}@${provider.nametag}',
         MangaMeta(
           title: 'Mothers Box',
+          repoSlug: slug,
         ),
       );
     }
@@ -73,7 +84,8 @@ class MangaRepository {
   updateLastReadInfo({String preId, bool updateStatus = false}) async {
     String mangaId = provider.getId(preId);
     var currentReadInfo = HiveService.getReadInfo(mangaId);
-    var chapters = await provider.getChaptersInfo(preId);
+    var mangaMeta = HiveService.getMangaMeta(mangaId);
+    var chapters = await provider.getChaptersInfo(mangaMeta);
     if (currentReadInfo == null) {
       await HiveService.putReadInfo(
         mangaId,

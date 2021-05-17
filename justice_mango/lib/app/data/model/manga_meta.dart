@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'manga_meta.g.dart';
@@ -44,8 +44,7 @@ class MangaMeta extends Equatable {
 
   factory MangaMeta.fromJson(Map<String, dynamic> json) {
     return MangaMeta(
-      alias:
-          json['alias'] != null ? new List<String>.from(json['alias']) : null,
+      alias: json['alias'] != null ? new List<String>.from(json['alias']) : null,
       author: json['author'],
       description: json['description'],
       preId: json['id'],
@@ -80,6 +79,5 @@ class MangaMeta extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [url];
 }
