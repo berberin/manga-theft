@@ -106,7 +106,7 @@ class BoardController extends GetxController {
     for (var mangaMeta in favoriteMetas) {
       for (var repo in SourceService.allSourceRepositories) {
         if (mangaMeta.repoSlug == repo.slug) {
-          repo.updateLastReadInfo(
+          await repo.updateLastReadInfo(
             preId: mangaMeta.preId,
             updateStatus: true,
           );
