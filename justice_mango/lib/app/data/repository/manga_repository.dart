@@ -105,9 +105,7 @@ class MangaRepository {
           //
           // true: số chương mới lớn hơn số chương cũ, đồng thời chương mới nhất đã được đọc
           // các trường hợp còn lại giữ nguyên giá trị cũ.
-          newUpdate: updateStatus &&
-                  isRead(
-                      provider.getChapterId(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
+          newUpdate: (updateStatus && isRead(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
               ? (chapters.length > currentReadInfo.numberOfChapters)
               : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),

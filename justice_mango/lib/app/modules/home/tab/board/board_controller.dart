@@ -93,15 +93,15 @@ class BoardController extends GetxController {
     favoriteUpdate.clear();
     var favoriteMetas = HiveService.favoriteBox.values.toList();
     // get instantly
-    for (var mangaMeta in favoriteMetas) {
-      if (HiveService.getReadInfo(mangaMeta.repoSlug + mangaMeta.preId).newUpdate ?? false) {
-        for (var repo in SourceService.allSourceRepositories) {
-          if (repo.slug == mangaMeta.repoSlug) {
-            favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
-          }
-        }
-      }
-    }
+    // for (var mangaMeta in favoriteMetas) {
+    //   if (HiveService.getReadInfo(mangaMeta.repoSlug + mangaMeta.preId).newUpdate ?? false) {
+    //     for (var repo in SourceService.allSourceRepositories) {
+    //       if (repo.slug == mangaMeta.repoSlug) {
+    //         favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
+    //       }
+    //     }
+    //   }
+    // }
 
     for (var mangaMeta in favoriteMetas) {
       for (var repo in SourceService.allSourceRepositories) {
