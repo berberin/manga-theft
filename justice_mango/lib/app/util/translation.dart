@@ -30,6 +30,13 @@ const Map<String, Map<String, String>> translationMap = {
     //recent tab
     'recentManga': 'Truyện đọc gần đây',
     'noRecentManga': 'Không có truyện đọc gần đây',
+    'lastRead': 'Lần đọc trước: ',
+    'minutesAgo': ' phút trước',
+    'hoursAgo': ' giờ trước',
+    'daysAgo': ' ngày trước',
+    'weeksAgo': ' tuần trước',
+    'monthsAgo': ' tháng trước',
+    'yearsAgo': ' năm trước',
 
     // manga detail
     'readNow': 'Đọc ngay',
@@ -79,6 +86,13 @@ const Map<String, Map<String, String>> translationMap = {
     //recent tab
     'recentManga': 'Recently read',
     'noRecentManga': 'No recently read',
+    'lastRead': 'Last read: ',
+    'minutesAgo': ' minute(s) ago',
+    'hoursAgo': ' hour(s) ago',
+    'daysAgo': ' day(s) ago',
+    'weeksAgo': ' week(s) ago',
+    'monthsAgo': ' month(s) ago',
+    'yearsAgo': ' year(s) ago',
 
     // manga detail
     'readNow': 'Start reading',

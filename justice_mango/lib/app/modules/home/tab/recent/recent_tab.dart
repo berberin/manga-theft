@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/manga_card.dart';
+import 'package:justice_mango/app/gwidget/recent_card.dart';
 import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
@@ -39,11 +38,12 @@ class RecentTab extends GetWidget<RecentController> {
                     ),
                   )
                 : Column(
-                    //verticalDirection: VerticalDirection.up,
+                    verticalDirection: VerticalDirection.up,
                     children: List.generate(
                       controller.recentMetaCombine.length,
-                      (index) => MangaCard(
-                        metaCombine: controller.recentMetaCombine[index],
+                      (index) => RecentCard(
+                        mangaMetaCombine: controller.recentMetaCombine[index],
+                        dateTime: controller.readTime[index],
                       ),
                     ),
                   ))
