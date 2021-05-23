@@ -35,7 +35,7 @@ class MangaRepository {
     return provider.searchTag(searchTag);
   }
 
-  List<MangaMeta> getRandomManga(String tag, int amount) {
+  List<MangaMeta> getRandomManga({String tag: "", int amount}) {
     var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
@@ -47,7 +47,7 @@ class MangaRepository {
 
   String get slug => provider.slug;
 
-  initData() async {
+  Future<void> initData() async {
     int count = 0;
     if (!HiveService.repoIsAvailable(slug)) {
       List<MangaMeta> mangas = await provider.initData();
