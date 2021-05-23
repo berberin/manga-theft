@@ -28,14 +28,16 @@ class HiveService {
     favoriteBox = await Hive.openBox(favoriteBoxName);
     chapterReadInfo = await Hive.openBox(chapterReadInfoBoxName);
     lastReadInfoBox = await Hive.openBox(lastReadInfoBoxName);
-    recentReadBox = await Hive.openBox(recentReadBoxName);
+    commonBox = await Hive.openBox(recentReadBoxName);
   }
 
   static Box<MangaMeta> mangaBox;
   static Box<MangaMeta> favoriteBox;
   static Box<ChapterInfo> chapterReadInfo;
   static Box<ReadInfo> lastReadInfoBox;
-  static Box recentReadBox;
+
+  // recent read, init repo data, ...
+  static Box commonBox;
 
   static putMangaMeta(String mangaId, MangaMeta mangaMeta) async {
     await mangaBox.put(mangaId, mangaMeta);
@@ -86,10 +88,21 @@ class HiveService {
   }
 
   static List<RecentRead> getRecentReadBox() {
-    return List<RecentRead>.from(recentReadBox.get(1) ?? []);
+    return List<RecentRead>.from(commonBox.get('recent') ?? []);
   }
 
   static putToRecentReadBox(List<RecentRead> list) async {
-    await recentReadBox.put(1, list);
+    await commonBox.put('recent', list);
+  }
+
+  static repoIsAvailable(String repoSlug) {
+    return commonBox.get(
+      repoSlug,
+      defaultValue: false,
+    );
+  }
+
+  static setRepoIsAvailable(String repoSlug) async {
+    await commonBox.put(repoSlug, true);
   }
 }
