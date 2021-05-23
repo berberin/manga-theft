@@ -79,13 +79,14 @@ class MangaDetailController extends GetxController {
 
   addToRecentRead() async {
     List<RecentRead> recentList = HiveService.getRecentReadBox();
+    RecentRead recentRead = RecentRead(metaCombine.mangaMeta, DateTime.now());
     if (recentList.length > 30) {
       recentList.removeAt(0);
     }
-    if (recentList.contains(RecentRead(metaCombine.mangaMeta, DateTime.now()))) {
-      recentList.remove(RecentRead(metaCombine.mangaMeta, DateTime.now()));
+    if (recentList.contains(recentRead)) {
+      recentList.remove(recentRead);
     }
-    recentList.add(RecentRead(metaCombine.mangaMeta, DateTime.now()));
+    recentList.add(recentRead);
     await HiveService.putToRecentReadBox(recentList);
     RecentController recentController = Get.find();
     recentController.refreshRecent();

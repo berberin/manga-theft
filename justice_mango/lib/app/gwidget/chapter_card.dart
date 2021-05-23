@@ -12,31 +12,12 @@ class ChapterCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
   final bool isRead;
 
-  const ChapterCard(
-      {Key key,
-      this.chaptersInfo,
-      this.index,
-      this.metaCombine,
-      this.isRead = false})
-      : super(key: key);
+  const ChapterCard({Key key, this.chaptersInfo, this.index, this.metaCombine, this.isRead = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Get.toNamed(
-        //   Routes.READER,
-        //   preventDuplicates: false,
-        //   arguments: ReaderScreenArgs(
-        //     metaCombine: metaCombine,
-        //     chaptersInfo: chaptersInfo,
-        //     index: index,
-        //   ),
-        // );
-        print(DateTime.now());
-        MangaDetailController mangaDetailController =
-            Get.find(tag: metaCombine.mangaMeta.preId);
-        mangaDetailController.addToRecentRead();
         Get.to(
           () => ReaderScreen(
             readerScreenArgs: ReaderScreenArgs(
@@ -46,6 +27,8 @@ class ChapterCard extends StatelessWidget {
             ),
           ),
         );
+        MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+        mangaDetailController.addToRecentRead();
       },
       child: Card(
         margin: EdgeInsets.symmetric(

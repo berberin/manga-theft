@@ -20,6 +20,7 @@ class RecentController extends GetxController {
   }
 
   refreshRecent() async {
+    recentArgs.clear();
     List<RecentRead> recentReads = HiveService.getRecentReadBox();
     for (var recent in recentReads) {
       for (var repo in SourceService.allSourceRepositories) {
