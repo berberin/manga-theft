@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/recent_card.dart';
 import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
+
+import 'widget/recent_card.dart';
 
 class RecentTab extends GetWidget<RecentController> {
   @override
@@ -27,7 +28,7 @@ class RecentTab extends GetWidget<RecentController> {
                 ),
               ),
             ),
-            Obx(() => controller.recentMetaCombine.isEmpty
+            Obx(() => controller.recentArgs.isEmpty
                 ? Padding(
                     padding: EdgeInsets.all(24),
                     child: Center(
@@ -40,10 +41,9 @@ class RecentTab extends GetWidget<RecentController> {
                 : Column(
                     verticalDirection: VerticalDirection.up,
                     children: List.generate(
-                      controller.recentMetaCombine.length,
+                      controller.recentArgs.length,
                       (index) => RecentCard(
-                        mangaMetaCombine: controller.recentMetaCombine[index],
-                        dateTime: controller.readTime[index],
+                        recentArgs: controller.recentArgs[index],
                       ),
                     ),
                   ))

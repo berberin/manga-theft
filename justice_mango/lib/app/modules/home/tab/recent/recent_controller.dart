@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
+import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/data/model/recent_read.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'widget/recent_agrs.dart';
+
 class RecentController extends GetxController {
-  var readTime = <DateTime>[];
-  var recentMetaCombine = <MangaMetaCombine>[].obs;
+  var recentArgs = <RecentArgs>[].obs;
+  MangaMetaCombine mangaMetaCombine;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
@@ -16,18 +20,26 @@ class RecentController extends GetxController {
     refreshRecent();
   }
 
-  refreshRecent() {
-    var recentRead = HiveService.getRecentReadBox();
-    readTime.clear();
-    recentMetaCombine.clear();
-    for (var recent in recentRead) {
-      readTime.add(recent.dateTime);
+  refreshRecent() async {
+    List<RecentRead> recentReads = HiveService.getRecentReadBox();
+    for (var recent in recentReads) {
       for (var repo in SourceService.allSourceRepositories) {
         if (recent.mangaMeta.repoSlug == repo.slug) {
-          recentMetaCombine.add(MangaMetaCombine(repo, recent.mangaMeta));
+          mangaMetaCombine = MangaMetaCombine(repo, recent.mangaMeta);
           break;
         }
       }
+      List<ChapterInfo> chapterInfo = await mangaMetaCombine.repo
+          .getChaptersInfo(mangaMetaCombine.mangaMeta);
+      mangaMetaCombine.repo.updateLastReadInfo(
+          preId: mangaMetaCombine.mangaMeta.preId, updateStatus: false);
+      int readIndex = mangaMetaCombine.repo
+          .getLastReadIndex(mangaMetaCombine.mangaMeta.preId);
+
+      recentArgs.add(RecentArgs(
+          mangaMetaCombine: mangaMetaCombine,
+          dateTime: recent.dateTime,
+          chapterName: chapterInfo[readIndex].name));
     }
   }
 }
