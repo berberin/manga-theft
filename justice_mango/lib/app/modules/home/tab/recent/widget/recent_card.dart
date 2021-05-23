@@ -3,25 +3,23 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/gwidget/manga_frame.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
-class RecentCard extends StatelessWidget {
-  final MangaMetaCombine mangaMetaCombine;
-  final DateTime dateTime;
+import 'recent_agrs.dart';
 
-  const RecentCard({Key key, this.mangaMetaCombine, this.dateTime})
-      : super(key: key);
+class RecentCard extends StatelessWidget {
+  final RecentArgs recentArgs;
+
+  const RecentCard({Key key, this.recentArgs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return InkWell(
       onTap: () {
         Get.to(() => MangaDetailScreen(
-              metaCombine: mangaMetaCombine,
+              metaCombine: recentArgs.mangaMetaCombine,
             ));
       },
       child: Container(
@@ -41,7 +39,8 @@ class RecentCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(mangaMetaCombine.mangaMeta.imgUrl),
+                image:
+                    NetworkImage(recentArgs.mangaMetaCombine.mangaMeta.imgUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -58,7 +57,8 @@ class RecentCard extends StatelessWidget {
                     Stack(
                       children: [
                         MangaFrame(
-                          imageUrl: mangaMetaCombine.mangaMeta.imgUrl,
+                          imageUrl:
+                              recentArgs.mangaMetaCombine.mangaMeta.imgUrl,
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Positioned(
@@ -74,7 +74,7 @@ class RecentCard extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 0),
                             child: Text(
-                              mangaMetaCombine.mangaMeta.lang,
+                              recentArgs.mangaMetaCombine.mangaMeta.lang,
                               style: Get.textTheme.bodyText2
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -95,17 +95,18 @@ class RecentCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  mangaMetaCombine.mangaMeta.title,
+                                  recentArgs.mangaMetaCombine.mangaMeta.title,
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Text(
-                                  mangaMetaCombine.mangaMeta.author,
+                                  recentArgs.mangaMetaCombine.mangaMeta.author,
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16),
                                   child: Text(
-                                    mangaMetaCombine.mangaMeta.description,
+                                    recentArgs
+                                        .mangaMetaCombine.mangaMeta.description,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
@@ -118,28 +119,19 @@ class RecentCard extends StatelessWidget {
                               endIndent: 5,
                               indent: 5,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'lastRead'.tr +
-                                        mangaMetaCombine.repo
-                                            .getLastReadIndex(mangaMetaCombine
-                                                .mangaMeta.preId)
-                                            .toString(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                  ),
-                                  Text(
-                                    timeCalculate(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                  )
-                                ],
-                              ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'lastRead'.tr + recentArgs.chapterName,
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                                Text(
+                                  timeCalculate(recentArgs.dateTime),
+                                  style: Theme.of(context).textTheme.caption,
+                                )
+                              ],
                             ),
                           ],
                         ),
@@ -155,7 +147,7 @@ class RecentCard extends StatelessWidget {
     );
   }
 
-  String timeCalculate() {
+  String timeCalculate(DateTime dateTime) {
     var diffTime = DateTime.now().difference(dateTime);
     if (diffTime.inMinutes < 60) {
       return diffTime.inMinutes.toString() + 'minutesAgo'.tr;
