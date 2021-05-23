@@ -70,28 +70,6 @@ class ReaderController extends GetxController {
 
   void toNextChapter() async {
     if (index - 1 >= 0) {
-      // note: getx xử lý vụ controller route cùng tên khá tệ (thường kết thúc với việc controller bị delete mà không được tạo lại)
-      // --> xử lý chuyển chương trong cùng controller:
-      // index = index - 1;
-      // if ((preloadUrl?.length ?? 0) > 0) {
-      //   imgUrls.assignAll(preloadUrl);
-      //   preloadUrl.clear();
-      //   getPreloadPages();
-      // } else {
-      //   getPages();
-      //   getPreloadPages();
-      // }
-
-      // Get.offNamed(
-      //   Routes.READER,
-      //   preventDuplicates: false,
-      //   arguments: ReaderScreenArgs(
-      //     index: index - 1,
-      //     chaptersInfo: chaptersInfo,
-      //     metaCombine: metaCombine,
-      //     preloadUrl: preloadUrl,
-      //   ),
-      // );
       Get.off(
         () => ReaderScreen(
           readerScreenArgs: ReaderScreenArgs(
@@ -123,6 +101,8 @@ class ReaderController extends GetxController {
         getPreloadPages();
       }
       refreshController.refreshCompleted();
+      MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+      mangaDetailController.setIsRead(index);
     } else
       refreshController.refreshFailed();
   }

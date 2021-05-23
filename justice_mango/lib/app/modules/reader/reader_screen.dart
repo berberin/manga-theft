@@ -46,7 +46,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
       builder: (controller) => Scaffold(
         body: RefreshConfiguration(
           maxUnderScrollExtent: 70,
-          footerTriggerDistance: -75,
+          footerTriggerDistance: -70,
           child: SmartRefresher(
             controller: controller.refreshController,
             enablePullUp: true,
