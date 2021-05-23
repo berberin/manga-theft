@@ -30,7 +30,7 @@ class RecentController extends GetxController {
       }
 
       List<ChapterInfo> chapterInfo = await mangaMetaCombine.repo.updateLastReadInfo(
-        preId: mangaMetaCombine.mangaMeta.preId,
+        mangaMeta: mangaMetaCombine.mangaMeta,
         updateStatus: false,
       );
 

@@ -72,10 +72,10 @@ class MangaRepository {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  Future<List<ChapterInfo>> updateLastReadInfo({String preId, bool updateStatus = false}) async {
-    String mangaId = provider.getId(preId);
+  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
+    String mangaId = provider.getId(mangaMeta.preId);
     ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
-    MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
+    //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
     List<ChapterInfo> chapters = await provider.getChaptersInfo(mangaMeta);
     if (currentReadInfo == null) {
       await HiveService.putReadInfo(

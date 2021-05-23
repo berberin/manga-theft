@@ -24,13 +24,13 @@ class MangaDetailController extends GetxController {
   void onInit() {
     super.onInit();
     isFavorite.value = metaCombine.repo.isFavorite(metaCombine.mangaMeta.preId);
-    metaCombine.repo.getChaptersInfo(metaCombine.mangaMeta).then((value) {
+    metaCombine.repo.updateLastReadInfo(mangaMeta: metaCombine.mangaMeta).then((value) {
       chaptersInfo.assignAll(value);
       for (var chapter in chaptersInfo) {
         readArray.add(metaCombine.repo.isRead(chapter.preChapterId));
       }
     });
-    metaCombine.repo.updateLastReadInfo(preId: metaCombine.mangaMeta.preId);
+    ;
   }
 
   goToLastReadChapter() {
@@ -46,8 +46,7 @@ class MangaDetailController extends GetxController {
   }
 
   setIsRead(int index) async {
-    await metaCombine.repo
-        .markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
+    await metaCombine.repo.markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
     await metaCombine.repo.updateLastReadIndex(
       preId: metaCombine.mangaMeta.preId,
       readIndex: index,
@@ -58,7 +57,7 @@ class MangaDetailController extends GetxController {
     update();
     if (index == 0) {
       metaCombine.repo.updateLastReadInfo(
-        preId: metaCombine.mangaMeta.preId,
+        mangaMeta: metaCombine.mangaMeta,
         updateStatus: true,
       );
     }
@@ -78,14 +77,12 @@ class MangaDetailController extends GetxController {
     favoriteTabController.refreshUpdate();
   }
 
-  List<RecentRead> recentList;
   addToRecentRead() async {
-    recentList = HiveService.getRecentReadBox();
+    List<RecentRead> recentList = HiveService.getRecentReadBox();
     if (recentList.length > 30) {
       recentList.removeAt(0);
     }
-    if (recentList
-        .contains(RecentRead(metaCombine.mangaMeta, DateTime.now()))) {
+    if (recentList.contains(RecentRead(metaCombine.mangaMeta, DateTime.now()))) {
       recentList.remove(RecentRead(metaCombine.mangaMeta, DateTime.now()));
     }
     recentList.add(RecentRead(metaCombine.mangaMeta, DateTime.now()));

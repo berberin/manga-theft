@@ -107,7 +107,7 @@ class BoardController extends GetxController {
       for (var repo in SourceService.allSourceRepositories) {
         if (mangaMeta.repoSlug == repo.slug) {
           await repo.updateLastReadInfo(
-            preId: mangaMeta.preId,
+            mangaMeta: mangaMeta,
             updateStatus: true,
           );
           if (HiveService.getReadInfo(repo.slug + mangaMeta.preId).newUpdate ?? false) {
