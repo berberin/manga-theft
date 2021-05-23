@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 
@@ -11,7 +12,13 @@ class ChapterCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
   final bool isRead;
 
-  const ChapterCard({Key key, this.chaptersInfo, this.index, this.metaCombine, this.isRead = false}) : super(key: key);
+  const ChapterCard(
+      {Key key,
+      this.chaptersInfo,
+      this.index,
+      this.metaCombine,
+      this.isRead = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +33,10 @@ class ChapterCard extends StatelessWidget {
         //     index: index,
         //   ),
         // );
+        print(DateTime.now());
+        MangaDetailController mangaDetailController =
+            Get.find(tag: metaCombine.mangaMeta.preId);
+        mangaDetailController.addToRecentRead();
         Get.to(
           () => ReaderScreen(
             readerScreenArgs: ReaderScreenArgs(

@@ -40,6 +40,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                       ),
                     )
                   : StaggeredGridView.countBuilder(
+                      padding: EdgeInsets.only(top: 3.0),
                       itemCount: controller.favoriteMetaCombine.length,
                       crossAxisCount: 4,
                       itemBuilder: (context, index) {
