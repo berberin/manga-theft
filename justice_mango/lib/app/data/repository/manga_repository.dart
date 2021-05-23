@@ -35,7 +35,7 @@ class MangaRepository {
     return provider.searchTag(searchTag);
   }
 
-  List<MangaMeta> getRandomManga(String tag, int amount) {
+  List<MangaMeta> getRandomManga({String tag: "", int amount}) {
     var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
@@ -47,22 +47,16 @@ class MangaRepository {
 
   String get slug => provider.slug;
 
-  initData() async {
+  Future<void> initData() async {
     int count = 0;
-    if (HiveService.getMangaMeta('${provider.locale.languageCode}@${provider.nametag}') == null) {
+    if (!HiveService.repoIsAvailable(slug)) {
       List<MangaMeta> mangas = await provider.initData();
       for (var meta in mangas) {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
         count++;
         print(count);
       }
-      await HiveService.putMangaMeta(
-        '${provider.locale.languageCode}@${provider.nametag}',
-        MangaMeta(
-          title: 'Mothers Box',
-          repoSlug: slug,
-        ),
-      );
+      await HiveService.setRepoIsAvailable(slug);
     }
   }
 
@@ -78,11 +72,11 @@ class MangaRepository {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  updateLastReadInfo({String preId, bool updateStatus = false}) async {
-    String mangaId = provider.getId(preId);
-    var currentReadInfo = HiveService.getReadInfo(mangaId);
-    var mangaMeta = HiveService.getMangaMeta(mangaId);
-    var chapters = await provider.getChaptersInfo(mangaMeta);
+  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
+    String mangaId = provider.getId(mangaMeta.preId);
+    ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
+    //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
+    List<ChapterInfo> chapters = await provider.getChaptersInfo(mangaMeta);
     if (currentReadInfo == null) {
       await HiveService.putReadInfo(
         mangaId,
@@ -105,15 +99,14 @@ class MangaRepository {
           //
           // true: số chương mới lớn hơn số chương cũ, đồng thời chương mới nhất đã được đọc
           // các trường hợp còn lại giữ nguyên giá trị cũ.
-          newUpdate: updateStatus &&
-                  isRead(
-                      provider.getChapterId(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
+          newUpdate: (updateStatus && isRead(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
               ? (chapters.length > currentReadInfo.numberOfChapters)
               : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }
+    return chapters;
   }
 
   updateLastReadIndex({String preId, int readIndex}) async {

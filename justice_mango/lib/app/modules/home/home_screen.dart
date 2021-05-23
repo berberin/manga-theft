@@ -4,7 +4,7 @@ import 'package:justice_mango/app/modules/home/home_controller.dart';
 import 'package:justice_mango/app/modules/home/tab/board/board_tab.dart';
 import 'package:justice_mango/app/modules/home/tab/explore/explore_tab.dart';
 import 'package:justice_mango/app/modules/home/tab/favorite/favorite_tab.dart';
-import 'package:justice_mango/app/modules/home/tab/setting/setting_tab.dart';
+import 'package:justice_mango/app/modules/home/tab/recent/recent_tab.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
@@ -21,12 +21,12 @@ class HomeScreen extends GetWidget<HomeController> {
               BoardTab(),
               FavoriteTab(),
               ExploreTab(),
-              SettingTab(),
+              RecentTab(),
             ],
             // BoardTab(),
             // FavoriteTab(),
             // ExploreTab(),
-            // SettingTab(),
+            // RecentTab(),
           ),
           bottomNavigationBar: SizedBox(
             height: 40,
@@ -55,8 +55,8 @@ class HomeScreen extends GetWidget<HomeController> {
                   //backgroundColor: Colors.purple,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_applications_rounded),
-                  label: 'setting'.tr,
+                  icon: Icon(Icons.alarm_rounded),
+                  label: 'recent'.tr,
                   backgroundColor: mainColor,
                   //backgroundColor: Colors.pink,
                 ),

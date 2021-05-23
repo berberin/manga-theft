@@ -78,7 +78,9 @@ class ExploreTab extends GetWidget<ExploreController> {
                                 letterSpacing: 0.27,
                               ),
                             ),
-                            IconButton(icon: Icon(Icons.clear_all_rounded), onPressed: () => controller.clearSearch()),
+                            IconButton(
+                                icon: Icon(Icons.clear_all_rounded),
+                                onPressed: () => controller.clearSearch()),
                           ],
                         ),
                       )
@@ -93,7 +95,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
-                    (controller.searchComplete.value && controller.mangaSearchResult.isEmpty)
+                    (controller.searchComplete.value &&
+                            controller.mangaSearchResult.isEmpty)
                         ? <Widget>[
                             Text(
                               'noResult'.tr,
@@ -104,7 +107,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                             List.generate(
                               controller.mangaSearchResult.length,
                               (index) => MangaCard(
-                                metaCombine: controller.mangaSearchResult[index],
+                                metaCombine:
+                                    controller.mangaSearchResult[index],
                               ),
                             ),
                     addRepaintBoundaries: false,
@@ -131,7 +135,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                         ),
                         IconButton(
                           icon: Icon(Icons.refresh_rounded),
-                          onPressed: () => controller.getRandomManga(delayedDuration: Duration(seconds: 0)),
+                          onPressed: () => controller.getRandomManga(
+                              delayedDuration: Duration(seconds: 0)),
                         ),
                       ],
                     ),

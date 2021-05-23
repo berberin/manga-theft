@@ -15,13 +15,10 @@ class SourceService {
 
   static init() async {
     for (var repo in sourceRepositories) {
-      try {
-        await repo.initData();
-      } catch (e, stacktrace) {
+      repo.initData().catchError((e, stacktrace) {
         print(e);
         print(stacktrace);
-        continue;
-      }
+      });
     }
   }
 

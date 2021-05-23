@@ -45,7 +45,8 @@ class ShortMangaCard extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
               color: Colors.white.withOpacity(0.7),
               child: InkWell(
                 child: Column(
@@ -63,7 +64,8 @@ class ShortMangaCard extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(Radius.circular(1)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(1)),
                             ),
                             padding: EdgeInsets.symmetric(
                               horizontal: 8,
@@ -90,14 +92,19 @@ class ShortMangaCard extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 3.0),
                               child: Text(
                                 metaCombine.mangaMeta.title,
-                                style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(fontSize: 15),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Text(
-                                //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
-                                metaCombine.mangaMeta.author,
-                                style: Theme.of(context).textTheme.caption),
+                              //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
+                              metaCombine.mangaMeta.author,
+                              style: Theme.of(context).textTheme.caption,
+                              textAlign: TextAlign.center,
+                            ),
                             // Tags(
                             //   tags: mangaMeta.tags,
                             // ),

@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 
 class ExploreController extends GetxController {
@@ -47,17 +44,11 @@ class ExploreController extends GetxController {
   getRandomManga({Duration delayedDuration: const Duration(seconds: 2)}) async {
     // note: wait hive db init first time
     await Future.delayed(delayedDuration);
-    int boxLength = HiveService.mangaBox.length;
-    Random random = Random();
     randomMangaList.clear();
-    for (int i = 0; i < 30; i++) {
-      var index = random.nextInt(boxLength);
-      var mangaMeta = HiveService.mangaBox.getAt(index);
-      for (var repo in SourceService.sourceRepositories) {
-        if (mangaMeta.repoSlug == repo.slug) {
-          randomMangaList.add(MangaMetaCombine(repo, mangaMeta));
-          break;
-        }
+    for (var repo in SourceService.sourceRepositories) {
+      List<MangaMeta> mangas = repo.getRandomManga(amount: 15);
+      for (var meta in mangas) {
+        randomMangaList.add(MangaMetaCombine(repo, meta));
       }
     }
   }

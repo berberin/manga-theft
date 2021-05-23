@@ -14,7 +14,7 @@ class MangaImage extends StatefulWidget {
   _MangaImageState createState() => _MangaImageState();
 }
 
-class _MangaImageState extends State<MangaImage> with AutomaticKeepAliveClientMixin {
+class _MangaImageState extends State<MangaImage> {
   String imageUrl;
 
   @override
@@ -25,7 +25,6 @@ class _MangaImageState extends State<MangaImage> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return CachedNetworkImage(
       cacheManager: CacheService.cacheManager,
       imageUrl: imageUrl,
@@ -50,8 +49,4 @@ class _MangaImageState extends State<MangaImage> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

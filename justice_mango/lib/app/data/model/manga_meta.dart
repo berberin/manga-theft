@@ -44,7 +44,8 @@ class MangaMeta extends Equatable {
 
   factory MangaMeta.fromJson(Map<String, dynamic> json) {
     return MangaMeta(
-      alias: json['alias'] != null ? new List<String>.from(json['alias']) : null,
+      alias:
+          json['alias'] != null ? new List<String>.from(json['alias']) : null,
       author: json['author'],
       description: json['description'],
       preId: json['id'],
