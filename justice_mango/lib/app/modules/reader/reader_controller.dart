@@ -16,7 +16,11 @@ class ReaderController extends GetxController {
   List<String> imgUrls;
   Rx<bool> hasError;
 
-  ReaderController({this.chaptersInfo, this.index, this.metaCombine, List<String> preloadUrl}) {
+  ReaderController(
+      {this.chaptersInfo,
+      this.index,
+      this.metaCombine,
+      List<String> preloadUrl}) {
     this.preloadUrl = preloadUrl ?? <String>[];
     imgUrls = <String>[].obs;
     hasError = false.obs;
@@ -33,7 +37,8 @@ class ReaderController extends GetxController {
       getPages();
     }
     getPreloadPages();
-    MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+    MangaDetailController mangaDetailController =
+        Get.find(tag: metaCombine.mangaMeta.preId);
     mangaDetailController.setIsRead(index);
   }
 
@@ -46,7 +51,8 @@ class ReaderController extends GetxController {
   void getPages() async {
     await Future.delayed(Duration(seconds: 2));
     try {
-      imgUrls.assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
+      imgUrls
+          .assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
       hasError.value = false;
     } catch (e, stacktrace) {
       print(e);
@@ -83,8 +89,12 @@ class ReaderController extends GetxController {
         preventDuplicates: false,
       );
       refreshController.loadComplete();
-    } else
+      MangaDetailController mangaDetailController =
+          Get.find(tag: metaCombine.mangaMeta.preId);
+      mangaDetailController.addToRecentRead();
+    } else {
       refreshController.loadFailed();
+    }
   }
 
   void toPrevChapter() async {
@@ -101,8 +111,10 @@ class ReaderController extends GetxController {
         getPreloadPages();
       }
       refreshController.refreshCompleted();
-      MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+      MangaDetailController mangaDetailController =
+          Get.find(tag: metaCombine.mangaMeta.preId);
       mangaDetailController.setIsRead(index);
+      mangaDetailController.addToRecentRead();
     } else
       refreshController.refreshFailed();
   }
