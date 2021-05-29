@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -8,9 +9,19 @@ import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BoardController extends GetxController {
+  List<MangaMetaCombine> mangaBoard = <MangaMetaCombine>[].obs;
+  List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
+  int sourceSelected = 0;
+  List<MangaRepository> sourceRepositories = <MangaRepository>[];
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  var avatarSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"></svg>'.obs;
+  int page = 1;
+  var hasError = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+    updateSources();
     getLatestList(page);
     getUpdateFavorite();
     getUID().then((value) {
@@ -33,17 +44,6 @@ class BoardController extends GetxController {
     refreshController.dispose();
     super.onClose();
   }
-
-  // observe
-  List<MangaMetaCombine> mangaBoard = <MangaMetaCombine>[].obs;
-
-  // todo: favorite update
-  List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
-
-  RefreshController refreshController = RefreshController(initialRefresh: false);
-  var avatarSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"></svg>'.obs;
-  int page = 1;
-  var hasError = false.obs;
 
   onRefresh() async {
     page = 1;
@@ -74,18 +74,17 @@ class BoardController extends GetxController {
   }
 
   getLatestList(int page) async {
-    for (var repo in SourceService.sourceRepositories) {
-      try {
-        var tmp = await repo.getLatestManga(page: page);
-        for (var mangaMeta in tmp) {
-          mangaBoard.add(MangaMetaCombine(repo, mangaMeta));
-        }
-        hasError.value = false;
-      } catch (e, stacktrace) {
-        hasError.value = true;
-        print(e);
-        print(stacktrace);
+    MangaRepository repo = sourceRepositories[sourceSelected];
+    try {
+      var tmp = await repo.getLatestManga(page: page);
+      for (var mangaMeta in tmp) {
+        mangaBoard.add(MangaMetaCombine(repo, mangaMeta));
       }
+      hasError.value = false;
+    } catch (e, stacktrace) {
+      hasError.value = true;
+      print(e);
+      print(stacktrace);
     }
   }
 
@@ -117,6 +116,21 @@ class BoardController extends GetxController {
         }
       }
     }
+  }
+
+  updateSources() {
+    for (var repo in SourceService.sourceRepositories) {
+      sourceRepositories.add(repo);
+    }
+    sourceSelected = 0;
+  }
+
+  changeSourceTab(int index) {
+    sourceSelected = index;
+    page = 1;
+    update();
+    mangaBoard.clear();
+    getLatestList(page);
   }
 
   Future<String> getUID() async {

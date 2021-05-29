@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:justice_mango/app/gwidget/manga_card.dart';
 import 'package:justice_mango/app/modules/home/home_controller.dart';
 import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
+import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -81,6 +82,7 @@ class BoardTab extends GetWidget<BoardController> {
               ],
             ),
           ),
+          _buildTagRow(),
           Obx(
             () => SliverList(
               delegate: SliverChildListDelegate(
@@ -110,6 +112,34 @@ class BoardTab extends GetWidget<BoardController> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  GetBuilder<BoardController> _buildTagRow() {
+    return GetBuilder<BoardController>(
+      builder: (controller) => SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: List<Widget>.from(
+              List.generate(
+                controller.sourceRepositories.length,
+                (index) => InkWell(
+                  child: SourceTabChip(
+                    label: controller.sourceRepositories[index].slug,
+                    selected: controller.sourceSelected == index,
+                  ),
+                  onTap: () {
+                    if (controller.sourceSelected != index) {
+                      controller.changeSourceTab(index);
+                    }
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
