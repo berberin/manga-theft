@@ -69,7 +69,7 @@ class BoardTab extends GetWidget<BoardController> {
               children: [
                 Divider(),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
                   child: Text(
                     'updateJustNow'.tr,
                     style: Get.textTheme.headline5.copyWith(
@@ -125,7 +125,7 @@ class BoardTab extends GetWidget<BoardController> {
             children: List<Widget>.from(
               List.generate(
                 controller.sourceRepositories.length,
-                (index) => InkWell(
+                (index) => GestureDetector(
                   child: SourceTabChip(
                     label: controller.sourceRepositories[index].slug,
                     selected: controller.sourceSelected == index,

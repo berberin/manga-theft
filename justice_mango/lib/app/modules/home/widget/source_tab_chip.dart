@@ -8,9 +8,32 @@ class SourceTabChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      backgroundColor: selected ? nearlyBlue : nearlyWhite,
-      label: Text(
+    return Container(
+      decoration: BoxDecoration(
+          color: selected ? nearlyBlue : nearlyWhite,
+          border: Border.all(
+            color: lightText,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(12),
+            topRight: const Radius.circular(12),
+          ),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 1.0,
+              offset: Offset(1.0, 1.0),
+            ),
+          ]),
+      padding: EdgeInsets.symmetric(
+        vertical: 3,
+        horizontal: 15,
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: Text(
         label,
         style: TextStyle(
           fontWeight: FontWeight.w600,
