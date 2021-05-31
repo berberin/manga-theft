@@ -4,6 +4,7 @@ import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/gwidget/manga_card.dart';
 import 'package:justice_mango/app/modules/home/tab/explore/explore_controller.dart';
+import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
 class ExploreTab extends GetWidget<ExploreController> {
@@ -78,9 +79,7 @@ class ExploreTab extends GetWidget<ExploreController> {
                                 letterSpacing: 0.27,
                               ),
                             ),
-                            IconButton(
-                                icon: Icon(Icons.clear_all_rounded),
-                                onPressed: () => controller.clearSearch()),
+                            IconButton(icon: Icon(Icons.clear_all_rounded), onPressed: () => controller.clearSearch()),
                           ],
                         ),
                       )
@@ -95,8 +94,7 @@ class ExploreTab extends GetWidget<ExploreController> {
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
-                    (controller.searchComplete.value &&
-                            controller.mangaSearchResult.isEmpty)
+                    (controller.searchComplete.value && controller.mangaSearchResult.isEmpty)
                         ? <Widget>[
                             Text(
                               'noResult'.tr,
@@ -107,8 +105,7 @@ class ExploreTab extends GetWidget<ExploreController> {
                             List.generate(
                               controller.mangaSearchResult.length,
                               (index) => MangaCard(
-                                metaCombine:
-                                    controller.mangaSearchResult[index],
+                                metaCombine: controller.mangaSearchResult[index],
                               ),
                             ),
                     addRepaintBoundaries: false,
@@ -135,12 +132,36 @@ class ExploreTab extends GetWidget<ExploreController> {
                         ),
                         IconButton(
                           icon: Icon(Icons.refresh_rounded),
-                          onPressed: () => controller.getRandomManga(
-                              delayedDuration: Duration(seconds: 0)),
+                          onPressed: () => controller.getRandomManga(delayedDuration: Duration(seconds: 0)),
                         ),
                       ],
                     ),
                   ],
+                ),
+              ),
+            ),
+            GetBuilder<ExploreController>(
+              builder: (controller) => SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: List<Widget>.from(
+                      List.generate(
+                        controller.sourceRepositories.length,
+                        (index) => GestureDetector(
+                          child: SourceTabChip(
+                            label: controller.sourceRepositories[index].slug,
+                            selected: controller.sourceSelected == index,
+                          ),
+                          onTap: () {
+                            if (controller.sourceSelected != index) {
+                              controller.changeSourceTab(index);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

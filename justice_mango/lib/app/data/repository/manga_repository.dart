@@ -148,7 +148,7 @@ class MangaRepository {
   int checkAndPutToMangaBox(List<MangaMeta> mangas) {
     int count = 0;
     for (var meta in mangas) {
-      if (!HiveService.hasMangaMeta(provider.getId(meta.preId))) {
+      if (HiveService.getMangaMeta(provider.getId(meta.preId)) != meta) {
         HiveService.putMangaMeta(provider.getId(meta.preId), meta);
         count++;
       }
