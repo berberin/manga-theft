@@ -115,7 +115,7 @@ class ExploreTab extends GetWidget<ExploreController> {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -167,10 +167,7 @@ class ExploreTab extends GetWidget<ExploreController> {
             ),
             Obx(
               () => SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 16,
-                ),
+                padding: EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     List.generate(
