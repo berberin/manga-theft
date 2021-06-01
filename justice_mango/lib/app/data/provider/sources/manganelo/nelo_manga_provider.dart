@@ -195,7 +195,7 @@ class NeloMangaProvider extends MangaProvider {
     var soup = Beautifulsoup(body);
     var items = soup.find_all("div.search-story-item");
 
-    final regId = RegExp(r'manga/(.+)$', multiLine: true);
+    final regId = RegExp(r'manga(.+)$', multiLine: true);
     final regAlias = RegExp(r'info-alternative.*</td>.+<h2>(.*?)</h2>', dotAll: true);
     final regStatus = RegExp(r'info-status.*</td>\s*.+>(.*)</td>');
     final regGenres = RegExp(r'info-genres.+</td>(.+</td>)', dotAll: true);
