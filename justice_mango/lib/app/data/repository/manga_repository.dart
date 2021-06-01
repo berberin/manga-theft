@@ -95,11 +95,13 @@ class MangaRepository {
           numberOfChapters: chapters.length,
           // cập nhật trạng thái [newUpdate] khi thoả mãn 2 điều kiện
           // - updateStatus được set true
-          // - chương cuối cùng trong phần cũ đã được đọc
+          // - chương cuối cùng trong phần cũ đã được đọc ?
+          // note 2: voi dieu kien ben tren dan den nhieu truong hop khong duoc de xuat update (da doc o noi khac
+          // nhung chua danh dau ...) --> bo dieu kien da doc
           //
-          // true: số chương mới lớn hơn số chương cũ, đồng thời chương mới nhất đã được đọc
+          // true: số chương mới lớn hơn số chương cũ
           // các trường hợp còn lại giữ nguyên giá trị cũ.
-          newUpdate: (updateStatus && isRead(chapters[chapters.length - currentReadInfo.numberOfChapters].preChapterId))
+          newUpdate: updateStatus
               ? (chapters.length > currentReadInfo.numberOfChapters)
               : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),

@@ -30,7 +30,6 @@ class MangaDetailController extends GetxController {
         readArray.add(metaCombine.repo.isRead(chapter.preChapterId));
       }
     });
-    ;
   }
 
   goToLastReadChapter() {

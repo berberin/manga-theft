@@ -7,27 +7,27 @@ part 'manga_meta.g.dart';
 @HiveType(typeId: 0)
 class MangaMeta extends Equatable {
   @HiveField(0)
-  List<String> alias;
+  final List<String> alias;
   @HiveField(1)
-  String author;
+  final String author;
   @HiveField(2)
-  String description;
+  final String description;
   @HiveField(3)
-  String preId;
+  final String preId;
   @HiveField(4)
-  String imgUrl;
+  final String imgUrl;
   @HiveField(5)
-  String status;
+  final String status;
   @HiveField(6)
-  List<String> tags;
+  final List<String> tags;
   @HiveField(7)
-  String title;
+  final String title;
   @HiveField(8)
-  String url;
+  final String url;
   @HiveField(9)
-  String lang;
+  final String lang;
   @HiveField(10)
-  String repoSlug;
+  final String repoSlug;
 
   MangaMeta(
       {this.alias,
