@@ -48,7 +48,7 @@ class BoardController extends GetxController {
   onRefresh() async {
     page = 1;
     try {
-      var tmp = await SourceService.sourceRepositories[0].getLatestManga(page: page);
+      var tmp = await sourceRepositories[sourceSelected].getLatestManga(page: page);
       mangaBoard.clear();
       for (var mangaMeta in tmp) {
         mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[0], mangaMeta));
@@ -56,12 +56,6 @@ class BoardController extends GetxController {
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
-    }
-    for (int i = 1; i < SourceService.sourceRepositories.length; i++) {
-      var tmp = await SourceService.sourceRepositories[i].getLatestManga(page: page);
-      for (var mangaMeta in tmp) {
-        mangaBoard.add(MangaMetaCombine(SourceService.sourceRepositories[i], mangaMeta));
-      }
     }
     getUpdateFavorite();
     refreshController.refreshCompleted();
