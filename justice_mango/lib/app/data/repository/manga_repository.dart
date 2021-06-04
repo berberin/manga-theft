@@ -102,7 +102,7 @@ class MangaRepository {
           // true: số chương mới lớn hơn số chương cũ
           // các trường hợp còn lại giữ nguyên giá trị cũ.
           newUpdate: updateStatus
-              ? (chapters.length > currentReadInfo.numberOfChapters)
+              ? (chapters.length > currentReadInfo.numberOfChapters ? true : currentReadInfo.newUpdate)
               : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),

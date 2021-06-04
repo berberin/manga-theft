@@ -97,6 +97,7 @@ class BoardController extends GetxController {
         for (var repo in SourceService.allSourceRepositories) {
           if (repo.slug == mangaMeta.repoSlug) {
             favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
+            break;
           }
         }
       }
