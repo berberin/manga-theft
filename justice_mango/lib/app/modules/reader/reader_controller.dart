@@ -15,11 +15,17 @@ class ReaderController extends GetxController {
   List<String> preloadUrl;
   List<String> imgUrls;
   Rx<bool> hasError;
+  Rx<bool> loading;
 
-  ReaderController({this.chaptersInfo, this.index, this.metaCombine, List<String> preloadUrl}) {
+  ReaderController(
+      {this.chaptersInfo,
+      this.index,
+      this.metaCombine,
+      List<String> preloadUrl}) {
     this.preloadUrl = preloadUrl ?? <String>[];
     imgUrls = <String>[].obs;
     hasError = false.obs;
+    loading = false.obs;
   }
 
   RefreshController refreshController;
@@ -33,7 +39,8 @@ class ReaderController extends GetxController {
       getPages();
     }
     getPreloadPages();
-    MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+    MangaDetailController mangaDetailController =
+        Get.find(tag: metaCombine.mangaMeta.preId);
     mangaDetailController.setIsRead(index);
   }
 
@@ -44,15 +51,18 @@ class ReaderController extends GetxController {
   }
 
   void getPages() async {
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 2));
+    loading.value = true;
     try {
-      imgUrls.assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
+      imgUrls
+          .assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
       hasError.value = false;
     } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
       hasError.value = true;
     }
+    loading.value = false;
   }
 
   void getPreloadPages() async {
@@ -101,7 +111,8 @@ class ReaderController extends GetxController {
         getPreloadPages();
       }
       refreshController.refreshCompleted();
-      MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+      MangaDetailController mangaDetailController =
+          Get.find(tag: metaCombine.mangaMeta.preId);
       mangaDetailController.setIsRead(index);
     } else
       refreshController.refreshFailed();

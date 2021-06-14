@@ -71,30 +71,60 @@ class _ReaderScreenState extends State<ReaderScreen> {
               slivers: [
                 _buildSliverAppBar(controller),
                 Obx(
-                  () => SliverList(
-                    delegate: SliverChildListDelegate(
-                      controller.hasError.value
-                          ? [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(24),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      controller.getPages();
-                                    },
-                                    child: Text('reload'.tr),
-                                  ),
-                                ),
-                              )
-                            ]
-                          : List.generate(
-                              controller.imgUrls.length,
-                              (index) => MangaImage(
-                                imageUrl: controller.imgUrls[index],
-                                repo: controller.metaCombine.repo,
+                  () => controller.loading.value
+                      ? SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.all(48.0),
+                            child: Center(
+                              child: SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: CircularProgressIndicator(),
                               ),
                             ),
-                      addRepaintBoundaries: false,
+                          ),
+                        )
+                      : SliverList(
+                          delegate: SliverChildListDelegate(
+                            controller.hasError.value
+                                ? [
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(24),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            controller.getPages();
+                                          },
+                                          child: Text('reload'.tr),
+                                        ),
+                                      ),
+                                    )
+                                  ]
+                                : List.generate(
+                                    controller.imgUrls.length,
+                                    (index) => MangaImage(
+                                      imageUrl: controller.imgUrls[index],
+                                      repo: controller.metaCombine.repo,
+                                    ),
+                                  ),
+                            addRepaintBoundaries: false,
+                          ),
+                        ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    List.generate(
+                      1,
+                      (index) => Container(
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Text(
+                          "🦉 🦉 🦉 🦉 🦉",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 )
