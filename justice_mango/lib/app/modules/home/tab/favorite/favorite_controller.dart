@@ -3,11 +3,13 @@ import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:justice_mango/app/modules/home/tab/favorite/favorite_tab.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FavoriteController extends GetxController {
   var favoriteMangas = <MangaMeta>[];
   var favoriteMetaCombine = <MangaMetaCombine>[].obs;
+  var cardStyle = FavoriteCardStyle.ShortMangaCard.obs;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
@@ -38,5 +40,13 @@ class FavoriteController extends GetxController {
     // for (var meta in favoriteMetaCombine) {
     //   print(meta.mangaMeta.title);
     // }
+  }
+
+  changeFavoriteCardStyle() {
+    if (cardStyle.value == FavoriteCardStyle.ShortMangaCard) {
+      cardStyle.value = FavoriteCardStyle.ShortMangaBar;
+    } else {
+      cardStyle.value = FavoriteCardStyle.ShortMangaCard;
+    }
   }
 }
