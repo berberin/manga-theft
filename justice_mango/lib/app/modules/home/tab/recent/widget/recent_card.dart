@@ -156,11 +156,11 @@ class RecentCard extends StatelessWidget {
     } else if (diffTime.inDays < 7) {
       return diffTime.inDays.toString() + 'daysAgo'.tr;
     } else if (diffTime.inDays < 30) {
-      return ((diffTime.inDays) / 7).toString() + 'weeksAgo'.tr;
+      return ((diffTime.inDays) ~/ 7).toString() + 'weeksAgo'.tr;
     } else if (diffTime.inDays < 365) {
-      return ((diffTime.inDays) / 30).toString() + 'monthsAgo'.tr;
+      return ((diffTime.inDays) ~/ 30).toString() + 'monthsAgo'.tr;
     } else {
-      return ((diffTime.inDays) / 365).toString() + 'yearsAgo'.tr;
+      return ((diffTime.inDays) ~/ 365).toString() + 'yearsAgo'.tr;
     }
   }
 }
