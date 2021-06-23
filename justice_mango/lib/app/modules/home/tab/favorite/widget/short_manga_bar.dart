@@ -81,7 +81,7 @@ class ShortMangaBar extends StatelessWidget {
               ),
               child: Text(
                 metaCombine.mangaMeta.lang,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                style: Theme.of(context).textTheme.overline.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
