@@ -4,6 +4,7 @@ import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,12 +101,18 @@ class BoardController extends GetxController {
     for (var mangaMeta in favoriteMetas) {
       for (var repo in SourceService.allSourceRepositories) {
         if (mangaMeta.repoSlug == repo.slug) {
-          await repo.updateLastReadInfo(
+          var chapterList = await repo.updateLastReadInfo(
             mangaMeta: mangaMeta,
             updateStatus: true,
           );
+
+          // update latest chapters on favorite screen
+          FavoriteController favoriteController = Get.find();
+          favoriteController.latestChapters[mangaMeta.url] = chapterList.first.name;
+          favoriteController.update();
+
           if (HiveService.getReadInfo(repo.slug + mangaMeta.preId).newUpdate ?? false) {
-            if (!favoriteUpdate.contains(MangaMetaCombine(repo, mangaMeta))){
+            if (!favoriteUpdate.contains(MangaMetaCombine(repo, mangaMeta))) {
               favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
             }
           }

@@ -6,7 +6,8 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 
 class ShortMangaBar extends StatelessWidget {
   final MangaMetaCombine metaCombine;
-  const ShortMangaBar({Key key, this.metaCombine}) : super(key: key);
+  final String latestChapter;
+  const ShortMangaBar({Key key, this.metaCombine, this.latestChapter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +53,21 @@ class ShortMangaBar extends StatelessWidget {
                   Text(
                     metaCombine.mangaMeta.author,
                     style: Theme.of(context).textTheme.caption,
-                  )
+                  ),
+                  Divider(
+                    endIndent: 8,
+                  ),
+                  Text(
+                    latestChapter,
+                    style: Get.textTheme.overline,
+                  ),
                 ],
               ),
             ),
             Container(
+              margin: EdgeInsets.only(right: 4),
               width: 4,
-              height: 48,
+              height: 56,
               color: nearlyBlue.withOpacity(0.4),
             ),
             Container(

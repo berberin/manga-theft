@@ -51,33 +51,36 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                         ),
                       ),
                     )
-                  : (controller.cardStyle.value ==
-                          FavoriteCardStyle.ShortMangaCard
+                  : (controller.cardStyle.value == FavoriteCardStyle.ShortMangaCard
                       ? StaggeredGridView.countBuilder(
                           padding: EdgeInsets.only(top: 3.0),
                           itemCount: controller.favoriteMetaCombine.length,
                           crossAxisCount: 4,
                           itemBuilder: (context, index) {
                             return ShortMangaCard(
-                              metaCombine:
-                                  controller.favoriteMetaCombine[index],
+                              metaCombine: controller.favoriteMetaCombine[index],
                             );
                           },
-                          staggeredTileBuilder: (index) =>
-                              new StaggeredTile.fit(2),
+                          staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                         )
-                      : ListView.builder(
-                          itemBuilder: (context, index) {
-                            return ShortMangaBar(
-                              metaCombine:
-                                  controller.favoriteMetaCombine[index],
+                      : GetBuilder(
+                          builder: (FavoriteController controller) {
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return ShortMangaBar(
+                                  metaCombine: controller.favoriteMetaCombine[index],
+                                  latestChapter:
+                                      controller.latestChapters[controller.favoriteMetaCombine[index].mangaMeta.url] ??
+                                          "🦉",
+                                );
+                              },
+                              itemCount: controller.favoriteMetaCombine.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                             );
                           },
-                          itemCount: controller.favoriteMetaCombine.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
                         )),
             ),
           ],
