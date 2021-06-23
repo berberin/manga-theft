@@ -3,17 +3,30 @@ import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:justice_mango/app/modules/home/tab/favorite/favorite_tab.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteController extends GetxController {
   var favoriteMangas = <MangaMeta>[];
   var favoriteMetaCombine = <MangaMetaCombine>[].obs;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  var cardStyle = FavoriteCardStyle.ShortMangaCard.obs;
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  SharedPreferences sharedPreferences;
+  var latestChapters = Map<String, String>().obs;
 
   @override
   void onInit() {
     super.onInit();
+    SharedPreferences.getInstance().then((value) {
+      sharedPreferences = value;
+      if (sharedPreferences.getString(favoriteCardStyleKey) == shortMangaBar) {
+        cardStyle.value = FavoriteCardStyle.ShortMangaBar;
+      }
+      if (sharedPreferences.getString(favoriteCardStyleKey) == shortMangaCard) {
+        cardStyle.value = FavoriteCardStyle.ShortMangaCard;
+      }
+    });
     refreshUpdate();
   }
 
@@ -32,11 +45,24 @@ class FavoriteController extends GetxController {
     // for (var meta in favoriteMetaCombine) {
     //   print(meta.mangaMeta.title);
     // }
-    favoriteMetaCombine
-        .sort((a, b) => a.mangaMeta.title.compareTo(b.mangaMeta.title));
+    favoriteMetaCombine.sort((a, b) => a.mangaMeta.title.compareTo(b.mangaMeta.title));
     // print("--");
     // for (var meta in favoriteMetaCombine) {
     //   print(meta.mangaMeta.title);
     // }
   }
+
+  changeFavoriteCardStyle() {
+    if (cardStyle.value == FavoriteCardStyle.ShortMangaCard) {
+      cardStyle.value = FavoriteCardStyle.ShortMangaBar;
+      sharedPreferences?.setString(favoriteCardStyleKey, shortMangaBar);
+    } else {
+      cardStyle.value = FavoriteCardStyle.ShortMangaCard;
+      sharedPreferences?.setString(favoriteCardStyleKey, shortMangaCard);
+    }
+  }
 }
+
+const String favoriteCardStyleKey = "favorite_card_type";
+const String shortMangaCard = "short_manga_card";
+const String shortMangaBar = "short_manga_bar";

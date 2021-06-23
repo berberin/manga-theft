@@ -8,6 +8,7 @@ import 'package:justice_mango/app/data/service/source_service.dart';
 class ExploreController extends GetxController {
   TextEditingController textSearchController;
   var searchComplete = false.obs;
+  bool searching = false;
   List<MangaMetaCombine> mangaSearchResult;
   List<MangaMetaCombine> randomMangaList;
   String currentSearch;
@@ -26,10 +27,11 @@ class ExploreController extends GetxController {
 
   search() async {
     String textSearch = textSearchController.text;
-    if (textSearch.length <= 2 || (textSearch == currentSearch && searchComplete.value)) {
+    if (textSearch.length <= 2 || (textSearch == currentSearch && searchComplete.value) || searching) {
       return;
     }
     clearSearch();
+    searching = true;
     for (var repo in SourceService.sourceRepositories) {
       List<MangaMeta> metas = await repo.search(textSearch);
       for (var meta in metas) {
@@ -37,6 +39,7 @@ class ExploreController extends GetxController {
       }
     }
     searchComplete.value = true;
+    searching = false;
     currentSearch = textSearch;
   }
 

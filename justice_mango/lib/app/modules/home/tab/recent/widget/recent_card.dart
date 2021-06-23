@@ -39,8 +39,7 @@ class RecentCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image:
-                    NetworkImage(recentArgs.mangaMetaCombine.mangaMeta.imgUrl),
+                image: NetworkImage(recentArgs.mangaMetaCombine.mangaMeta.imgUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -48,8 +47,7 @@ class RecentCard extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 color: Colors.white.withOpacity(0.7),
-                padding: const EdgeInsets.only(
-                    left: 8, right: 8, top: 16, bottom: 16),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +55,7 @@ class RecentCard extends StatelessWidget {
                     Stack(
                       children: [
                         MangaFrame(
-                          imageUrl:
-                              recentArgs.mangaMetaCombine.mangaMeta.imgUrl,
+                          imageUrl: recentArgs.mangaMetaCombine.mangaMeta.imgUrl,
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Positioned(
@@ -71,12 +68,10 @@ class RecentCard extends StatelessWidget {
                                 Radius.circular(1),
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 0),
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                             child: Text(
                               recentArgs.mangaMetaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2
-                                  .copyWith(fontWeight: FontWeight.bold),
+                              style: Get.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
@@ -105,8 +100,7 @@ class RecentCard extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16),
                                   child: Text(
-                                    recentArgs
-                                        .mangaMetaCombine.mangaMeta.description,
+                                    recentArgs.mangaMetaCombine.mangaMeta.description,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
@@ -156,11 +150,11 @@ class RecentCard extends StatelessWidget {
     } else if (diffTime.inDays < 7) {
       return diffTime.inDays.toString() + 'daysAgo'.tr;
     } else if (diffTime.inDays < 30) {
-      return ((diffTime.inDays) / 7).toString() + 'weeksAgo'.tr;
+      return ((diffTime.inDays) ~/ 7).toString() + 'weeksAgo'.tr;
     } else if (diffTime.inDays < 365) {
-      return ((diffTime.inDays) / 30).toString() + 'monthsAgo'.tr;
+      return ((diffTime.inDays) ~/ 30).toString() + 'monthsAgo'.tr;
     } else {
-      return ((diffTime.inDays) / 365).toString() + 'yearsAgo'.tr;
+      return ((diffTime.inDays) ~/ 365).toString() + 'yearsAgo'.tr;
     }
   }
 }

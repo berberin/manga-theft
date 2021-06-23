@@ -201,10 +201,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               controller.goToLastReadChapter();
             },
             label: 'readNow'.tr,
-            labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
+            labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
             labelBackgroundColor: mainColorSecondary,
           ),
           SpeedDialChild(
@@ -225,13 +222,8 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 controller.addToFavoriteBox();
               }
             },
-            label: controller.isFavorite.value
-                ? 'favorite!'.tr
-                : 'markFavorite'.tr,
-            labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
+            label: controller.isFavorite.value ? 'favorite!'.tr : 'markFavorite'.tr,
+            labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
             labelBackgroundColor: mainColorSecondary,
           ),
         ],

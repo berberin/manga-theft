@@ -39,7 +39,7 @@ class RecentTab extends GetWidget<RecentController> {
                     ),
                   )
                 : Column(
-                    verticalDirection: VerticalDirection.up,
+                    //verticalDirection: VerticalDirection.up,
                     children: List.generate(
                       controller.recentArgs.length,
                       (index) => RecentCard(

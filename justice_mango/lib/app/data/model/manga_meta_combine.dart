@@ -3,7 +3,7 @@ import 'package:justice_mango/app/data/repository/manga_repository.dart';
 
 import 'manga_meta.dart';
 
-class MangaMetaCombine extends Equatable{
+class MangaMetaCombine extends Equatable {
   final MangaRepository repo;
   final MangaMeta mangaMeta;
 

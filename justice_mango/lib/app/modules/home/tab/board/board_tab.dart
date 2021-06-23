@@ -101,10 +101,12 @@ class BoardTab extends GetWidget<BoardController> {
                               ),
                             )
                           ]
-                        : [Padding(
-                          padding: const EdgeInsets.all(56.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        )]
+                        : [
+                            Padding(
+                              padding: const EdgeInsets.all(56.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                          ]
                     : List.generate(
                         controller.mangaBoard.length,
                         (index) => MangaCard(

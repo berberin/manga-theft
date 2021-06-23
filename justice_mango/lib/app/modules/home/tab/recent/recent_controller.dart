@@ -22,7 +22,7 @@ class RecentController extends GetxController {
   refreshRecent() async {
     recentArgs.clear();
     List<RecentRead> recentReads = HiveService.getRecentReadBox();
-    for (var recent in recentReads) {
+    for (var recent in recentReads.reversed) {
       for (var repo in SourceService.allSourceRepositories) {
         if (recent.mangaMeta.repoSlug == repo.slug) {
           mangaMetaCombine = MangaMetaCombine(repo, recent.mangaMeta);
