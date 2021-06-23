@@ -36,15 +36,11 @@ class MangaRepository {
   }
 
   List<MangaMeta> getRandomManga({String tag: "", int amount}) {
-    var metaKeys = HiveService.mangaBox.keys
-        .toList()
-        .where((element) => element.toString().startsWith(slug))
-        .toList();
+    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
     for (int i = 0; i < amount; i++) {
-      results.add(
-          HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
     }
     return results;
   }
@@ -69,16 +65,14 @@ class MangaRepository {
   }
 
   putMangaMetaFavorite(MangaMeta mangaMeta) async {
-    await HiveService.putMangaMetaFavorite(
-        provider.getId(mangaMeta.preId), mangaMeta);
+    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
   }
 
   MangaMeta getMangaMeta(String preId) {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  Future<List<ChapterInfo>> updateLastReadInfo(
-      {MangaMeta mangaMeta, bool updateStatus = false}) async {
+  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
     String mangaId = provider.getId(mangaMeta.preId);
     ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
     //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
@@ -110,12 +104,9 @@ class MangaRepository {
           newUpdate: updateStatus
               ? (chapters.length > currentReadInfo.numberOfChapters
                   ? true
-                  : (isRead(chapters[0].preChapterId)
-                      ? false
-                      : currentReadInfo.newUpdate))
+                  : (isRead(chapters[0].preChapterId) ? false : currentReadInfo.newUpdate))
               : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex +
-              (chapters.length - currentReadInfo.numberOfChapters),
+          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }

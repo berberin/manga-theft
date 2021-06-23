@@ -56,8 +56,7 @@ class MangaCard extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 color: Colors.white.withOpacity(0.7),
-                padding: const EdgeInsets.only(
-                    left: 8, right: 8, top: 16, bottom: 16),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,8 +73,7 @@ class MangaCard extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(1)),
+                              borderRadius: BorderRadius.all(Radius.circular(1)),
                             ),
                             padding: EdgeInsets.symmetric(
                               horizontal: 8,

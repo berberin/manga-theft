@@ -27,9 +27,7 @@ class ExploreController extends GetxController {
 
   search() async {
     String textSearch = textSearchController.text;
-    if (textSearch.length <= 2 ||
-        (textSearch == currentSearch && searchComplete.value) ||
-        searching) {
+    if (textSearch.length <= 2 || (textSearch == currentSearch && searchComplete.value) || searching) {
       return;
     }
     clearSearch();

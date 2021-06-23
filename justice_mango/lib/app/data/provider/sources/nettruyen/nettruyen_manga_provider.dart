@@ -40,14 +40,8 @@ class NettruyenMangaProvider extends MangaProvider {
 
     try {
       for (var item in items) {
-        String title = item
-            .querySelector("div.clearfix div.box_img")
-            .querySelector("a")
-            .attributes['title'];
-        String imgUrl = "http:" +
-            item
-                .querySelector("div figure div a img")
-                .attributes['data-original'];
+        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
+        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
         String url = item.querySelector("div figure div a").attributes['href'];
         String description = item.querySelector("div.box_text").text;
 
@@ -186,8 +180,7 @@ class NettruyenMangaProvider extends MangaProvider {
     String assetsStr = 'assets/data/nettruyen_data.json';
     String jsonString = await rootBundle.loadString(assetsStr);
     List<dynamic> jsonArr = jsonDecode(jsonString);
-    return List<MangaMeta>.generate(
-        jsonArr.length, (index) => MangaMeta.fromJson(jsonArr[index]));
+    return List<MangaMeta>.generate(jsonArr.length, (index) => MangaMeta.fromJson(jsonArr[index]));
   }
 
   @override

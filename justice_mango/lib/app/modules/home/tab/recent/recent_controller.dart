@@ -11,8 +11,7 @@ import 'widget/recent_agrs.dart';
 class RecentController extends GetxController {
   var recentArgs = <RecentArgs>[].obs;
   MangaMetaCombine mangaMetaCombine;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
@@ -31,14 +30,12 @@ class RecentController extends GetxController {
         }
       }
 
-      List<ChapterInfo> chapterInfo =
-          await mangaMetaCombine.repo.updateLastReadInfo(
+      List<ChapterInfo> chapterInfo = await mangaMetaCombine.repo.updateLastReadInfo(
         mangaMeta: mangaMetaCombine.mangaMeta,
         updateStatus: false,
       );
 
-      int readIndex = mangaMetaCombine.repo
-          .getLastReadIndex(mangaMetaCombine.mangaMeta.preId);
+      int readIndex = mangaMetaCombine.repo.getLastReadIndex(mangaMetaCombine.mangaMeta.preId);
 
       recentArgs.add(
         RecentArgs(

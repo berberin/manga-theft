@@ -38,7 +38,5 @@ class RecentReadAdapter extends TypeAdapter<RecentRead> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RecentReadAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is RecentReadAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
