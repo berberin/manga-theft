@@ -36,11 +36,15 @@ class MangaRepository {
   }
 
   List<MangaMeta> getRandomManga({String tag: "", int amount}) {
-    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
+    var metaKeys = HiveService.mangaBox.keys
+        .toList()
+        .where((element) => element.toString().startsWith(slug))
+        .toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
     for (int i = 0; i < amount; i++) {
-      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+      results.add(
+          HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
     }
     return results;
   }
@@ -65,14 +69,16 @@ class MangaRepository {
   }
 
   putMangaMetaFavorite(MangaMeta mangaMeta) async {
-    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
+    await HiveService.putMangaMetaFavorite(
+        provider.getId(mangaMeta.preId), mangaMeta);
   }
 
   MangaMeta getMangaMeta(String preId) {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
+  Future<List<ChapterInfo>> updateLastReadInfo(
+      {MangaMeta mangaMeta, bool updateStatus = false}) async {
     String mangaId = provider.getId(mangaMeta.preId);
     ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
     //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
@@ -93,23 +99,17 @@ class MangaRepository {
         ReadInfo(
           mangaId: mangaId,
           numberOfChapters: chapters.length,
-          // cập nhật trạng thái [newUpdate] khi thoả mãn 2 điều kiện
-          // - updateStatus được set true
-          // - chương cuối cùng trong phần cũ đã được đọc ?
-          // note 2: voi dieu kien ben tren dan den nhieu truong hop khong duoc de xuat update (da doc o noi khac
-          // nhung chua danh dau ...) --> bo dieu kien da doc
-          //
-          // true: số chương mới lớn hơn số chương cũ
-          // các trường hợp còn lại giữ nguyên giá trị cũ.
           newUpdate: updateStatus
               ? (chapters.length > currentReadInfo.numberOfChapters
                   ? true
-                  : (isRead(chapters[0].preChapterId) ? false : currentReadInfo.newUpdate))
+                  : (!isRead(chapters[0].preChapterId)))
               : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+          lastReadIndex: currentReadInfo.lastReadIndex +
+              (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }
+
     return chapters;
   }
 
