@@ -91,6 +91,9 @@ class BoardController extends GetxController {
       if (HiveService.getReadInfo(mangaMeta.repoSlug + mangaMeta.preId).newUpdate ?? false) {
         for (var repo in SourceService.allSourceRepositories) {
           if (repo.slug == mangaMeta.repoSlug) {
+            if (repo.isExceptionalFavorite(mangaMeta.preId)) {
+              break;
+            }
             favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
             break;
           }
@@ -112,7 +115,8 @@ class BoardController extends GetxController {
           favoriteController.update();
 
           if (HiveService.getReadInfo(repo.slug + mangaMeta.preId).newUpdate ?? false) {
-            if (!favoriteUpdate.contains(MangaMetaCombine(repo, mangaMeta))) {
+            if (!favoriteUpdate.contains(MangaMetaCombine(repo, mangaMeta)) &&
+                !repo.isExceptionalFavorite(mangaMeta.preId)) {
               favoriteUpdate.add(MangaMetaCombine(repo, mangaMeta));
             }
           }

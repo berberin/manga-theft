@@ -11,11 +11,13 @@ import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 class MangaDetailController extends GetxController {
   MangaMetaCombine metaCombine;
   Rx<bool> isFavorite;
+  Rx<bool> isExceptional;
   List<ChapterInfo> chaptersInfo;
   List<bool> readArray;
 
   MangaDetailController({this.metaCombine}) {
     isFavorite = false.obs;
+    isExceptional = false.obs;
     chaptersInfo = <ChapterInfo>[].obs;
     readArray = <bool>[];
   }
@@ -24,6 +26,7 @@ class MangaDetailController extends GetxController {
   void onInit() {
     super.onInit();
     isFavorite.value = metaCombine.repo.isFavorite(metaCombine.mangaMeta.preId);
+    isExceptional.value = metaCombine.repo.isExceptionalFavorite(metaCombine.mangaMeta.preId);
     metaCombine.repo.updateLastReadInfo(mangaMeta: metaCombine.mangaMeta).then((value) {
       chaptersInfo.assignAll(value);
       for (var chapter in chaptersInfo) {
@@ -67,6 +70,16 @@ class MangaDetailController extends GetxController {
     isFavorite.value = true;
     FavoriteController favoriteTabController = Get.find();
     favoriteTabController.refreshUpdate();
+  }
+
+  markAsExceptionalFavorite() async {
+    await metaCombine.repo.markAsExceptionalFavorite(metaCombine.mangaMeta.preId);
+    isExceptional.value = true;
+  }
+
+  removeAsExceptionalFavorite() async {
+    await metaCombine.repo.removeExceptionalFavorite(metaCombine.mangaMeta.preId);
+    isExceptional.value = false;
   }
 
   removeFromFavoriteBox() async {

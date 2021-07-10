@@ -36,7 +36,7 @@ class HiveService {
   static Box<ChapterInfo> chapterReadInfo;
   static Box<ReadInfo> lastReadInfoBox;
 
-  // recent read, init repo data, ...
+  // recent read, init repo data, exceptional favorite
   static Box commonBox;
 
   static putMangaMeta(String mangaId, MangaMeta mangaMeta) async {
@@ -104,5 +104,17 @@ class HiveService {
 
   static setRepoIsAvailable(String repoSlug) async {
     await commonBox.put(repoSlug, true);
+  }
+
+  static setExceptionalFavorite(String mangaId) async {
+    await commonBox.put('exception:$mangaId', true);
+  }
+
+  static removeExceptionalFavorite(String mangaId) async {
+    await commonBox.delete('exception:$mangaId');
+  }
+
+  static isExceptionalFavorite(String mangaId) {
+    return commonBox.get('exception:$mangaId') ?? false;
   }
 }

@@ -43,6 +43,8 @@ const Map<String, Map<String, String>> translationMap = {
     'favorite!': 'Truyện ưa thích!',
     'markFavorite': 'Đánh dấu ưa thích',
     'alias:': 'Tên khác:',
+    'turnOnNotification': 'Bật thông báo',
+    'turnOffNotification': 'Tắt thông báo',
 
     // reader screen
     'idleLoadingNextChapter': 'Kéo lên để chuyển chương',
@@ -99,6 +101,8 @@ const Map<String, Map<String, String>> translationMap = {
     'favorite!': 'Favorited',
     'markFavorite': 'Mark as favorite',
     'alias:': 'Other names:',
+    'turnOnNotification': 'Notify!',
+    'turnOffNotification': 'Don\'t notify!',
 
     // reader screen
     'idleLoadingNextChapter': 'Pull up to load next chapter',
