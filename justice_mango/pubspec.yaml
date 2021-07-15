@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^2.0.0-nullsafety.0
   flutter_speed_dial: ^3.0.5
   flutter_focus_watcher: ^0.0.1
+  modal_bottom_sheet: ^2.0.0
 
   random_string: ^2.1.0
   string_to_hex: ^0.2.1+30
@@ -84,7 +85,7 @@ flutter:
   assets:
     - assets/data/
     - assets/icons/
-  # - assets/images/
+    - assets/images/
 #  fonts:
 #    - family: WorkSans
 #      fonts:

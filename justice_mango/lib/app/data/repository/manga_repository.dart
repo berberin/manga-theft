@@ -1,13 +1,14 @@
 import 'dart:math';
 
+import 'package:equatable/equatable.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
 import 'package:justice_mango/app/data/provider/manga_provider.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 
-class MangaRepository {
-  MangaProvider provider;
+class MangaRepository implements Equatable {
+  final MangaProvider provider;
 
   MangaRepository(this.provider);
 
@@ -93,23 +94,14 @@ class MangaRepository {
         ReadInfo(
           mangaId: mangaId,
           numberOfChapters: chapters.length,
-          // cập nhật trạng thái [newUpdate] khi thoả mãn 2 điều kiện
-          // - updateStatus được set true
-          // - chương cuối cùng trong phần cũ đã được đọc ?
-          // note 2: voi dieu kien ben tren dan den nhieu truong hop khong duoc de xuat update (da doc o noi khac
-          // nhung chua danh dau ...) --> bo dieu kien da doc
-          //
-          // true: số chương mới lớn hơn số chương cũ
-          // các trường hợp còn lại giữ nguyên giá trị cũ.
           newUpdate: updateStatus
-              ? (chapters.length > currentReadInfo.numberOfChapters
-                  ? true
-                  : (isRead(chapters[0].preChapterId) ? false : currentReadInfo.newUpdate))
+              ? (chapters.length > currentReadInfo.numberOfChapters ? true : (!isRead(chapters[0].preChapterId)))
               : currentReadInfo.newUpdate,
           lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }
+
     return chapters;
   }
 
@@ -145,6 +137,18 @@ class MangaRepository {
     return HiveService.hasMangaMetaInFavorite(provider.getId(preId));
   }
 
+  markAsExceptionalFavorite(String preId) async {
+    await HiveService.setExceptionalFavorite(provider.getId(preId));
+  }
+
+  removeExceptionalFavorite(String preId) async {
+    await HiveService.removeExceptionalFavorite(provider.getId(preId));
+  }
+
+  bool isExceptionalFavorite(String preId) {
+    return HiveService.isExceptionalFavorite(provider.getId(preId));
+  }
+
   Map<String, String> imageHeader() {
     return provider.imageHeader();
   }
@@ -159,4 +163,10 @@ class MangaRepository {
     }
     return count;
   }
+
+  @override
+  List<Object> get props => [slug];
+
+  @override
+  bool get stringify => false;
 }

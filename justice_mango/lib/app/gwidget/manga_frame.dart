@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MangaFrame extends StatelessWidget {
@@ -14,7 +15,12 @@ class MangaFrame extends StatelessWidget {
       width: width,
       color: Colors.white,
       padding: EdgeInsets.all(2),
-      child: Image.network(imageUrl, fit: BoxFit.cover),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Image.asset('assets/images/placeholder.png'),
+        errorWidget: (context, url, error) => Image.asset('assets/images/placeholder.png'),
+      ),
     );
   }
 }

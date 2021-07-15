@@ -217,15 +217,38 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
             backgroundColor: mainColorSecondary,
             onTap: () async {
               if (controller.isFavorite.value) {
-                controller.removeFromFavoriteBox();
+                await controller.removeFromFavoriteBox();
               } else {
-                controller.addToFavoriteBox();
+                await controller.addToFavoriteBox();
               }
             },
             label: controller.isFavorite.value ? 'favorite!'.tr : 'markFavorite'.tr,
             labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
             labelBackgroundColor: mainColorSecondary,
           ),
+          if (controller.isFavorite.value)
+            SpeedDialChild(
+              child: controller.isExceptional.value
+                  ? Icon(
+                      Icons.notifications_active_rounded,
+                      color: Colors.white,
+                    )
+                  : Icon(
+                      Icons.notifications_off_rounded,
+                      color: Colors.white,
+                    ),
+              backgroundColor: mainColorSecondary,
+              onTap: () async {
+                if (controller.isExceptional.value) {
+                  await controller.removeAsExceptionalFavorite();
+                } else {
+                  await controller.markAsExceptionalFavorite();
+                }
+              },
+              label: controller.isExceptional.value ? 'turnOnNotification'.tr : 'turnOffNotification'.tr,
+              labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+              labelBackgroundColor: mainColorSecondary,
+            ),
         ],
       ),
     );

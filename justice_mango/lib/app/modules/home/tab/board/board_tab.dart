@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:justice_mango/app/gwidget/manga_card.dart';
 import 'package:justice_mango/app/modules/home/home_controller.dart';
 import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
+import 'package:justice_mango/app/modules/home/tab/board/widget/setting_bottom_sheet.dart';
 import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BoardTab extends GetWidget<BoardController> {
@@ -52,7 +54,7 @@ class BoardTab extends GetWidget<BoardController> {
               () => SliverList(
                 delegate: SliverChildListDelegate(
                   controller.favoriteUpdate.isEmpty
-                      ? [Center(child: Text('noUpdateFound'.tr))]
+                      ? [Text('noUpdateFound'.tr)]
                       : List.generate(
                           controller.favoriteUpdate.length > 5 ? 5 : controller.favoriteUpdate.length,
                           (index) => MangaCard(
@@ -126,20 +128,25 @@ class BoardTab extends GetWidget<BoardController> {
       builder: (controller) => SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: List<Widget>.from(
-              List.generate(
-                controller.sourceRepositories.length,
-                (index) => GestureDetector(
-                  child: SourceTabChip(
-                    label: controller.sourceRepositories[index].slug,
-                    selected: controller.sourceSelected == index,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Obx(
+              () => Row(
+                children: List<Widget>.from(
+                  List.generate(
+                    controller.sourceRepositories.length,
+                    (index) => GestureDetector(
+                      child: SourceTabChip(
+                        label: controller.sourceRepositories[index].slug,
+                        selected: controller.sourceSelected == index,
+                      ),
+                      onTap: () {
+                        if (controller.sourceSelected != index) {
+                          controller.changeSourceTab(index);
+                        }
+                      },
+                    ),
                   ),
-                  onTap: () {
-                    if (controller.sourceSelected != index) {
-                      controller.changeSourceTab(index);
-                    }
-                  },
                 ),
               ),
             ),
@@ -173,13 +180,23 @@ class BoardTab extends GetWidget<BoardController> {
         ),
         Expanded(child: Container()),
         IconButton(
+          icon: Icon(Icons.settings_rounded),
+          color: nearlyBlack,
+          onPressed: () {
+            showBarModalBottomSheet(
+              context: Get.context,
+              builder: (context) => SettingBottomSheet(),
+            );
+          },
+        ),
+        IconButton(
           icon: Icon(Icons.search_rounded),
           color: nearlyBlack,
           onPressed: () {
             HomeController homeController = Get.find();
             homeController.selectedIndex.value = 2;
           },
-        )
+        ),
       ],
     );
   }
