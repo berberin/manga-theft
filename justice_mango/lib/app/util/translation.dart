@@ -56,6 +56,9 @@ const Map<String, Map<String, String>> translationMap = {
     'loadingPrevChapter': 'Đang tải ...',
     'releasePrevChapter': 'Về chương trước',
     'completeText': 'Xong',
+
+    'language': 'Ngôn ngữ',
+    'sources': 'Nguồn',
   },
   'en_US': {
     // home
@@ -114,5 +117,8 @@ const Map<String, Map<String, String>> translationMap = {
     'loadingPrevChapter': 'Loading ...',
     'releasePrevChapter': 'Back to previous chapter',
     'completeText': 'Done',
+
+    'language': 'Language',
+    'sources': 'Sources',
   },
 };

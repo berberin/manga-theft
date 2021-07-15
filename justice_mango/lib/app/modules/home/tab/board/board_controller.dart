@@ -13,7 +13,7 @@ class BoardController extends GetxController {
   List<MangaMetaCombine> mangaBoard = <MangaMetaCombine>[].obs;
   List<MangaMetaCombine> favoriteUpdate = <MangaMetaCombine>[].obs;
   int sourceSelected = 0;
-  List<MangaRepository> sourceRepositories = <MangaRepository>[];
+  List<MangaRepository> sourceRepositories = <MangaRepository>[].obs;
   RefreshController refreshController = RefreshController(initialRefresh: false);
   var avatarSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"></svg>'.obs;
   int page = 1;
@@ -127,6 +127,7 @@ class BoardController extends GetxController {
   }
 
   updateSources() {
+    sourceRepositories.clear();
     for (var repo in SourceService.sourceRepositories) {
       sourceRepositories.add(repo);
     }

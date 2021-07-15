@@ -1,13 +1,14 @@
 import 'dart:math';
 
+import 'package:equatable/equatable.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
 import 'package:justice_mango/app/data/provider/manga_provider.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 
-class MangaRepository {
-  MangaProvider provider;
+class MangaRepository implements Equatable {
+  final MangaProvider provider;
 
   MangaRepository(this.provider);
 
@@ -162,4 +163,10 @@ class MangaRepository {
     }
     return count;
   }
+
+  @override
+  List<Object> get props => [slug];
+
+  @override
+  bool get stringify => false;
 }
