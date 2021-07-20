@@ -63,10 +63,9 @@ dependency_overrides:
 flutter_launcher_name:
   name: "Fluffy"
 flutter_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "assets/icons/index.png"
-  image_path_ios: "assets/icons/index_solid.png"
+  image_path: "assets/icons/dummy.jpeg"
 
 
 
