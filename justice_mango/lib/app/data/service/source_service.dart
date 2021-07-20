@@ -77,7 +77,7 @@ class SourceService {
   static Future<Locale> loadLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String langCode = prefs.getString('langCode') ?? (Get.deviceLocale.languageCode == 'vi' ? 'vi' : 'en');
-    String countryCode = prefs.getString('countryCode') ?? (Get.deviceLocale.countryCode == 'VN' ? 'VN' : 'US');
+    String countryCode = prefs.getString('countryCode') ?? (Get.deviceLocale.languageCode == 'vi' ? 'VN' : 'US');
     return Locale(langCode, countryCode);
     // Get.deviceLocale.languageCode == 'vi' ? Locale('vi', 'VN') : Locale('en', 'US')
   }
