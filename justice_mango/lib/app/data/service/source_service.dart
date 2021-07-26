@@ -5,6 +5,8 @@ import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_mang
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'background_context.dart';
+
 class SourceService {
   SourceService._();
   static List<MangaRepository> sourceRepositories = <MangaRepository>[];
@@ -25,10 +27,8 @@ class SourceService {
     selectedLocale = await loadLocale();
     await loadSources();
     for (var repo in sourceRepositories) {
-      repo.initData().catchError((e, stacktrace) {
-        print(e);
-        print(stacktrace);
-      });
+      // init data in background isolate
+      await BackgroundContext.initMetadata(repo.slug);
     }
   }
 
@@ -86,5 +86,14 @@ class SourceService {
     selectedLocale = locale;
     saveLocale();
     Get.updateLocale(selectedLocale);
+  }
+
+  static MangaRepository getRepo(String repoSlug) {
+    for (var repo in allSourceRepositories) {
+      if (repo.slug == repoSlug) {
+        return repo;
+      }
+    }
+    return null;
   }
 }

@@ -35,7 +35,6 @@ class HiveService {
   static Box<MangaMeta> favoriteBox;
   static Box<ChapterInfo> chapterReadInfo;
   static Box<ReadInfo> lastReadInfoBox;
-
   // recent read, init repo data, exceptional favorite
   static Box commonBox;
 
