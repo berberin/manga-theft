@@ -14,7 +14,6 @@ class MangaRepository implements Equatable {
 
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     List<MangaMeta> mangas = await provider.getLatestManga(page: page);
-    checkAndPutToMangaBox(mangas);
     return mangas;
   }
 
@@ -48,17 +47,19 @@ class MangaRepository implements Equatable {
 
   String get slug => provider.slug;
 
-  Future<void> initData() async {
+  Future<int> initData() async {
     int count = 0;
+    print(!HiveService.repoIsAvailable(slug));
     if (!HiveService.repoIsAvailable(slug)) {
       List<MangaMeta> mangas = await provider.initData();
       for (var meta in mangas) {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
         count++;
-        print(count);
       }
       await HiveService.setRepoIsAvailable(slug);
     }
+    print(count);
+    return count;
   }
 
   putMangaMeta(MangaMeta mangaMeta) async {

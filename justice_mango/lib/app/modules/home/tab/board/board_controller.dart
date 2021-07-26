@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:justice_mango/app/data/service/background_context.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
@@ -71,10 +72,14 @@ class BoardController extends GetxController {
   getLatestList(int page) async {
     MangaRepository repo = sourceRepositories[sourceSelected];
     try {
-      var tmp = await repo.getLatestManga(page: page);
+      var tmp = await BackgroundContext.getMangaList(repo, page);
       for (var mangaMeta in tmp) {
-        mangaBoard.add(MangaMetaCombine(repo, mangaMeta));
+        var mangaMetaCombine = MangaMetaCombine(repo, mangaMeta);
+        if (!mangaBoard.contains(mangaMetaCombine)) {
+          mangaBoard.add(mangaMetaCombine);
+        }
       }
+      repo.checkAndPutToMangaBox(tmp);
       hasError.value = false;
     } catch (e, stacktrace) {
       hasError.value = true;
