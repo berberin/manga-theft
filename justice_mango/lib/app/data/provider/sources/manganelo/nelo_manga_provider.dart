@@ -132,55 +132,62 @@ class NeloMangaProvider extends MangaProvider {
         String author = item.querySelector("span.genres-item-author")?.text ?? "";
 
         // note: trick giảm thời gian chờ
-        if (HiveService.hasMangaMeta(slug + id)) {
-          mangaMetas.add(HiveService.getMangaMeta(slug + id));
-          continue;
+        // note: don't work in isolate (hivedb)
+        // if (HiveService.hasMangaMeta(slug + id)) {
+        //   mangaMetas.add(HiveService.getMangaMeta(slug + id));
+        //   continue;
+        // } else {
+        try {
+          if (HiveService.hasMangaMeta(slug + id)) {
+            mangaMetas.add(HiveService.getMangaMeta(slug + id));
+            continue;
+          }
+        } catch (e) {}
+        // retrieve info from network
+        Response response = await httpRepo.get(url);
+        String body = response.data.toString();
+        var soupDescription = Beautifulsoup(body);
+        String description = soupDescription.find_all("div.panel-story-info-description")?.elementAt(0)?.text ?? "";
+
+        var aliasesMatch = regAlias.firstMatch(body);
+        List<String> aliases = [];
+        if (aliasesMatch == null) {
+          aliases = [];
         } else {
-          // retrieve info from network
-          Response response = await httpRepo.get(url);
-          String body = response.data.toString();
-          var soupDescription = Beautifulsoup(body);
-          String description = soupDescription.find_all("div.panel-story-info-description")?.elementAt(0)?.text ?? "";
-
-          var aliasesMatch = regAlias.firstMatch(body);
-          List<String> aliases = [];
-          if (aliasesMatch == null) {
-            aliases = [];
-          } else {
-            aliases = aliasesMatch.group(1).split(";");
-            for (int i = 0; i < aliases.length; i++) {
-              aliases[i] = aliases[i].trim();
-            }
+          aliases = aliasesMatch.group(1).split(";");
+          for (int i = 0; i < aliases.length; i++) {
+            aliases[i] = aliases[i].trim();
           }
-
-          String status = regStatus.firstMatch(body)?.group(1) ?? "Unknown";
-
-          var genresMatch = regGenres.firstMatch(body);
-          List<String> tags = [];
-          if (genresMatch == null) {
-          } else {
-            var soup2 = Beautifulsoup(genresMatch.group(1));
-            var genres = soup2.find_all("a.a-h");
-            for (var genre in genres) {
-              tags.add(genre.text);
-            }
-          }
-
-          MangaMeta mangaMeta = MangaMeta(
-            title: title,
-            url: url,
-            imgUrl: imgUrl,
-            preId: id,
-            alias: aliases,
-            author: author,
-            tags: tags,
-            description: description,
-            status: status,
-            lang: locale.languageCode,
-            repoSlug: slug,
-          );
-          mangaMetas.add(mangaMeta);
         }
+
+        String status = regStatus.firstMatch(body)?.group(1) ?? "Unknown";
+
+        var genresMatch = regGenres.firstMatch(body);
+        List<String> tags = [];
+        if (genresMatch == null) {
+        } else {
+          var soup2 = Beautifulsoup(genresMatch.group(1));
+          var genres = soup2.find_all("a.a-h");
+          for (var genre in genres) {
+            tags.add(genre.text);
+          }
+        }
+
+        MangaMeta mangaMeta = MangaMeta(
+          title: title,
+          url: url,
+          imgUrl: imgUrl,
+          preId: id,
+          alias: aliases,
+          author: author,
+          tags: tags,
+          description: description,
+          status: status,
+          lang: locale.languageCode,
+          repoSlug: slug,
+        );
+        mangaMetas.add(mangaMeta);
+        //}
       } catch (e, stacktrace) {
         print(e);
         print(stacktrace);
