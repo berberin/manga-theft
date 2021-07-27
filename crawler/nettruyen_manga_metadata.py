@@ -1,28 +1,35 @@
-from htmldom import htmldom
 import re
-import requests
+
 from bs4 import BeautifulSoup
 import json
+import cloudscraper
 
-urlSample = "http://www.nettruyen.com/tim-truyen?page={}"
+scraper = cloudscraper.create_scraper(browser={
+        'browser': 'chrome',
+        'platform': 'android',
+        'desktop': False
+    })
+urlSample = "http://www.nettruyenvip.com/tim-truyen?page={}"
 
 headers = {
-    "Referer": "http://www.nettruyen.com/",
-    "Origin": "http://www.nettruyen.com",
-    "Host": "www.nettruyen.com"
+    "Referer": "http://www.nettruyenvip.com/",
+    "Origin": "http://www.nettruyenvip.com",
+    "Host": "www.nettruyenvip.com"
 }
 
 manga_list = []
 
-for i in range(1, 550):
-    response = requests.get(urlSample.format(i), headers = headers)
-    if(response.status_code != 200):
+for i in range(1, 650):
+    print(i)
+    response = scraper.get(urlSample.format(i))
+    
+    if(response.status_code == 404):
         continue
     else:
         response = response.text
-    
     soup = BeautifulSoup(response, "html.parser")
     items = soup.find_all("div", class_="item")
+   
 
     for item in items:
         description = item.find("div", class_="box_text").get_text()
