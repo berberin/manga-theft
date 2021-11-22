@@ -64,5 +64,8 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is MangaMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is MangaMetaAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

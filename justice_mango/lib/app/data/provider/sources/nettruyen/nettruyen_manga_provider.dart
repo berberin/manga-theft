@@ -20,7 +20,8 @@ class NettruyenMangaProvider extends MangaProvider {
 
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
-    var url = "http://www.nettruyenvip.com/tim-truyen?page=$page&r=$randomString";
+    var url =
+        "https://www.nettruyenpro.com/tim-truyen?page=$page&r=$randomString";
     Response response = await httpRepo.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
 
@@ -40,8 +41,14 @@ class NettruyenMangaProvider extends MangaProvider {
 
     try {
       for (var item in items) {
-        String title = item.querySelector("div.clearfix div.box_img").querySelector("a").attributes['title'];
-        String imgUrl = "http:" + item.querySelector("div figure div a img").attributes['data-original'];
+        String title = item
+            .querySelector("div.clearfix div.box_img")
+            .querySelector("a")
+            .attributes['title'];
+        String imgUrl = "http:" +
+            item
+                .querySelector("div figure div a img")
+                .attributes['data-original'];
         String url = item.querySelector("div figure div a").attributes['href'];
         String description = item.querySelector("div.box_text").text;
 
@@ -115,7 +122,7 @@ class NettruyenMangaProvider extends MangaProvider {
     String mangaId = mangaMeta.preId;
     while (mangaId.length > 0) {
       String url =
-          "http://www.nettruyenvip.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
+          "https://www.nettruyenpro.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
       var response = await httpRepo.get(url);
       try {
         for (var item in response.data['chapters']) {
@@ -133,7 +140,7 @@ class NettruyenMangaProvider extends MangaProvider {
   Future<List<String>> getPages(String chapterUrl) async {
     List<String> pagesUrl = <String>[];
     if (chapterUrl.startsWith("/")) {
-      chapterUrl = "http://www.nettruyenvip.com" + chapterUrl;
+      chapterUrl = "https://www.nettruyenpro.com" + chapterUrl;
     }
     var response = await httpRepo.get(chapterUrl);
     var soup = Beautifulsoup(response.data.toString());
@@ -153,7 +160,7 @@ class NettruyenMangaProvider extends MangaProvider {
     if (searchString == "") return mangaMetas;
     searchString = searchString.toLowerCase();
     try {
-      var url = "http://www.nettruyenvip.com/tim-truyen?keyword=$searchString";
+      var url = "https://www.nettruyenpro.com/tim-truyen?keyword=$searchString";
       var response = await httpRepo.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
     } catch (e, stacktrace) {
@@ -180,11 +187,12 @@ class NettruyenMangaProvider extends MangaProvider {
     String assetsStr = 'assets/data/nettruyen_data.json';
     String jsonString = await rootBundle.loadString(assetsStr);
     List<dynamic> jsonArr = jsonDecode(jsonString);
-    return List<MangaMeta>.generate(jsonArr.length, (index) => MangaMeta.fromJson(jsonArr[index]));
+    return List<MangaMeta>.generate(
+        jsonArr.length, (index) => MangaMeta.fromJson(jsonArr[index]));
   }
 
   @override
   Map<String, String> imageHeader() {
-    return {"Referer": "http://www.nettruyenvip.com/"};
+    return {"Referer": "https://www.nettruyenpro.com/"};
   }
 }

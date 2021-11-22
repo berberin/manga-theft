@@ -41,5 +41,7 @@ class ChapterInfoAdapter extends TypeAdapter<ChapterInfo> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ChapterInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ChapterInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

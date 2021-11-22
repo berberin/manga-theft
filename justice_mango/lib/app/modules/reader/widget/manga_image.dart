@@ -28,17 +28,20 @@ class _MangaImageState extends State<MangaImage> {
     return CachedNetworkImage(
       cacheManager: CacheService.cacheManager,
       imageUrl: imageUrl,
-      //httpHeaders: {"Referer": "http://www.nettruyen.com/"},
+      //httpHeaders: {"Referer": "https://www.nettruyen.com/"},
       httpHeaders: widget.repo.imageHeader(),
       fit: BoxFit.fitWidth,
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
           child: Container(
-              margin: EdgeInsets.all(100), child: CircularProgressIndicator(value: downloadProgress.progress))),
+              margin: EdgeInsets.all(100),
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress))),
       errorWidget: (context, url, error) => Container(
         margin: EdgeInsets.all(100),
         child: ElevatedButton(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10), child: Icon(Icons.refresh_rounded)),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Icon(Icons.refresh_rounded)),
           onPressed: () async {
             //CachedNetworkImage.evictFromCache(imageUrl, cacheManager: CacheProvider.cacheManager);
             setState(() {

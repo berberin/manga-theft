@@ -43,5 +43,8 @@ class ReadInfoAdapter extends TypeAdapter<ReadInfo> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is ReadInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is ReadInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
