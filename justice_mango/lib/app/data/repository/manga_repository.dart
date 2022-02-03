@@ -6,6 +6,7 @@ import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
 import 'package:justice_mango/app/data/provider/manga_provider.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
+import 'package:justice_mango/app/data/service/version.dart';
 
 class MangaRepository implements Equatable {
   final MangaProvider provider;
@@ -36,11 +37,15 @@ class MangaRepository implements Equatable {
   }
 
   List<MangaMeta> getRandomManga({String tag: "", int amount}) {
-    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
+    var metaKeys = HiveService.mangaBox.keys
+        .toList()
+        .where((element) => element.toString().startsWith(slug))
+        .toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
     for (int i = 0; i < amount; i++) {
-      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+      results.add(
+          HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
     }
     return results;
   }
@@ -49,8 +54,7 @@ class MangaRepository implements Equatable {
 
   Future<int> initData() async {
     int count = 0;
-    print(!HiveService.repoIsAvailable(slug));
-    if (!HiveService.repoIsAvailable(slug)) {
+    if (!HiveService.repoIsAvailable(slug) || !HiveService.isUpToDate()) {
       List<MangaMeta> mangas = await provider.initData();
       for (var meta in mangas) {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
@@ -67,14 +71,16 @@ class MangaRepository implements Equatable {
   }
 
   putMangaMetaFavorite(MangaMeta mangaMeta) async {
-    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
+    await HiveService.putMangaMetaFavorite(
+        provider.getId(mangaMeta.preId), mangaMeta);
   }
 
   MangaMeta getMangaMeta(String preId) {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
+  Future<List<ChapterInfo>> updateLastReadInfo(
+      {MangaMeta mangaMeta, bool updateStatus = false}) async {
     String mangaId = provider.getId(mangaMeta.preId);
     ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
     //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
@@ -96,9 +102,12 @@ class MangaRepository implements Equatable {
           mangaId: mangaId,
           numberOfChapters: chapters.length,
           newUpdate: updateStatus
-              ? (chapters.length > currentReadInfo.numberOfChapters ? true : (!isRead(chapters[0].preChapterId)))
+              ? (chapters.length > currentReadInfo.numberOfChapters
+                  ? true
+                  : (!isRead(chapters[0].preChapterId)))
               : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+          lastReadIndex: currentReadInfo.lastReadIndex +
+              (chapters.length - currentReadInfo.numberOfChapters),
         ),
       );
     }

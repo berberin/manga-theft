@@ -4,6 +4,7 @@ import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/model/read_info.dart';
 import 'package:justice_mango/app/data/model/recent_read.dart';
+import 'package:justice_mango/app/data/service/version.dart';
 
 const String mangaBoxName = 'manga_box';
 const String chapterReadInfoBoxName = 'read_box';
@@ -99,6 +100,14 @@ class HiveService {
       repoSlug,
       defaultValue: false,
     );
+  }
+
+  static bool isUpToDate() {
+    return (commonBox.get('appVersion') == AppVersion.version);
+  }
+
+  static setVersion() async {
+    await commonBox.put('appVersion', AppVersion.version);
   }
 
   static setRepoIsAvailable(String repoSlug) async {

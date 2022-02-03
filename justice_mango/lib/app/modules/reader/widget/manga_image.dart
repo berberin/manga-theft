@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/cache_service.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:random_string/random_string.dart';
 
 class MangaImage extends StatefulWidget {
@@ -29,6 +30,13 @@ class _MangaImageState extends State<MangaImage> {
       cacheManager: CacheService.cacheManager,
       imageUrl: imageUrl,
       //httpHeaders: {"Referer": "https://www.nettruyen.com/"},
+      imageBuilder: (context, imageProvider) => PhotoView(
+        imageProvider: imageProvider,
+        maxScale: PhotoViewComputedScale.covered * 2.0,
+        minScale: PhotoViewComputedScale.contained * 0.8,
+        initialScale: PhotoViewComputedScale.covered,
+        tightMode: true,
+      ),
       httpHeaders: widget.repo.imageHeader(),
       fit: BoxFit.fitWidth,
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(

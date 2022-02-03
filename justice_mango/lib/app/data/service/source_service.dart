@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:justice_mango/app/data/provider/sources/manganelo/nelo_manga_provider.dart';
 import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'background_context.dart';
@@ -30,6 +31,7 @@ class SourceService {
       // init data in background isolate
       await BackgroundContext.initMetadata(repo.slug);
     }
+    HiveService.setVersion();
   }
 
   static addToSource(MangaRepository mangaRepository) async {
