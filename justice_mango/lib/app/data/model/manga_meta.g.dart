@@ -17,14 +17,14 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MangaMeta(
-      alias: (fields[0] as List)?.cast<String>(),
-      author: fields[1] as String,
-      description: fields[2] as String,
+      alias: (fields[0] as List?)?.cast<String>(),
+      author: fields[1] as String?,
+      description: fields[2] as String?,
       preId: fields[3] as String,
-      imgUrl: fields[4] as String,
-      status: fields[5] as String,
-      tags: (fields[6] as List)?.cast<String>(),
-      title: fields[7] as String,
+      imgUrl: fields[4] as String?,
+      status: fields[5] as String?,
+      tags: (fields[6] as List?)?.cast<String>(),
+      title: fields[7] as String?,
       url: fields[8] as String,
       lang: fields[9] as String,
       repoSlug: fields[10] as String,
@@ -64,5 +64,8 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is MangaMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is MangaMetaAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

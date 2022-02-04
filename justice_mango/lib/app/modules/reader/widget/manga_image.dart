@@ -8,14 +8,15 @@ class MangaImage extends StatefulWidget {
   final String imageUrl;
   final MangaRepository repo;
 
-  const MangaImage({Key key, this.imageUrl, this.repo}) : super(key: key);
+  const MangaImage({Key? key, required this.imageUrl, required this.repo})
+      : super(key: key);
 
   @override
   _MangaImageState createState() => _MangaImageState();
 }
 
 class _MangaImageState extends State<MangaImage> {
-  String imageUrl;
+  late String imageUrl;
 
   @override
   void initState() {
@@ -28,17 +29,27 @@ class _MangaImageState extends State<MangaImage> {
     return CachedNetworkImage(
       cacheManager: CacheService.cacheManager,
       imageUrl: imageUrl,
-      //httpHeaders: {"Referer": "http://www.nettruyen.com/"},
+      //httpHeaders: {"Referer": "https://www.nettruyen.com/"},
+      // imageBuilder: (context, imageProvider) => PhotoView(
+      //   imageProvider: imageProvider,
+      //   maxScale: PhotoViewComputedScale.covered * 2.0,
+      //   minScale: PhotoViewComputedScale.contained * 0.8,
+      //   initialScale: PhotoViewComputedScale.covered,
+      //   tightMode: true,
+      // ),
       httpHeaders: widget.repo.imageHeader(),
       fit: BoxFit.fitWidth,
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
           child: Container(
-              margin: EdgeInsets.all(100), child: CircularProgressIndicator(value: downloadProgress.progress))),
+              margin: EdgeInsets.all(100),
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress))),
       errorWidget: (context, url, error) => Container(
         margin: EdgeInsets.all(100),
         child: ElevatedButton(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10), child: Icon(Icons.refresh_rounded)),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Icon(Icons.refresh_rounded)),
           onPressed: () async {
             //CachedNetworkImage.evictFromCache(imageUrl, cacheManager: CacheProvider.cacheManager);
             setState(() {

@@ -18,8 +18,8 @@ class ChapterInfoAdapter extends TypeAdapter<ChapterInfo> {
     };
     return ChapterInfo(
       preChapterId: fields[0] as String,
-      name: fields[1] as String,
-      url: fields[2] as String,
+      name: fields[1] as String?,
+      url: fields[2] as String?,
     );
   }
 
@@ -41,5 +41,7 @@ class ChapterInfoAdapter extends TypeAdapter<ChapterInfo> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ChapterInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ChapterInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

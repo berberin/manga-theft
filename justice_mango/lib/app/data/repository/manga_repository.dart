@@ -35,12 +35,19 @@ class MangaRepository implements Equatable {
     return provider.searchTag(searchTag);
   }
 
-  List<MangaMeta> getRandomManga({String tag: "", int amount}) {
-    var metaKeys = HiveService.mangaBox.keys.toList().where((element) => element.toString().startsWith(slug)).toList();
+  List<MangaMeta> getRandomManga({String tag: "", required int amount}) {
+    var metaKeys = HiveService.mangaBox.keys
+        .toList()
+        .where((element) => element.toString().startsWith(slug))
+        .toList();
     Random random = Random();
     List<MangaMeta> results = <MangaMeta>[];
     for (int i = 0; i < amount; i++) {
-      results.add(HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]));
+      var tmp =
+          HiveService.getMangaMeta(metaKeys[random.nextInt(metaKeys.length)]);
+      if (tmp != null) {
+        results.add(tmp);
+      }
     }
     return results;
   }
@@ -49,8 +56,7 @@ class MangaRepository implements Equatable {
 
   Future<int> initData() async {
     int count = 0;
-    print(!HiveService.repoIsAvailable(slug));
-    if (!HiveService.repoIsAvailable(slug)) {
+    if (!HiveService.repoIsAvailable(slug) || !HiveService.isUpToDate()) {
       List<MangaMeta> mangas = await provider.initData();
       for (var meta in mangas) {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
@@ -67,16 +73,18 @@ class MangaRepository implements Equatable {
   }
 
   putMangaMetaFavorite(MangaMeta mangaMeta) async {
-    await HiveService.putMangaMetaFavorite(provider.getId(mangaMeta.preId), mangaMeta);
+    await HiveService.putMangaMetaFavorite(
+        provider.getId(mangaMeta.preId), mangaMeta);
   }
 
-  MangaMeta getMangaMeta(String preId) {
+  MangaMeta? getMangaMeta(String preId) {
     return HiveService.getMangaMeta(provider.getId(preId));
   }
 
-  Future<List<ChapterInfo>> updateLastReadInfo({MangaMeta mangaMeta, bool updateStatus = false}) async {
+  Future<List<ChapterInfo>> updateLastReadInfo(
+      {required MangaMeta mangaMeta, bool updateStatus = false}) async {
     String mangaId = provider.getId(mangaMeta.preId);
-    ReadInfo currentReadInfo = HiveService.getReadInfo(mangaId);
+    ReadInfo? currentReadInfo = HiveService.getReadInfo(mangaId);
     //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
     List<ChapterInfo> chapters = await provider.getChaptersInfo(mangaMeta);
     if (currentReadInfo == null) {
@@ -96,9 +104,12 @@ class MangaRepository implements Equatable {
           mangaId: mangaId,
           numberOfChapters: chapters.length,
           newUpdate: updateStatus
-              ? (chapters.length > currentReadInfo.numberOfChapters ? true : (!isRead(chapters[0].preChapterId)))
+              ? (chapters.length > (currentReadInfo.numberOfChapters ?? 0)
+                  ? true
+                  : (!isRead(chapters[0].preChapterId)))
               : currentReadInfo.newUpdate,
-          lastReadIndex: currentReadInfo.lastReadIndex + (chapters.length - currentReadInfo.numberOfChapters),
+          lastReadIndex: currentReadInfo.lastReadIndex! +
+              (chapters.length - (currentReadInfo.numberOfChapters ?? 0)),
         ),
       );
     }
@@ -106,10 +117,10 @@ class MangaRepository implements Equatable {
     return chapters;
   }
 
-  updateLastReadIndex({String preId, int readIndex}) async {
+  updateLastReadIndex({required String preId, required int readIndex}) async {
     var currentReadInfo = HiveService.getReadInfo(provider.getId(preId));
-    currentReadInfo.lastReadIndex = readIndex;
-    await HiveService.putReadInfo(provider.getId(preId), currentReadInfo);
+    currentReadInfo?.lastReadIndex = readIndex;
+    await HiveService.putReadInfo(provider.getId(preId), currentReadInfo!);
   }
 
   addToFavorite(String preId, MangaMeta mangaMeta) async {
@@ -120,8 +131,8 @@ class MangaRepository implements Equatable {
     await HiveService.favoriteBox.delete(provider.getId(preId));
   }
 
-  int getLastReadIndex(String preId) {
-    return HiveService.getReadInfo(provider.getId(preId)).lastReadIndex;
+  int? getLastReadIndex(String preId) {
+    return HiveService.getReadInfo(provider.getId(preId))?.lastReadIndex;
   }
 
   markAsRead(String preChapterId, ChapterInfo chapterInfo) async {

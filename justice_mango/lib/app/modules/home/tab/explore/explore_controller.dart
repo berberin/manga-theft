@@ -6,12 +6,12 @@ import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 
 class ExploreController extends GetxController {
-  TextEditingController textSearchController;
+  late TextEditingController textSearchController;
   var searchComplete = false.obs;
   bool searching = false;
-  List<MangaMetaCombine> mangaSearchResult;
-  List<MangaMetaCombine> randomMangaList;
-  String currentSearch;
+  late List<MangaMetaCombine> mangaSearchResult;
+  late List<MangaMetaCombine> randomMangaList;
+  String currentSearch = '';
   int sourceSelected = 0;
   List<MangaRepository> sourceRepositories = <MangaRepository>[];
 
@@ -27,7 +27,9 @@ class ExploreController extends GetxController {
 
   search() async {
     String textSearch = textSearchController.text;
-    if (textSearch.length <= 2 || (textSearch == currentSearch && searchComplete.value) || searching) {
+    if (textSearch.length <= 2 ||
+        (textSearch == currentSearch && searchComplete.value) ||
+        searching) {
       return;
     }
     clearSearch();

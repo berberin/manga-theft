@@ -5,5 +5,9 @@ class RecentArgs {
   final DateTime dateTime;
   final String chapterName;
 
-  RecentArgs({this.mangaMetaCombine, this.dateTime, this.chapterName});
+  RecentArgs({
+    required this.mangaMetaCombine,
+    required this.dateTime,
+    required this.chapterName,
+  });
 }

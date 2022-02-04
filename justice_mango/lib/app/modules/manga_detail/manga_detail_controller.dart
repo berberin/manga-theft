@@ -10,12 +10,12 @@ import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 
 class MangaDetailController extends GetxController {
   MangaMetaCombine metaCombine;
-  Rx<bool> isFavorite;
-  Rx<bool> isExceptional;
-  List<ChapterInfo> chaptersInfo;
-  List<bool> readArray;
+  late Rx<bool> isFavorite;
+  late Rx<bool> isExceptional;
+  late List<ChapterInfo> chaptersInfo;
+  late List<bool> readArray;
 
-  MangaDetailController({this.metaCombine}) {
+  MangaDetailController({required this.metaCombine}) {
     isFavorite = false.obs;
     isExceptional = false.obs;
     chaptersInfo = <ChapterInfo>[].obs;
@@ -26,8 +26,11 @@ class MangaDetailController extends GetxController {
   void onInit() {
     super.onInit();
     isFavorite.value = metaCombine.repo.isFavorite(metaCombine.mangaMeta.preId);
-    isExceptional.value = metaCombine.repo.isExceptionalFavorite(metaCombine.mangaMeta.preId);
-    metaCombine.repo.updateLastReadInfo(mangaMeta: metaCombine.mangaMeta).then((value) {
+    isExceptional.value =
+        metaCombine.repo.isExceptionalFavorite(metaCombine.mangaMeta.preId);
+    metaCombine.repo
+        .updateLastReadInfo(mangaMeta: metaCombine.mangaMeta)
+        .then((value) {
       chaptersInfo.assignAll(value);
       for (var chapter in chaptersInfo) {
         readArray.add(metaCombine.repo.isRead(chapter.preChapterId));
@@ -40,7 +43,9 @@ class MangaDetailController extends GetxController {
       () => ReaderScreen(
         readerScreenArgs: ReaderScreenArgs(
           chaptersInfo: chaptersInfo,
-          index: metaCombine.repo.getLastReadIndex(metaCombine.mangaMeta.preId),
+          index:
+              metaCombine.repo.getLastReadIndex(metaCombine.mangaMeta.preId) ??
+                  0,
           metaCombine: metaCombine,
         ),
       ),
@@ -48,7 +53,8 @@ class MangaDetailController extends GetxController {
   }
 
   setIsRead(int index) async {
-    await metaCombine.repo.markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
+    await metaCombine.repo
+        .markAsRead(chaptersInfo[index].preChapterId, chaptersInfo[index]);
     await metaCombine.repo.updateLastReadIndex(
       preId: metaCombine.mangaMeta.preId,
       readIndex: index,
@@ -73,12 +79,14 @@ class MangaDetailController extends GetxController {
   }
 
   markAsExceptionalFavorite() async {
-    await metaCombine.repo.markAsExceptionalFavorite(metaCombine.mangaMeta.preId);
+    await metaCombine.repo
+        .markAsExceptionalFavorite(metaCombine.mangaMeta.preId);
     isExceptional.value = true;
   }
 
   removeAsExceptionalFavorite() async {
-    await metaCombine.repo.removeExceptionalFavorite(metaCombine.mangaMeta.preId);
+    await metaCombine.repo
+        .removeExceptionalFavorite(metaCombine.mangaMeta.preId);
     isExceptional.value = false;
   }
 

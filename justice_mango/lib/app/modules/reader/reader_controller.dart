@@ -12,30 +12,35 @@ class ReaderController extends GetxController {
   int index = 0;
   MangaMetaCombine metaCombine;
 
-  List<String> preloadUrl;
-  List<String> imgUrls;
-  Rx<bool> hasError;
-  Rx<bool> loading;
+  late List<String> preloadUrl;
+  late List<String> imgUrls;
+  late Rx<bool> hasError;
+  late Rx<bool> loading;
 
-  ReaderController({this.chaptersInfo, this.index, this.metaCombine, List<String> preloadUrl}) {
-    this.preloadUrl = preloadUrl ?? <String>[];
+  ReaderController(
+      {required this.chaptersInfo,
+      required this.index,
+      required this.metaCombine,
+      required List<String> preloadUrl}) {
+    this.preloadUrl = preloadUrl;
     imgUrls = <String>[].obs;
     hasError = false.obs;
     loading = false.obs;
   }
 
-  RefreshController refreshController;
+  late RefreshController refreshController;
   @override
   void onInit() {
     super.onInit();
     refreshController = RefreshController(initialRefresh: false);
-    if ((preloadUrl?.length ?? 0) > 0) {
+    if (preloadUrl.isNotEmpty) {
       imgUrls.assignAll(preloadUrl);
     } else {
       getPages();
     }
     getPreloadPages();
-    MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+    MangaDetailController mangaDetailController =
+        Get.find(tag: metaCombine.mangaMeta.preId);
     mangaDetailController.setIsRead(index);
   }
 
@@ -49,7 +54,8 @@ class ReaderController extends GetxController {
     //await Future.delayed(Duration(seconds: 2));
     loading.value = true;
     try {
-      imgUrls.assignAll(await metaCombine.repo.getPages(chaptersInfo[index].url));
+      imgUrls.assignAll(
+          await metaCombine.repo.getPages(chaptersInfo[index].url ?? ''));
       hasError.value = false;
     } catch (e, stacktrace) {
       print(e);
@@ -64,7 +70,7 @@ class ReaderController extends GetxController {
       return;
     }
     await Future.delayed(Duration(seconds: 5));
-    metaCombine.repo.getPages(chaptersInfo[index - 1].url).then((value) {
+    metaCombine.repo.getPages(chaptersInfo[index - 1].url ?? '').then((value) {
       preloadUrl.assignAll(value);
       for (var url in preloadUrl) {
         CacheService.getImage(url, metaCombine.repo);
@@ -96,7 +102,7 @@ class ReaderController extends GetxController {
       // tối ưu preload url
       index = index + 1;
       update();
-      if ((imgUrls?.length ?? 0) > 0) {
+      if (imgUrls.isNotEmpty) {
         preloadUrl.assignAll(imgUrls);
         imgUrls.clear();
         getPages();
@@ -105,7 +111,8 @@ class ReaderController extends GetxController {
         getPreloadPages();
       }
       refreshController.refreshCompleted();
-      MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
+      MangaDetailController mangaDetailController =
+          Get.find(tag: metaCombine.mangaMeta.preId);
       mangaDetailController.setIsRead(index);
     } else
       refreshController.refreshFailed();

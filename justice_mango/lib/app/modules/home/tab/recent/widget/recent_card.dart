@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/gwidget/manga_frame.dart';
@@ -12,15 +11,17 @@ import 'recent_agrs.dart';
 class RecentCard extends StatelessWidget {
   final RecentArgs recentArgs;
 
-  const RecentCard({Key key, this.recentArgs}) : super(key: key);
+  const RecentCard({Key? key, required this.recentArgs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => MangaDetailScreen(
-              metaCombine: recentArgs.mangaMetaCombine,
-            ));
+        Get.to(
+          () => MangaDetailScreen(
+            metaCombine: recentArgs.mangaMetaCombine,
+          ),
+        );
       },
       child: Container(
         margin: EdgeInsets.all(5),
@@ -39,7 +40,8 @@ class RecentCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(recentArgs.mangaMetaCombine.mangaMeta.imgUrl),
+                image: NetworkImage(
+                    recentArgs.mangaMetaCombine.mangaMeta.imgUrl ?? ''),
                 fit: BoxFit.cover,
               ),
             ),
@@ -47,7 +49,8 @@ class RecentCard extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 color: Colors.white.withOpacity(0.7),
-                padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
+                padding: const EdgeInsets.only(
+                    left: 8, right: 8, top: 16, bottom: 16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +58,9 @@ class RecentCard extends StatelessWidget {
                     Stack(
                       children: [
                         MangaFrame(
-                          imageUrl: recentArgs.mangaMetaCombine.mangaMeta.imgUrl,
+                          imageUrl:
+                              recentArgs.mangaMetaCombine.mangaMeta.imgUrl ??
+                                  '',
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Positioned(
@@ -68,10 +73,12 @@ class RecentCard extends StatelessWidget {
                                 Radius.circular(1),
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 0),
                             child: Text(
                               recentArgs.mangaMetaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
+                              style: Get.textTheme.bodyText2
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
@@ -90,17 +97,22 @@ class RecentCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  recentArgs.mangaMetaCombine.mangaMeta.title,
+                                  recentArgs.mangaMetaCombine.mangaMeta.title ??
+                                      '',
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Text(
-                                  recentArgs.mangaMetaCombine.mangaMeta.author,
+                                  recentArgs
+                                          .mangaMetaCombine.mangaMeta.author ??
+                                      '',
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16),
                                   child: Text(
-                                    recentArgs.mangaMetaCombine.mangaMeta.description,
+                                    recentArgs.mangaMetaCombine.mangaMeta
+                                            .description ??
+                                        '',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,

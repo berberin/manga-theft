@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'manga_meta.g.dart';
@@ -7,21 +6,21 @@ part 'manga_meta.g.dart';
 @HiveType(typeId: 0)
 class MangaMeta extends Equatable {
   @HiveField(0)
-  final List<String> alias;
+  final List<String>? alias;
   @HiveField(1)
-  final String author;
+  final String? author;
   @HiveField(2)
-  final String description;
+  final String? description;
   @HiveField(3)
   final String preId;
   @HiveField(4)
-  final String imgUrl;
+  final String? imgUrl;
   @HiveField(5)
-  final String status;
+  final String? status;
   @HiveField(6)
-  final List<String> tags;
+  final List<String>? tags;
   @HiveField(7)
-  final String title;
+  final String? title;
   @HiveField(8)
   final String url;
   @HiveField(9)
@@ -29,22 +28,24 @@ class MangaMeta extends Equatable {
   @HiveField(10)
   final String repoSlug;
 
-  MangaMeta(
-      {this.alias,
-      this.author,
-      this.description,
-      this.preId,
-      this.imgUrl,
-      this.status,
-      this.tags,
-      this.title,
-      this.url,
-      this.lang,
-      @required this.repoSlug});
+  MangaMeta({
+    this.alias,
+    this.author,
+    this.description,
+    required this.preId,
+    this.imgUrl,
+    this.status,
+    this.tags,
+    this.title,
+    required this.url,
+    required this.lang,
+    required this.repoSlug,
+  });
 
   factory MangaMeta.fromJson(Map<String, dynamic> json) {
     return MangaMeta(
-      alias: json['alias'] != null ? new List<String>.from(json['alias']) : null,
+      alias:
+          json['alias'] != null ? new List<String>.from(json['alias']) : null,
       author: json['author'],
       description: json['description'],
       preId: json['id'],

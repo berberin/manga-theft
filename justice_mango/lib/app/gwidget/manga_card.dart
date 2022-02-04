@@ -13,8 +13,8 @@ class MangaCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
 
   const MangaCard({
-    Key key,
-    this.metaCombine,
+    Key? key,
+    required this.metaCombine,
   }) : super(key: key);
 
   @override
@@ -48,7 +48,7 @@ class MangaCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(metaCombine.mangaMeta.imgUrl),
+                image: NetworkImage(metaCombine.mangaMeta.imgUrl ?? ''),
                 fit: BoxFit.cover,
               ),
             ),
@@ -56,7 +56,8 @@ class MangaCard extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 color: Colors.white.withOpacity(0.7),
-                padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
+                padding: const EdgeInsets.only(
+                    left: 8, right: 8, top: 16, bottom: 16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +65,7 @@ class MangaCard extends StatelessWidget {
                     Stack(
                       children: [
                         MangaFrame(
-                          imageUrl: metaCombine.mangaMeta.imgUrl,
+                          imageUrl: metaCombine.mangaMeta.imgUrl ?? '',
                           width: MediaQuery.of(context).size.width / 3,
                         ),
                         Positioned(
@@ -73,7 +74,8 @@ class MangaCard extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(Radius.circular(1)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(1)),
                             ),
                             padding: EdgeInsets.symmetric(
                               horizontal: 8,
@@ -81,7 +83,7 @@ class MangaCard extends StatelessWidget {
                             ),
                             child: Text(
                               metaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2.copyWith(
+                              style: Get.textTheme.bodyText2?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -102,17 +104,17 @@ class MangaCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  metaCombine.mangaMeta.title,
+                                  metaCombine.mangaMeta.title ?? '',
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Text(
-                                  metaCombine.mangaMeta.author,
+                                  metaCombine.mangaMeta.author ?? '',
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 18.0),
                                   child: Text(
-                                    metaCombine.mangaMeta.description,
+                                    metaCombine.mangaMeta.description ?? '',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
@@ -121,7 +123,7 @@ class MangaCard extends StatelessWidget {
                               ],
                             ),
                             Tags(
-                              tags: metaCombine.mangaMeta.tags,
+                              tags: metaCombine.mangaMeta.tags ?? [],
                             )
                           ],
                         ),

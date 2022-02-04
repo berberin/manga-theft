@@ -3,8 +3,8 @@ import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 
 abstract class MangaProvider {
-  String nametag;
-  Locale locale;
+  late String nametag;
+  late Locale locale;
 
   Future<List<MangaMeta>> initData();
 

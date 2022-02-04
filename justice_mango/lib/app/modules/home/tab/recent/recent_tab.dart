@@ -21,7 +21,7 @@ class RecentTab extends GetWidget<RecentController> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'recentManga'.tr,
-                style: Get.textTheme.headline5.copyWith(
+                style: Get.textTheme.headline5?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                   letterSpacing: 0.27,

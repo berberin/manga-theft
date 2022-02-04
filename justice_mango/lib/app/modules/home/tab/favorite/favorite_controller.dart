@@ -11,8 +11,9 @@ class FavoriteController extends GetxController {
   var favoriteMangas = <MangaMeta>[];
   var favoriteMetaCombine = <MangaMetaCombine>[].obs;
   var cardStyle = FavoriteCardStyle.ShortMangaCard.obs;
-  RefreshController refreshController = RefreshController(initialRefresh: false);
-  SharedPreferences sharedPreferences;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+  late SharedPreferences sharedPreferences;
   var latestChapters = Map<String, String>().obs;
 
   @override
@@ -45,7 +46,8 @@ class FavoriteController extends GetxController {
     // for (var meta in favoriteMetaCombine) {
     //   print(meta.mangaMeta.title);
     // }
-    favoriteMetaCombine.sort((a, b) => a.mangaMeta.title.compareTo(b.mangaMeta.title));
+    favoriteMetaCombine.sort(
+        (a, b) => (a.mangaMeta.title?.compareTo(b.mangaMeta.title ?? '')) ?? 0);
     // print("--");
     // for (var meta in favoriteMetaCombine) {
     //   print(meta.mangaMeta.title);
@@ -55,10 +57,10 @@ class FavoriteController extends GetxController {
   changeFavoriteCardStyle() {
     if (cardStyle.value == FavoriteCardStyle.ShortMangaCard) {
       cardStyle.value = FavoriteCardStyle.ShortMangaBar;
-      sharedPreferences?.setString(favoriteCardStyleKey, shortMangaBar);
+      sharedPreferences.setString(favoriteCardStyleKey, shortMangaBar);
     } else {
       cardStyle.value = FavoriteCardStyle.ShortMangaCard;
-      sharedPreferences?.setString(favoriteCardStyleKey, shortMangaCard);
+      sharedPreferences.setString(favoriteCardStyleKey, shortMangaCard);
     }
   }
 }
