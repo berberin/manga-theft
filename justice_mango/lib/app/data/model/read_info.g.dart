@@ -18,9 +18,9 @@ class ReadInfoAdapter extends TypeAdapter<ReadInfo> {
     };
     return ReadInfo(
       mangaId: fields[0] as String,
-      lastReadIndex: fields[1] as int,
-      numberOfChapters: fields[2] as int,
-      newUpdate: fields[3] as bool,
+      lastReadIndex: fields[1] as int?,
+      numberOfChapters: fields[2] as int?,
+      newUpdate: fields[3] as bool?,
     );
   }
 

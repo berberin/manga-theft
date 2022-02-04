@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/provider/sources/manganelo/nelo_manga_provider.dart';
 import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
@@ -14,11 +13,11 @@ class SourceService {
 
   static List<MangaRepository> allSourceRepositories = <MangaRepository>[
     MangaRepository(NettruyenMangaProvider()),
-    MangaRepository(NeloMangaProvider()),
+    //   MangaRepository(NeloMangaProvider()),
     // sources..
   ];
 
-  static Locale selectedLocale;
+  static late Locale selectedLocale;
   static List<Locale> allLocalesSupported = <Locale>[
     Locale('vi', 'VN'),
     Locale('en', 'US'),
@@ -74,15 +73,15 @@ class SourceService {
   static saveLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('langCode', selectedLocale.languageCode);
-    await prefs.setString('countryCode', selectedLocale.countryCode);
+    await prefs.setString('countryCode', selectedLocale.countryCode ?? '');
   }
 
   static Future<Locale> loadLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String langCode = prefs.getString('langCode') ??
-        (Get.deviceLocale.languageCode == 'vi' ? 'vi' : 'en');
+        (Get.deviceLocale?.languageCode == 'vi' ? 'vi' : 'en');
     String countryCode = prefs.getString('countryCode') ??
-        (Get.deviceLocale.languageCode == 'vi' ? 'VN' : 'US');
+        (Get.deviceLocale?.languageCode == 'vi' ? 'VN' : 'US');
     return Locale(langCode, countryCode);
     // Get.deviceLocale.languageCode == 'vi' ? Locale('vi', 'VN') : Locale('en', 'US')
   }
@@ -99,6 +98,6 @@ class SourceService {
         return repo;
       }
     }
-    return null;
+    throw ('No repo slug: $repoSlug');
   }
 }

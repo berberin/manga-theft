@@ -11,7 +11,8 @@ import 'package:random_string/random_string.dart';
 class ReaderScreen extends StatefulWidget {
   final ReaderScreenArgs readerScreenArgs;
 
-  const ReaderScreen({Key key, this.readerScreenArgs}) : super(key: key);
+  const ReaderScreen({Key? key, required this.readerScreenArgs})
+      : super(key: key);
   @override
   _ReaderScreenState createState() => _ReaderScreenState();
 }
@@ -27,7 +28,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
         chaptersInfo: widget.readerScreenArgs.chaptersInfo,
         index: widget.readerScreenArgs.index,
         metaCombine: widget.readerScreenArgs.metaCombine,
-        preloadUrl: widget.readerScreenArgs.preloadUrl,
+        preloadUrl: widget.readerScreenArgs.preloadUrl ?? [],
       ),
       tag: tag,
     );
@@ -100,13 +101,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                       ),
                                     )
                                   ]
-                                : List.generate(
-                                    controller.imgUrls.length,
-                                    (index) => MangaImage(
-                                      imageUrl: controller.imgUrls[index],
-                                      repo: controller.metaCombine.repo,
+                                : [
+                                    Column(
+                                      children: List.generate(
+                                        controller.imgUrls.length,
+                                        (index) => MangaImage(
+                                          imageUrl: controller.imgUrls[index],
+                                          repo: controller.metaCombine.repo,
+                                        ),
+                                      ),
+                                      mainAxisSize: MainAxisSize.min,
                                     ),
-                                  ),
+                                  ],
                             addRepaintBoundaries: false,
                           ),
                         ),

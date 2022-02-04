@@ -7,11 +7,11 @@ class ChapterInfo {
   @HiveField(0)
   String preChapterId;
   @HiveField(1)
-  String name;
+  String? name;
   @HiveField(2)
-  String url;
+  String? url;
 
-  ChapterInfo({this.preChapterId, this.name, this.url});
+  ChapterInfo({required this.preChapterId, this.name, this.url});
 
   factory ChapterInfo.fromJson(Map<String, dynamic> json) {
     return ChapterInfo(

@@ -1,15 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
 
 class BackgroundContext {
   static Future<int> initMetadata(String repositorySlug) async {
-    return await compute(_initMetadata, repositorySlug).catchError((onError) {});
+    //return await compute(_initMetadata, repositorySlug).catchError((onError) {});
+    return _initMetadata(repositorySlug);
   }
 
-  static Future<List<MangaMeta>> getMangaList(MangaRepository repo, int page) async {
-    return await compute(_getMangaList, {"slug": repo.slug, "page": page});
+  static Future<List<MangaMeta>> getMangaList(
+      MangaRepository repo, int page) async {
+    //  return await compute(_getMangaList, {"slug": repo.slug, "page": page});
+    return _getMangaList({"slug": repo.slug, "page": page});
   }
 }
 

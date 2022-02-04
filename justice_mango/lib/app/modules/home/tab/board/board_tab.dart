@@ -40,7 +40,7 @@ class BoardTab extends GetWidget<BoardController> {
             sliver: SliverToBoxAdapter(
               child: Text(
                 'newUpdateFavorite'.tr,
-                style: Get.textTheme.headline5.copyWith(
+                style: Get.textTheme.headline5?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                   letterSpacing: 0.27,
@@ -56,7 +56,9 @@ class BoardTab extends GetWidget<BoardController> {
                   controller.favoriteUpdate.isEmpty
                       ? [Text('noUpdateFound'.tr)]
                       : List.generate(
-                          controller.favoriteUpdate.length > 5 ? 5 : controller.favoriteUpdate.length,
+                          controller.favoriteUpdate.length > 5
+                              ? 5
+                              : controller.favoriteUpdate.length,
                           (index) => MangaCard(
                             metaCombine: controller.favoriteUpdate[index],
                           ),
@@ -74,7 +76,7 @@ class BoardTab extends GetWidget<BoardController> {
                   padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
                   child: Text(
                     'updateJustNow'.tr,
-                    style: Get.textTheme.headline5.copyWith(
+                    style: Get.textTheme.headline5?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.27,
@@ -184,7 +186,7 @@ class BoardTab extends GetWidget<BoardController> {
           color: nearlyBlack,
           onPressed: () {
             showBarModalBottomSheet(
-              context: Get.context,
+              context: Get.context!,
               builder: (context) => SettingBottomSheet(),
             );
           },

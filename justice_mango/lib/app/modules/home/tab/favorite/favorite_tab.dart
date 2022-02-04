@@ -27,7 +27,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                 children: [
                   Text(
                     'favorites'.tr,
-                    style: Get.textTheme.headline5.copyWith(
+                    style: Get.textTheme.headline5?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.27,
@@ -51,17 +51,18 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                         ),
                       ),
                     )
-                  : (controller.cardStyle.value == FavoriteCardStyle.ShortMangaCard
-                      ? StaggeredGridView.countBuilder(
+                  : (controller.cardStyle.value ==
+                          FavoriteCardStyle.ShortMangaCard
+                      ? MasonryGridView.count(
                           padding: EdgeInsets.only(top: 3.0),
                           itemCount: controller.favoriteMetaCombine.length,
-                          crossAxisCount: 4,
+                          crossAxisCount: 2,
                           itemBuilder: (context, index) {
                             return ShortMangaCard(
-                              metaCombine: controller.favoriteMetaCombine[index],
+                              metaCombine:
+                                  controller.favoriteMetaCombine[index],
                             );
                           },
-                          staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                         )
@@ -70,10 +71,12 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                             return ListView.builder(
                               itemBuilder: (context, index) {
                                 return ShortMangaBar(
-                                  metaCombine: controller.favoriteMetaCombine[index],
-                                  latestChapter:
-                                      controller.latestChapters[controller.favoriteMetaCombine[index].mangaMeta.url] ??
-                                          "🦉",
+                                  metaCombine:
+                                      controller.favoriteMetaCombine[index],
+                                  latestChapter: controller.latestChapters[
+                                          controller.favoriteMetaCombine[index]
+                                              .mangaMeta.url] ??
+                                      "🦉",
                                 );
                               },
                               itemCount: controller.favoriteMetaCombine.length,

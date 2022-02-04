@@ -13,7 +13,8 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 class MangaDetailScreen extends StatefulWidget {
   final MangaMetaCombine metaCombine;
 
-  const MangaDetailScreen({Key key, this.metaCombine}) : super(key: key);
+  const MangaDetailScreen({Key? key, required this.metaCombine})
+      : super(key: key);
   @override
   _MangaDetailScreenState createState() => _MangaDetailScreenState();
 }
@@ -201,7 +202,10 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               controller.goToLastReadChapter();
             },
             label: 'readNow'.tr,
-            labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
             labelBackgroundColor: mainColorSecondary,
           ),
           SpeedDialChild(
@@ -222,8 +226,13 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 await controller.addToFavoriteBox();
               }
             },
-            label: controller.isFavorite.value ? 'favorite!'.tr : 'markFavorite'.tr,
-            labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+            label: controller.isFavorite.value
+                ? 'favorite!'.tr
+                : 'markFavorite'.tr,
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
             labelBackgroundColor: mainColorSecondary,
           ),
           if (controller.isFavorite.value)
@@ -245,8 +254,13 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                   await controller.markAsExceptionalFavorite();
                 }
               },
-              label: controller.isExceptional.value ? 'turnOnNotification'.tr : 'turnOffNotification'.tr,
-              labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
+              label: controller.isExceptional.value
+                  ? 'turnOnNotification'.tr
+                  : 'turnOffNotification'.tr,
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
               labelBackgroundColor: mainColorSecondary,
             ),
         ],

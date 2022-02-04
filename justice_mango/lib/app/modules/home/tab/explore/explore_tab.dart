@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:get/get.dart';
@@ -73,13 +72,15 @@ class ExploreTab extends GetWidget<ExploreController> {
                           children: [
                             Text(
                               'searchResult'.tr,
-                              style: Get.textTheme.headline5.copyWith(
+                              style: Get.textTheme.headline5?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                                 letterSpacing: 0.27,
                               ),
                             ),
-                            IconButton(icon: Icon(Icons.clear_all_rounded), onPressed: () => controller.clearSearch()),
+                            IconButton(
+                                icon: Icon(Icons.clear_all_rounded),
+                                onPressed: () => controller.clearSearch()),
                           ],
                         ),
                       )
@@ -94,7 +95,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
-                    (controller.searchComplete.value && controller.mangaSearchResult.isEmpty)
+                    (controller.searchComplete.value &&
+                            controller.mangaSearchResult.isEmpty)
                         ? <Widget>[
                             Text(
                               'noResult'.tr,
@@ -105,7 +107,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                             List.generate(
                               controller.mangaSearchResult.length,
                               (index) => MangaCard(
-                                metaCombine: controller.mangaSearchResult[index],
+                                metaCombine:
+                                    controller.mangaSearchResult[index],
                               ),
                             ),
                     addRepaintBoundaries: false,
@@ -115,7 +118,8 @@ class ExploreTab extends GetWidget<ExploreController> {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
+                padding:
+                    const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,7 +128,7 @@ class ExploreTab extends GetWidget<ExploreController> {
                       children: [
                         Text(
                           'randomManga'.tr,
-                          style: Get.textTheme.headline5.copyWith(
+                          style: Get.textTheme.headline5?.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                             letterSpacing: 0.27,
@@ -132,7 +136,8 @@ class ExploreTab extends GetWidget<ExploreController> {
                         ),
                         IconButton(
                           icon: Icon(Icons.refresh_rounded),
-                          onPressed: () => controller.getRandomManga(delayedDuration: Duration(seconds: 0)),
+                          onPressed: () => controller.getRandomManga(
+                              delayedDuration: Duration(seconds: 0)),
                         ),
                       ],
                     ),

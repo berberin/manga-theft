@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 class MangaFrame extends StatelessWidget {
   final String imageUrl;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
 
-  const MangaFrame({Key key, this.imageUrl, this.height, this.width}) : super(key: key);
+  const MangaFrame({Key? key, required this.imageUrl, this.height, this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,10 @@ class MangaFrame extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         fit: BoxFit.cover,
-        placeholder: (context, url) => Image.asset('assets/images/placeholder.png'),
-        errorWidget: (context, url, error) => Image.asset('assets/images/placeholder.png'),
+        placeholder: (context, url) =>
+            Image.asset('assets/images/placeholder.png'),
+        errorWidget: (context, url, error) =>
+            Image.asset('assets/images/placeholder.png'),
       ),
     );
   }

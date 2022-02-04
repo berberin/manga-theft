@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:beautifulsoup/beautifulsoup.dart';
+import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,8 +30,8 @@ class NettruyenMangaProvider extends MangaProvider {
 
   List<MangaMeta> _getMangaFromDOM(String body) {
     var mangaMetas = <MangaMeta>[];
-    var soup = Beautifulsoup(body);
-    var items = soup.find_all("div.item");
+    var soup = BeautifulSoup(body);
+    var items = soup.findAll("div.item");
 
     final regId = RegExp(r'\d+');
     final regAuthor = RegExp(r'Tác giả:</label>(.*?)</p>');
@@ -42,22 +42,23 @@ class NettruyenMangaProvider extends MangaProvider {
     try {
       for (var item in items) {
         String title = item
-            .querySelector("div.clearfix div.box_img")
-            .querySelector("a")
-            .attributes['title'];
-        String imgUrl = "http:" +
-            item
-                .querySelector("div figure div a img")
-                .attributes['data-original'];
-        String url = item.querySelector("div figure div a").attributes['href'];
-        String description = item.querySelector("div.box_text").text;
+                .find('', selector: "div.clearfix div.box_img")
+                ?.find('a')
+                ?.attributes['title'] ??
+            '';
 
-        String mainInfo = item.querySelector("div.message_main").innerHtml;
+        String imgUrl = "http:" +
+            (item.find("div figure div a img")?.attributes['data-original'] ??
+                '');
+        String url = item.find("div figure div a")?.attributes['href'] ?? '';
+        String description = item.find("div.box_text")?.text ?? '';
+
+        String mainInfo = item.find("div.message_main")?.innerHtml ?? '';
         var ids = regId.allMatches(url);
         String id = ids.last.input.substring(ids.last.start, ids.last.end);
 
         var authors = regAuthor.firstMatch(mainInfo);
-        String author;
+        String? author;
         if (authors == null) {
           author = "";
         } else {
@@ -69,14 +70,14 @@ class NettruyenMangaProvider extends MangaProvider {
         if (tagsMatch == null) {
           tags = [];
         } else {
-          tags = tagsMatch.group(1).split(",");
+          tags = tagsMatch.group(1)?.split(",") ?? [];
           for (int i = 0; i < tags.length; i++) {
             tags[i] = tags[i].trim();
           }
         }
 
         var statusMatch = regStatus.firstMatch(mainInfo);
-        String status;
+        String? status;
         if (statusMatch == null) {
           status = "Không rõ";
         } else {
@@ -88,7 +89,7 @@ class NettruyenMangaProvider extends MangaProvider {
         if (aliasMatch == null) {
           alias = [];
         } else {
-          alias = aliasMatch.group(1).split(",");
+          alias = aliasMatch.group(1)?.split(",") ?? [];
           for (int i = 0; i < alias.length; i++) {
             alias[i] = alias[i].trim();
           }
@@ -143,14 +144,15 @@ class NettruyenMangaProvider extends MangaProvider {
       chapterUrl = "https://www.nettruyengo.com" + chapterUrl;
     }
     var response = await httpRepo.get(chapterUrl);
-    var soup = Beautifulsoup(response.data.toString());
-    var pages = soup.find_all("div.page-chapter img");
+    var soup = BeautifulSoup(response.data.toString());
+    var pages = soup.findAll("div.page-chapter img");
 
     for (var page in pages) {
-      if (page.attributes['data-original'].startsWith("/"))
-        pagesUrl.add("http:" + page.attributes['data-original']);
-      else
-        pagesUrl.add(page.attributes['data-original']);
+      if (page.attributes['data-original']?.startsWith("/") ?? false) {
+        pagesUrl.add("http:" + page.attributes['data-original']!);
+      } else {
+        pagesUrl.add(page.attributes['data-original'] ?? '');
+      }
     }
     return pagesUrl;
   }
@@ -173,7 +175,7 @@ class NettruyenMangaProvider extends MangaProvider {
   Future<List<MangaMeta>> searchTag(String searchTag) async {
     // TODO: get from source provider
     return HiveService.mangaBox.values.where((element) {
-      for (var tag in element.tags) {
+      for (var tag in element.tags ?? []) {
         if (tag == searchTag) {
           return true;
         }

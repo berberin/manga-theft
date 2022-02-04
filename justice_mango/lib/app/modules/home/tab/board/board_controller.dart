@@ -99,7 +99,7 @@ class BoardController extends GetxController {
     // get instantly
     for (var mangaMeta in favoriteMetas) {
       if (HiveService.getReadInfo(mangaMeta.repoSlug + mangaMeta.preId)
-              .newUpdate ??
+              ?.newUpdate ??
           false) {
         for (var repo in SourceService.allSourceRepositories) {
           if (repo.slug == mangaMeta.repoSlug) {
@@ -124,10 +124,10 @@ class BoardController extends GetxController {
           // update latest chapters on favorite screen
           FavoriteController favoriteController = Get.find();
           favoriteController.latestChapters[mangaMeta.url] =
-              chapterList.first.name;
+              chapterList.first.name ?? '';
           favoriteController.update();
 
-          if (HiveService.getReadInfo(repo.slug + mangaMeta.preId).newUpdate ??
+          if (HiveService.getReadInfo(repo.slug + mangaMeta.preId)?.newUpdate ??
               false) {
             if (!favoriteUpdate.contains(MangaMetaCombine(repo, mangaMeta)) &&
                 !repo.isExceptionalFavorite(mangaMeta.preId)) {
@@ -158,7 +158,7 @@ class BoardController extends GetxController {
 
   Future<String> getUID() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String uid = preferences.getString('uid');
+    String? uid = preferences.getString('uid');
     if (uid == null) {
       uid = randomString(10);
       await preferences.setString('uid', uid);

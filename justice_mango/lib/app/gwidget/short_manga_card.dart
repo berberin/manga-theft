@@ -11,7 +11,7 @@ import 'manga_frame.dart';
 class ShortMangaCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
 
-  const ShortMangaCard({Key key, this.metaCombine}) : super(key: key);
+  const ShortMangaCard({Key? key, required this.metaCombine}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +38,15 @@ class ShortMangaCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(metaCombine.mangaMeta.imgUrl),
+              image: NetworkImage(metaCombine.mangaMeta.imgUrl ?? ''),
               fit: BoxFit.cover,
             ),
           ),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
               color: Colors.white.withOpacity(0.7),
               child: InkWell(
                 child: Column(
@@ -54,7 +55,7 @@ class ShortMangaCard extends StatelessWidget {
                     Stack(
                       children: [
                         MangaFrame(
-                          imageUrl: metaCombine.mangaMeta.imgUrl,
+                          imageUrl: metaCombine.mangaMeta.imgUrl ?? '',
                           height: MediaQuery.of(context).size.width / 2.67,
                         ),
                         Positioned(
@@ -63,7 +64,8 @@ class ShortMangaCard extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(Radius.circular(1)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(1)),
                             ),
                             padding: EdgeInsets.symmetric(
                               horizontal: 8,
@@ -71,7 +73,7 @@ class ShortMangaCard extends StatelessWidget {
                             ),
                             child: Text(
                               metaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2.copyWith(
+                              style: Get.textTheme.bodyText2?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -89,14 +91,17 @@ class ShortMangaCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 3.0),
                               child: Text(
-                                metaCombine.mangaMeta.title,
-                                style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15),
+                                metaCombine.mangaMeta.title ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(fontSize: 15),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Text(
                               //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
-                              metaCombine.mangaMeta.author,
+                              metaCombine.mangaMeta.author ?? '',
                               style: Theme.of(context).textTheme.caption,
                               textAlign: TextAlign.center,
                             ),

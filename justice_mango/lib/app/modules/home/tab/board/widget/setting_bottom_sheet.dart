@@ -5,7 +5,7 @@ import 'package:justice_mango/app/data/service/source_service.dart';
 import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
 
 class SettingBottomSheet extends StatefulWidget {
-  const SettingBottomSheet({Key key}) : super(key: key);
+  const SettingBottomSheet({Key? key}) : super(key: key);
 
   @override
   _SettingBottomSheetState createState() => _SettingBottomSheetState();
@@ -33,9 +33,10 @@ class _SettingBottomSheetState extends State<SettingBottomSheet> {
             ),
             for (var locale in SourceService.allLocalesSupported)
               CheckboxListTile(
-                value: locale.languageCode == SourceService.selectedLocale.languageCode,
+                value: locale.languageCode ==
+                    SourceService.selectedLocale.languageCode,
                 onChanged: (newValue) {
-                  if (newValue) {
+                  if (newValue ?? false) {
                     setState(() {
                       SourceService.changeLocale(locale);
                     });
@@ -61,7 +62,7 @@ class _SettingBottomSheetState extends State<SettingBottomSheet> {
               CheckboxListTile(
                 value: SourceService.sourceRepositories.contains(source),
                 onChanged: (newValue) {
-                  if (newValue) {
+                  if (newValue ?? false) {
                     setState(() {
                       SourceService.addToSource(source);
                     });

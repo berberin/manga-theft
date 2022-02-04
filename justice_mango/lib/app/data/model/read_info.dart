@@ -8,13 +8,18 @@ class ReadInfo {
   String mangaId;
 
   @HiveField(1)
-  int lastReadIndex;
+  int? lastReadIndex;
 
-  ReadInfo({this.mangaId, this.lastReadIndex, this.numberOfChapters, this.newUpdate});
+  ReadInfo({
+    required this.mangaId,
+    this.lastReadIndex,
+    this.numberOfChapters,
+    this.newUpdate,
+  });
 
   @HiveField(2)
-  int numberOfChapters;
+  int? numberOfChapters;
 
   @HiveField(3)
-  bool newUpdate;
+  bool? newUpdate;
 }

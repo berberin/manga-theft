@@ -10,6 +10,7 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 class HomeScreen extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
+    print('home');
     return SafeArea(
       top: false,
       child: Obx(

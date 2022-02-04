@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta.dart';
@@ -32,18 +31,18 @@ class HiveService {
     commonBox = await Hive.openBox(recentReadBoxName);
   }
 
-  static Box<MangaMeta> mangaBox;
-  static Box<MangaMeta> favoriteBox;
-  static Box<ChapterInfo> chapterReadInfo;
-  static Box<ReadInfo> lastReadInfoBox;
+  static late Box<MangaMeta> mangaBox;
+  static late Box<MangaMeta> favoriteBox;
+  static late Box<ChapterInfo> chapterReadInfo;
+  static late Box<ReadInfo> lastReadInfoBox;
   // recent read, init repo data, exceptional favorite
-  static Box commonBox;
+  static late Box commonBox;
 
   static putMangaMeta(String mangaId, MangaMeta mangaMeta) async {
     await mangaBox.put(mangaId, mangaMeta);
   }
 
-  static MangaMeta getMangaMeta(String mangaId) {
+  static MangaMeta? getMangaMeta(String mangaId) {
     return mangaBox.get(mangaId);
   }
 
@@ -55,7 +54,7 @@ class HiveService {
     await favoriteBox.put(mangaId, mangaMeta);
   }
 
-  static MangaMeta getMangaMetaFavorite(String mangaId) {
+  static MangaMeta? getMangaMetaFavorite(String mangaId) {
     return favoriteBox.get(mangaId);
   }
 
@@ -67,7 +66,7 @@ class HiveService {
     await chapterReadInfo.put(chapterId, chapterInfo);
   }
 
-  static ChapterInfo getChapterInfoInBox(String chapterId) {
+  static ChapterInfo? getChapterInfoInBox(String chapterId) {
     return chapterReadInfo.get(chapterId);
   }
 
@@ -79,7 +78,7 @@ class HiveService {
     await lastReadInfoBox.put(mangaId, readInfo);
   }
 
-  static ReadInfo getReadInfo(String mangaId) {
+  static ReadInfo? getReadInfo(String mangaId) {
     return lastReadInfoBox.get(mangaId);
   }
 

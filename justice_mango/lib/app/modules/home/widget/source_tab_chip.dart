@@ -4,7 +4,8 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 class SourceTabChip extends StatelessWidget {
   final String label;
   final bool selected;
-  const SourceTabChip({Key key, this.label, this.selected}) : super(key: key);
+  const SourceTabChip({Key? key, required this.label, required this.selected})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

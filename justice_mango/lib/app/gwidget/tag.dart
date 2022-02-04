@@ -4,7 +4,7 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 class Tags extends StatelessWidget {
   final List<String> tags;
 
-  const Tags({Key key, this.tags}) : super(key: key);
+  const Tags({Key? key, required this.tags}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class Tags extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
           child: Text(
             tag,
-            style: Theme.of(context).textTheme.caption.copyWith(
+            style: Theme.of(context).textTheme.caption?.copyWith(
                   fontSize: 9,
                 ),
           ),

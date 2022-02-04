@@ -9,11 +9,11 @@ import 'app/theme/app_theme.dart';
 import 'app/util/translation.dart';
 
 void main() async {
-  print("widget binding");
   WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await HiveService.init();
   await SourceService.init();
+  print('runapp');
   runApp(
     GetMaterialApp(
       // smartManagement: SmartManagement.keepFactory,
