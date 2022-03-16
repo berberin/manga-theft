@@ -68,7 +68,7 @@ const TextStyle caption = TextStyle(
   color: lightText, // was lightText
 );
 
-TextTheme appTextTheme = GoogleFonts.openSansTextTheme().merge(TextTheme(
+TextTheme appTextTheme = GoogleFonts.vt323TextTheme().merge(TextTheme(
   headline4: display1,
   headline5: headline,
   headline6: title,

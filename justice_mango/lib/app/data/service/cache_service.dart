@@ -6,7 +6,7 @@ class CacheService {
 
   static CustomCacheManager cacheManager = CustomCacheManager(Config(
     'imageCacheManager',
-    maxNrOfCacheObjects: 100,
+    maxNrOfCacheObjects: 350,
     stalePeriod: const Duration(days: 7),
   ));
 
