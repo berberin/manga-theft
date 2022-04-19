@@ -21,7 +21,7 @@ class NettruyenMangaProvider extends MangaProvider {
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
     var url =
-        "https://www.nettruyengo.com/tim-truyen?page=$page&r=$randomString";
+        "https://www.nettruyenmoi.com/tim-truyen?page=$page&r=$randomString";
     Response response = await httpRepo.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
 
@@ -123,7 +123,7 @@ class NettruyenMangaProvider extends MangaProvider {
     String mangaId = mangaMeta.preId;
     while (mangaId.length > 0) {
       String url =
-          "https://www.nettruyengo.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
+          "https://www.nettruyenmoi.com/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
       var response = await httpRepo.get(url);
       try {
         for (var item in response.data['chapters']) {
@@ -141,7 +141,7 @@ class NettruyenMangaProvider extends MangaProvider {
   Future<List<String>> getPages(String chapterUrl) async {
     List<String> pagesUrl = <String>[];
     if (chapterUrl.startsWith("/")) {
-      chapterUrl = "https://www.nettruyengo.com" + chapterUrl;
+      chapterUrl = "https://www.nettruyenmoi.com" + chapterUrl;
     }
     var response = await httpRepo.get(chapterUrl);
     var soup = BeautifulSoup(response.data.toString());
@@ -162,7 +162,7 @@ class NettruyenMangaProvider extends MangaProvider {
     if (searchString == "") return mangaMetas;
     searchString = searchString.toLowerCase();
     try {
-      var url = "https://www.nettruyengo.com/tim-truyen?keyword=$searchString";
+      var url = "https://www.nettruyenmoi.com/tim-truyen?keyword=$searchString";
       var response = await httpRepo.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
     } catch (e, stacktrace) {
@@ -195,6 +195,6 @@ class NettruyenMangaProvider extends MangaProvider {
 
   @override
   Map<String, String> imageHeader() {
-    return {"Referer": "https://www.nettruyengo.com/"};
+    return {"Referer": "https://www.nettruyenmoi.com/"};
   }
 }
