@@ -62,6 +62,15 @@ class MangaRepository implements Equatable {
         await HiveService.putMangaMeta(provider.getId(meta.preId), meta);
         count++;
       }
+      for (var favoriteMeta in HiveService.favoriteBox.values.toList()) {
+        try {
+          if (favoriteMeta.repoSlug == slug) {
+            favoriteMeta =
+                HiveService.mangaBox.get(provider.getId(favoriteMeta.preId))!;
+            putMangaMetaFavorite(favoriteMeta);
+          }
+        } catch (_) {}
+      }
       await HiveService.setRepoIsAvailable(slug);
     }
     print(count);
