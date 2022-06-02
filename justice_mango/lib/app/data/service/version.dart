@@ -1,4 +1,4 @@
 class AppVersion {
-  static const buildNumber = '2112081';
-  static const version = '2.2.6';
+  static const buildNumber = '2206021';
+  static const version = '3.0.1';
 }
