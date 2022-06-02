@@ -23,6 +23,13 @@ void main() async {
       translationsKeys: translationMap,
       debugShowCheckedModeBanner: false,
       theme: appThemeData,
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQueryData.copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
     ),
   );
   //runApp(TestApp());
