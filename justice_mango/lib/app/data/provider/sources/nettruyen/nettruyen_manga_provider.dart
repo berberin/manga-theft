@@ -125,11 +125,9 @@ class NettruyenMangaProvider extends MangaProvider {
       // String url =
       //     "https://$baseUrl/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
       var response = await httpRepo.get(mangaMeta.url);
-      print(response);
       try {
         var soup = BeautifulSoup(response.data.toString());
         var chapters = soup.findAll("div.col-xs-5.chapter");
-        print(chapters.length);
         // for (var item in response.data['chapters']) {
         //   ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
         //   chaptersInfo.add(chapterInfo);
@@ -209,5 +207,16 @@ class NettruyenMangaProvider extends MangaProvider {
   @override
   Map<String, String> imageHeader() {
     return {"Referer": "https://$baseUrl/"};
+  }
+
+  @override
+  Future<MangaMeta> getLatestMeta(MangaMeta mangaMeta) async {
+    // TODO: implement full version of getLatestMeta // copyWith
+    var response = await httpRepo.get(mangaMeta.url);
+    var soup = BeautifulSoup(response.data.toString());
+    var image = soup.find("div.col-xs-4.col-image");
+    String imageUrl = image?.attributes['src'] ?? "";
+    var latestMeta = mangaMeta.clone()..imgUrl = imageUrl;
+    return latestMeta;
   }
 }

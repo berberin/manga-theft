@@ -14,9 +14,10 @@ class MangaMeta extends Equatable {
   @HiveField(3)
   final String preId;
   @HiveField(4)
-  final String? imgUrl;
+  String? imgUrl;
   @HiveField(5)
   final String? status;
+
   @HiveField(6)
   final List<String>? tags;
   @HiveField(7)
@@ -27,6 +28,19 @@ class MangaMeta extends Equatable {
   final String lang;
   @HiveField(10)
   final String repoSlug;
+
+  MangaMeta.z(
+      this.alias,
+      this.author,
+      this.description,
+      this.preId,
+      this.imgUrl,
+      this.status,
+      this.tags,
+      this.title,
+      this.url,
+      this.lang,
+      this.repoSlug);
 
   MangaMeta({
     this.alias,
@@ -81,4 +95,7 @@ class MangaMeta extends Equatable {
 
   @override
   List<Object> get props => [url, imgUrl ?? ""];
+
+  MangaMeta clone() => MangaMeta.z(alias, author, description, preId, imgUrl,
+      status, tags, title, url, lang, repoSlug);
 }
