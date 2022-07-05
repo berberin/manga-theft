@@ -21,8 +21,7 @@ class NettruyenMangaProvider extends MangaProvider {
 
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
-    var url =
-        "https://$baseUrl/tim-truyen?page=$page&r=$randomString";
+    var url = "https://$baseUrl/tim-truyen?page=$page&r=$randomString";
     Response response = await httpRepo.get(url);
     List<MangaMeta> mangaMetas = _getMangaFromDOM(response.data.toString());
 
@@ -123,13 +122,26 @@ class NettruyenMangaProvider extends MangaProvider {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
     String mangaId = mangaMeta.preId;
     while (mangaId.length > 0) {
-      String url =
-          "https://$baseUrl/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
-      var response = await httpRepo.get(url);
+      // String url =
+      //     "https://$baseUrl/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
+      var response = await httpRepo.get(mangaMeta.url);
+      print(response);
       try {
-        for (var item in response.data['chapters']) {
-          ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
-          chaptersInfo.add(chapterInfo);
+        var soup = BeautifulSoup(response.data.toString());
+        var chapters = soup.findAll("div.col-xs-5.chapter");
+        print(chapters.length);
+        // for (var item in response.data['chapters']) {
+        //   ChapterInfo chapterInfo = ChapterInfo.fromJson(item);
+        //   chaptersInfo.add(chapterInfo);
+        // }
+        for (var chapter in chapters) {
+          chaptersInfo.add(
+            ChapterInfo(
+              preChapterId: chapter.a?.attributes['data-id'] ?? '',
+              name: chapter.a?.text ?? 'nhân cách của igl',
+              url: chapter.a?.attributes['href'],
+            ),
+          );
         }
         return chaptersInfo;
       } catch (e) {
