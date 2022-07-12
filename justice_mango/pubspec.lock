@@ -42,7 +42,7 @@ packages:
       name: beautiful_soup_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -292,7 +292,7 @@ packages:
       name: flutter_speed_dial
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "6.0.0"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -344,7 +344,7 @@ packages:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "3.0.1"
   graphs:
     dependency: transitive
     description:
@@ -589,7 +589,7 @@ packages:
       name: photo_view
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0"
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:
