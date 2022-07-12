@@ -30,14 +30,14 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   hive_flutter: ^1.1.0
   dio: ^4.0.4
-  cached_network_image: ^3.2.1
-  beautiful_soup_dart: ^0.2.0
+  cached_network_image: ^3.2.0
+  beautiful_soup_dart: ^0.3.0
   shared_preferences: ^2.0.12
 
   pull_to_refresh: ^2.0.0
   flutter_staggered_grid_view: ^0.6.1
-  google_fonts: ^2.2.0
-  flutter_speed_dial: ^5.0.0+1
+  google_fonts: ^3.0.1
+  flutter_speed_dial: ^6.0.0
   flutter_focus_watcher: ^2.0.0
   modal_bottom_sheet: ^2.0.0
 
@@ -47,7 +47,7 @@ dependencies:
   jdenticon_dart: ^2.0.0
   flutter_svg: ^1.0.3
   equatable: ^2.0.3
-  photo_view: ^0.13.0
+  photo_view: ^0.14.0
   salomon_bottom_bar: ^3.2.0
 
 dev_dependencies:
