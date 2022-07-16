@@ -118,6 +118,33 @@ class NettruyenMangaProvider extends MangaProvider {
     return mangaMetas;
   }
 
+  Future<MangaMeta> _getSingleMangaMetaFromUrl(MangaMeta oldMangaMeta) async {
+    var response = await httpRepo.get(oldMangaMeta.url);
+    var soup = BeautifulSoup(response.data.toString());
+
+    String title = soup.find('', selector: "h1.title-detail")?.text ?? '';
+
+    String imgUrl = "http:" +
+        (soup.find("div.col-xs-4.col-image")?.find("img")?.attributes['src'] ??
+            '//picsum.photos/200/400');
+    String description = soup.find("div.detail-content p")?.text ?? '';
+
+    MangaMeta mangaMeta = MangaMeta(
+      title: title,
+      url: oldMangaMeta.url,
+      imgUrl: imgUrl,
+      preId: oldMangaMeta.preId,
+      alias: oldMangaMeta.alias,
+      author: oldMangaMeta.author,
+      tags: oldMangaMeta.tags,
+      description: description,
+      status: oldMangaMeta.status,
+      lang: 'vi',
+      repoSlug: slug,
+    );
+    return mangaMeta;
+  }
+
   Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta) async {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
     String mangaId = mangaMeta.preId;
@@ -212,11 +239,7 @@ class NettruyenMangaProvider extends MangaProvider {
   @override
   Future<MangaMeta> getLatestMeta(MangaMeta mangaMeta) async {
     // TODO: implement full version of getLatestMeta // copyWith
-    var response = await httpRepo.get(mangaMeta.url);
-    var soup = BeautifulSoup(response.data.toString());
-    var image = soup.find("div.col-xs-4.col-image");
-    String imageUrl = image?.attributes['src'] ?? "";
-    var latestMeta = mangaMeta.clone()..imgUrl = imageUrl;
-    return latestMeta;
+    MangaMeta latestMangaMeta = await _getSingleMangaMetaFromUrl(mangaMeta);
+    return latestMangaMeta;
   }
 }
