@@ -25,6 +25,10 @@ class MangaRepository implements Equatable {
     return provider.getPages(chapterUrl);
   }
 
+  Future<MangaMeta> getLatestMeta(MangaMeta mangaMeta) {
+    return provider.getLatestMeta(mangaMeta);
+  }
+
   Future<List<MangaMeta>> search(String searchString) async {
     List<MangaMeta> metas = await provider.search(searchString);
     checkAndPutToMangaBox(metas);
@@ -93,6 +97,11 @@ class MangaRepository implements Equatable {
   Future<List<ChapterInfo>> updateLastReadInfo(
       {required MangaMeta mangaMeta, bool updateStatus = false}) async {
     String mangaId = provider.getId(mangaMeta.preId);
+    var latestMeta = await provider.getLatestMeta(mangaMeta);
+    if (latestMeta != mangaMeta) {
+      mangaMeta = latestMeta;
+      addToFavorite(mangaMeta.preId, mangaMeta);
+    }
     ReadInfo? currentReadInfo = HiveService.getReadInfo(mangaId);
     //MangaMeta mangaMeta = HiveService.getMangaMeta(mangaId);
     List<ChapterInfo> chapters = await provider.getChaptersInfo(mangaMeta);

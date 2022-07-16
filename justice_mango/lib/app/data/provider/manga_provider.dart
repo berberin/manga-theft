@@ -25,6 +25,8 @@ abstract class MangaProvider {
   /// Search a tag in source
   Future<List<MangaMeta>> searchTag(String searchTag);
 
+  Future<MangaMeta> getLatestMeta(MangaMeta mangaMeta);
+
   String getId(String preId) {
     return "${locale.languageCode}>$nametag>$preId";
   }
