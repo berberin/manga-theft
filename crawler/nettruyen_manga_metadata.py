@@ -9,17 +9,21 @@ scraper = cloudscraper.create_scraper(browser={
         'platform': 'android',
         'desktop': False
     })
-urlSample = "http://www.nettruyenvip.com/tim-truyen?page={}"
+
+baseUrl = "https://www.nettruyenco.com/"
+baseHost = "www.nettruyenco.com"
+
+urlSample = baseUrl + "/tim-truyen?page={}"
 
 headers = {
-    "Referer": "http://www.nettruyenvip.com/",
-    "Origin": "http://www.nettruyenvip.com",
-    "Host": "www.nettruyenvip.com"
+    "Referer": baseUrl,
+    "Origin": baseUrl[:-1],
+    "Host": baseHost
 }
 
 manga_list = []
 
-for i in range(1, 650):
+for i in range(1, 550):
     print(i)
     response = scraper.get(urlSample.format(i))
     
