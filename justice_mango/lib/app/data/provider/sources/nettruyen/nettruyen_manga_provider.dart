@@ -119,15 +119,15 @@ class NettruyenMangaProvider extends MangaProvider {
   }
 
   Future<MangaMeta> _getSingleMangaMetaFromUrl(MangaMeta oldMangaMeta) async {
+    // throw null safety to prevent update broken meta
     var response = await httpRepo.get(oldMangaMeta.url);
     var soup = BeautifulSoup(response.data.toString());
 
-    String title = soup.find('', selector: "h1.title-detail")?.text ?? '';
+    String title = soup.find('', selector: "h1.title-detail")!.text;
 
     String imgUrl = "http:" +
-        (soup.find("div.col-xs-4.col-image")?.find("img")?.attributes['src'] ??
-            '//picsum.photos/200/400');
-    String description = soup.find("div.detail-content p")?.text ?? '';
+        (soup.find("div.col-xs-4.col-image")!.find("img")!.attributes['src']!);
+    String description = soup.find("div.detail-content p")!.text;
 
     MangaMeta mangaMeta = MangaMeta(
       title: title,
