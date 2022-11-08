@@ -17,7 +17,7 @@ class NettruyenMangaProvider extends MangaProvider {
   final nametag = 'nettruyen';
   final locale = Locale('vi', 'VN');
   final httpRepo = HttpRepository(NettruyenHttpProvider());
-  final baseUrl = 'www.nettruyenco.com';
+  final baseUrl = 'www.nettruyenin.com';
 
   Future<List<MangaMeta>> getLatestManga({page: 1}) async {
     var randomString = randomAlpha(3);
