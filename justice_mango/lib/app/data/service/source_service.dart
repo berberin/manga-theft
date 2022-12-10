@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
+import 'package:justice_mango/app/data/provider/sources/mango_collector/mango_coll_manga_provider.dart';
 import 'package:justice_mango/app/data/repository/manga_repository.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +12,8 @@ class SourceService {
   static List<MangaRepository> sourceRepositories = <MangaRepository>[];
 
   static List<MangaRepository> allSourceRepositories = <MangaRepository>[
-    MangaRepository(NettruyenMangaProvider()),
+    MangaRepository(MangoCollMangaProvider()),
+    // MangaRepository(NettruyenMangaProvider()),
     //   MangaRepository(NeloMangaProvider()),
     // sources..
   ];
@@ -54,7 +55,7 @@ class SourceService {
   static loadSources() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> sourcesSlug =
-        prefs.getStringList('sources') ?? (['vi>nettruyen>']);
+        prefs.getStringList('sources') ?? (['vi>storynap>']);
     for (var slug in sourcesSlug) {
       for (var repo in allSourceRepositories) {
         if (repo.slug == slug) {

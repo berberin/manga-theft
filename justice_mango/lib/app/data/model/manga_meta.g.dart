@@ -69,3 +69,36 @@ class MangaMetaAdapter extends TypeAdapter<MangaMeta> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+MangaMeta _$MangaMetaFromJson(Map<String, dynamic> json) => MangaMeta(
+      alias:
+          (json['aliases'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      author: json['author'] as String?,
+      description: json['description'] as String?,
+      preId: json['id'] as String,
+      imgUrl: json['imgUrl'] as String?,
+      status: json['status'] as String?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      title: json['title'] as String?,
+      url: json['sourceUrl'] as String,
+      lang: json['language'] as String,
+      repoSlug: json['repoSlug'] as String? ?? 'nap',
+    );
+
+Map<String, dynamic> _$MangaMetaToJson(MangaMeta instance) => <String, dynamic>{
+      'aliases': instance.alias,
+      'author': instance.author,
+      'description': instance.description,
+      'id': instance.preId,
+      'imgUrl': instance.imgUrl,
+      'status': instance.status,
+      'tags': instance.tags,
+      'title': instance.title,
+      'sourceUrl': instance.url,
+      'language': instance.lang,
+      'repoSlug': instance.repoSlug,
+    };

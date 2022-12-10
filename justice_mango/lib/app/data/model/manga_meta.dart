@@ -1,18 +1,26 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'manga_meta.g.dart';
 
+@JsonSerializable()
 @HiveType(typeId: 0)
 class MangaMeta extends Equatable {
+  @JsonKey(name: 'aliases')
   @HiveField(0)
   final List<String>? alias;
+
   @HiveField(1)
   final String? author;
+
   @HiveField(2)
   final String? description;
+
+  @JsonKey(name: 'id')
   @HiveField(3)
   final String preId;
+
   @HiveField(4)
   String? imgUrl;
   @HiveField(5)
@@ -20,12 +28,19 @@ class MangaMeta extends Equatable {
 
   @HiveField(6)
   final List<String>? tags;
+
   @HiveField(7)
   final String? title;
+
+  @JsonKey(name: 'sourceUrl')
   @HiveField(8)
   final String url;
+
+  @JsonKey(name: 'language')
   @HiveField(9)
   final String lang;
+
+  @JsonKey(defaultValue: "nap")
   @HiveField(10)
   final String repoSlug;
 
@@ -56,42 +71,10 @@ class MangaMeta extends Equatable {
     required this.repoSlug,
   });
 
-  factory MangaMeta.fromJson(Map<String, dynamic> json) {
-    return MangaMeta(
-      alias:
-          json['alias'] != null ? new List<String>.from(json['alias']) : null,
-      author: json['author'],
-      description: json['description'],
-      preId: json['id'],
-      imgUrl: json['imgUrl'],
-      status: json['status'],
-      tags: json['tags'] != null ? new List<String>.from(json['tags']) : null,
-      title: json['title'],
-      url: json['url'],
-      lang: json['lang'],
-      repoSlug: json['repoSlug'],
-    );
-  }
+  factory MangaMeta.fromJson(Map<String, dynamic> json) =>
+      _$MangaMetaFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['author'] = this.author;
-    data['description'] = this.description;
-    data['id'] = this.preId;
-    data['imgUrl'] = this.imgUrl;
-    data['status'] = this.status;
-    data['title'] = this.title;
-    data['url'] = this.url;
-    data['lang'] = this.lang;
-    if (this.alias != null) {
-      data['alias'] = this.alias;
-    }
-    if (this.tags != null) {
-      data['tags'] = this.tags;
-    }
-    data['repoSlug'] = this.repoSlug;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$MangaMetaToJson(this);
 
   @override
   List<Object> get props => [url, imgUrl ?? ""];

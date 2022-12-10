@@ -13,7 +13,6 @@ void main() async {
   //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await HiveService.init();
   await SourceService.init();
-  print('runapp');
   runApp(
     GetMaterialApp(
       // smartManagement: SmartManagement.keepFactory,
