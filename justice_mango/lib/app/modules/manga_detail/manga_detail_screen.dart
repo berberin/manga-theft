@@ -86,7 +86,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            controller.metaCombine.mangaMeta.alias.isNotEmpty
+            controller.metaCombine.mangaMeta.alias?.isNotEmpty ?? false
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
