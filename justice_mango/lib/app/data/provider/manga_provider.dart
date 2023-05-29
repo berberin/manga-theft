@@ -11,7 +11,7 @@ abstract class MangaProvider {
   Map<String, String> imageHeader();
 
   /// Get a List<MangaMeta> from source
-  Future<List<MangaMeta>> getLatestManga({page: 1});
+  Future<List<MangaMeta>> getLatestManga({page = 1});
 
   /// Get a List<ChapterInfo> from source
   Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta);

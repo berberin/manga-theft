@@ -8,6 +8,8 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 import 'widget/short_manga_bar.dart';
 
 class FavoriteTab extends GetWidget<FavoriteController> {
+  const FavoriteTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +18,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Padding(
@@ -27,14 +29,14 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                 children: [
                   Text(
                     'favorites'.tr,
-                    style: Get.textTheme.headline5?.copyWith(
+                    style: Get.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.27,
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.sort_rounded),
+                    icon: const Icon(Icons.sort_rounded),
                     onPressed: () => controller.changeFavoriteCardStyle(),
                   ),
                 ],
@@ -43,18 +45,18 @@ class FavoriteTab extends GetWidget<FavoriteController> {
             Obx(
               () => controller.favoriteMetaCombine.isEmpty
                   ? Padding(
-                      padding: EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(24),
                       child: Center(
                         child: Text(
                           'dontHaveAnyFavorite'.tr,
-                          style: Get.textTheme.bodyText2,
+                          style: Get.textTheme.bodyMedium,
                         ),
                       ),
                     )
                   : (controller.cardStyle.value ==
-                          FavoriteCardStyle.ShortMangaCard
+                          FavoriteCardStyle.shortMangaCard
                       ? MasonryGridView.count(
-                          padding: EdgeInsets.only(top: 3.0),
+                          padding: const EdgeInsets.only(top: 3.0),
                           itemCount: controller.favoriteMetaCombine.length,
                           crossAxisCount: 2,
                           itemBuilder: (context, index) {
@@ -64,7 +66,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                             );
                           },
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                         )
                       : GetBuilder(
                           builder: (FavoriteController controller) {
@@ -81,7 +83,7 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                               },
                               itemCount: controller.favoriteMetaCombine.length,
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                             );
                           },
                         )),
@@ -94,6 +96,6 @@ class FavoriteTab extends GetWidget<FavoriteController> {
 }
 
 enum FavoriteCardStyle {
-  ShortMangaCard,
-  ShortMangaBar,
+  shortMangaCard,
+  shortMangaBar,
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
@@ -61,8 +62,10 @@ class BoardController extends GetxController {
             MangaMetaCombine(SourceService.sourceRepositories[0], mangaMeta));
       }
     } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
     }
     getUpdateFavorite();
     refreshController.refreshCompleted();
@@ -88,8 +91,10 @@ class BoardController extends GetxController {
       hasError.value = false;
     } catch (e, stacktrace) {
       hasError.value = true;
-      print(e);
-      print(stacktrace);
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
     }
   }
 

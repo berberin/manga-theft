@@ -2,6 +2,7 @@ import 'package:justice_mango/app/data/provider/http_provider.dart';
 
 class NettruyenHttpProvider extends HttpProvider {
   final baseUrl = 'www.nettruyenin.com';
+
   @override
   void init() {
     dio.options.headers['Referer'] = 'https://$baseUrl/';

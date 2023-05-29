@@ -24,7 +24,7 @@ class RecentCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: Colors.white,
@@ -69,15 +69,15 @@ class RecentCard extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(1),
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 0),
                             child: Text(
                               recentArgs.mangaMetaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2
+                              style: Get.textTheme.bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -99,13 +99,13 @@ class RecentCard extends StatelessWidget {
                                 Text(
                                   recentArgs.mangaMetaCombine.mangaMeta.title ??
                                       '',
-                                  style: Theme.of(context).textTheme.headline6,
+                                  style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 Text(
                                   recentArgs
                                           .mangaMetaCombine.mangaMeta.author ??
                                       '',
-                                  style: Theme.of(context).textTheme.bodyText2,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16),
@@ -115,12 +115,13 @@ class RecentCard extends StatelessWidget {
                                         '',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context).textTheme.caption,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ),
                               ],
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.black26,
                               endIndent: 5,
                               indent: 5,
@@ -131,11 +132,11 @@ class RecentCard extends StatelessWidget {
                               children: [
                                 Text(
                                   'lastRead'.tr + recentArgs.chapterName,
-                                  style: Theme.of(context).textTheme.caption,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 Text(
                                   timeCalculate(recentArgs.dateTime),
-                                  style: Theme.of(context).textTheme.caption,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 )
                               ],
                             ),

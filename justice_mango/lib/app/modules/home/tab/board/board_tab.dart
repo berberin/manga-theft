@@ -11,6 +11,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BoardTab extends GetWidget<BoardController> {
+  const BoardTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
@@ -25,22 +27,22 @@ class BoardTab extends GetWidget<BoardController> {
       onRefresh: controller.onRefresh,
       onLoading: controller.onLoading,
       child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             backgroundColor: nearlyWhite,
             floating: true,
             title: _welcomeBar(),
           ),
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: Divider(),
           ),
           SliverPadding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             sliver: SliverToBoxAdapter(
               child: Text(
                 'newUpdateFavorite'.tr,
-                style: Get.textTheme.headline5?.copyWith(
+                style: Get.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                   letterSpacing: 0.27,
@@ -49,7 +51,7 @@ class BoardTab extends GetWidget<BoardController> {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             sliver: Obx(
               () => SliverList(
                 delegate: SliverChildListDelegate(
@@ -71,12 +73,12 @@ class BoardTab extends GetWidget<BoardController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Divider(),
+                const Divider(),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                   child: Text(
                     'updateJustNow'.tr,
-                    style: Get.textTheme.headline5?.copyWith(
+                    style: Get.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.27,
@@ -106,8 +108,8 @@ class BoardTab extends GetWidget<BoardController> {
                             )
                           ]
                         : [
-                            Padding(
-                              padding: const EdgeInsets.all(56.0),
+                            const Padding(
+                              padding: EdgeInsets.all(56.0),
                               child: Center(child: CircularProgressIndicator()),
                             )
                           ]
@@ -175,24 +177,24 @@ class BoardTab extends GetWidget<BoardController> {
             children: [
               Text(
                 "hello!".tr,
-                style: Get.textTheme.headline6,
+                style: Get.textTheme.titleLarge,
               ),
             ],
           ),
         ),
         Expanded(child: Container()),
         IconButton(
-          icon: Icon(Icons.settings_rounded),
+          icon: const Icon(Icons.settings_rounded),
           color: nearlyBlack,
           onPressed: () {
             showBarModalBottomSheet(
               context: Get.context!,
-              builder: (context) => SettingBottomSheet(),
+              builder: (context) => const SettingBottomSheet(),
             );
           },
         ),
         IconButton(
-          icon: Icon(Icons.search_rounded),
+          icon: const Icon(Icons.search_rounded),
           color: nearlyBlack,
           onPressed: () {
             HomeController homeController = Get.find();

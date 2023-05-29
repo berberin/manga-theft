@@ -16,7 +16,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       // smartManagement: SmartManagement.keepFactory,
-      initialRoute: Routes.HOME,
+      initialRoute: Routes.home,
       getPages: AppPages.pages,
       locale: SourceService.selectedLocale,
       translationsKeys: translationMap,

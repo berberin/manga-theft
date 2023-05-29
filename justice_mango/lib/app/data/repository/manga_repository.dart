@@ -12,7 +12,7 @@ class MangaRepository implements Equatable {
 
   MangaRepository(this.provider);
 
-  Future<List<MangaMeta>> getLatestManga({page: 1}) async {
+  Future<List<MangaMeta>> getLatestManga({page = 1}) async {
     List<MangaMeta> mangas = await provider.getLatestManga(page: page);
     return mangas;
   }
@@ -39,7 +39,7 @@ class MangaRepository implements Equatable {
     return provider.searchTag(searchTag);
   }
 
-  List<MangaMeta> getRandomManga({String tag: "", required int amount}) {
+  List<MangaMeta> getRandomManga({String tag = "", required int amount}) {
     var metaKeys = HiveService.mangaBox.keys
         .toList()
         .where((element) => element.toString().startsWith(slug))
@@ -77,7 +77,6 @@ class MangaRepository implements Equatable {
       }
       await HiveService.setRepoIsAvailable(slug);
     }
-    print(count);
     return count;
   }
 

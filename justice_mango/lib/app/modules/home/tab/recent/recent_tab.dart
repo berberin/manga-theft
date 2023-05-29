@@ -6,6 +6,8 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 import 'widget/recent_card.dart';
 
 class RecentTab extends GetWidget<RecentController> {
+  const RecentTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,14 +16,14 @@ class RecentTab extends GetWidget<RecentController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'recentManga'.tr,
-                style: Get.textTheme.headline5?.copyWith(
+                style: Get.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                   letterSpacing: 0.27,
@@ -30,11 +32,11 @@ class RecentTab extends GetWidget<RecentController> {
             ),
             Obx(() => controller.recentArgs.isEmpty
                 ? Padding(
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(24),
                     child: Center(
                       child: Text(
                         'noRecentManga'.tr,
-                        style: Get.textTheme.bodyText2,
+                        style: Get.textTheme.bodyMedium,
                       ),
                     ),
                   )

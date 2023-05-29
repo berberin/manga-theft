@@ -4,6 +4,7 @@ import 'package:justice_mango/app/theme/color_theme.dart';
 class SourceTabChip extends StatelessWidget {
   final String label;
   final bool selected;
+
   const SourceTabChip({Key? key, required this.label, required this.selected})
       : super(key: key);
 
@@ -16,22 +17,22 @@ class SourceTabChip extends StatelessWidget {
             color: lightText,
             width: 1.5,
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(12),
-            topRight: const Radius.circular(12),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
-          boxShadow: <BoxShadow>[
+          boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.black26,
               blurRadius: 1.0,
               offset: Offset(1.0, 1.0),
             ),
           ]),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 3,
         horizontal: 15,
       ),
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 5,
       ),
       child: Text(

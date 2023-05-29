@@ -1,5 +1,5 @@
 class Routes {
-  static const HOME = '/home';
-  static const MANGA_DETAIL = '/manga_detail';
-  static const READER = '/reader';
+  static const home = '/home';
+  static const mangaDetail = '/manga_detail';
+  static const reader = '/reader';
 }

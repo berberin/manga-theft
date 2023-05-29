@@ -7,7 +7,7 @@ class MangaMetaCombine extends Equatable {
   final MangaRepository repo;
   final MangaMeta mangaMeta;
 
-  MangaMetaCombine(this.repo, this.mangaMeta);
+  const MangaMetaCombine(this.repo, this.mangaMeta);
 
   @override
   List<Object> get props => [mangaMeta.url];

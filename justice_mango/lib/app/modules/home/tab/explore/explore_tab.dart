@@ -7,6 +7,8 @@ import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
 class ExploreTab extends GetWidget<ExploreController> {
+  const ExploreTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,40 +22,38 @@ class ExploreTab extends GetWidget<ExploreController> {
               title: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      child: TextFormField(
-                        style: TextStyle(
+                    child: TextFormField(
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: mainColor,
+                      ),
+                      keyboardType: TextInputType.text,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        labelText: 'searchManga'.tr,
+                        border: InputBorder.none,
+                        helperStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: mainColor,
+                          color: Color(0xffB9BABC),
                         ),
-                        keyboardType: TextInputType.text,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          labelText: 'searchManga'.tr,
-                          border: InputBorder.none,
-                          helperStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Color(0xffB9BABC),
-                          ),
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            letterSpacing: 0.2,
-                            color: Color(0xffB9BABC),
-                          ),
+                        labelStyle: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          letterSpacing: 0.2,
+                          color: Color(0xffB9BABC),
                         ),
-                        controller: controller.textSearchController,
-                        onEditingComplete: () => controller.search(),
                       ),
+                      controller: controller.textSearchController,
+                      onEditingComplete: () => controller.search(),
                     ),
                   ),
                   SizedBox(
                     width: 60,
                     height: 60,
                     child: GestureDetector(
-                      child: Icon(
+                      child: const Icon(
                         Icons.search,
                         color: Color(0xffB9BABC),
                       ),
@@ -72,14 +72,14 @@ class ExploreTab extends GetWidget<ExploreController> {
                           children: [
                             Text(
                               'searchResult'.tr,
-                              style: Get.textTheme.headline5?.copyWith(
+                              style: Get.textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                                 letterSpacing: 0.27,
                               ),
                             ),
                             IconButton(
-                                icon: Icon(Icons.clear_all_rounded),
+                                icon: const Icon(Icons.clear_all_rounded),
                                 onPressed: () => controller.clearSearch()),
                           ],
                         ),
@@ -89,7 +89,7 @@ class ExploreTab extends GetWidget<ExploreController> {
             ),
             Obx(
               () => SliverPadding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 8,
                   vertical: 16,
                 ),
@@ -100,7 +100,7 @@ class ExploreTab extends GetWidget<ExploreController> {
                         ? <Widget>[
                             Text(
                               'noResult'.tr,
-                              style: Get.textTheme.caption,
+                              style: Get.textTheme.bodySmall,
                             )
                           ]
                         : <Widget>[] +
@@ -123,21 +123,21 @@ class ExploreTab extends GetWidget<ExploreController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(),
+                    const Divider(),
                     Row(
                       children: [
                         Text(
                           'randomManga'.tr,
-                          style: Get.textTheme.headline5?.copyWith(
+                          style: Get.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                             letterSpacing: 0.27,
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.refresh_rounded),
+                          icon: const Icon(Icons.refresh_rounded),
                           onPressed: () => controller.getRandomManga(
-                              delayedDuration: Duration(seconds: 0)),
+                              delayedDuration: const Duration(seconds: 0)),
                         ),
                       ],
                     ),
@@ -172,7 +172,8 @@ class ExploreTab extends GetWidget<ExploreController> {
             ),
             Obx(
               () => SliverPadding(
-                padding: EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
+                padding:
+                    const EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     List.generate(

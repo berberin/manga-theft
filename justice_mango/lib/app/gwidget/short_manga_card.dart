@@ -65,15 +65,15 @@ class ShortMangaCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: spacer.withOpacity(0.7),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(1)),
+                                  const BorderRadius.all(Radius.circular(1)),
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 0,
                             ),
                             child: Text(
                               metaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyText2?.copyWith(
+                              style: Get.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -83,7 +83,7 @@ class ShortMangaCard extends StatelessWidget {
                     ),
                     Flexible(
                       child: Container(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,7 +94,7 @@ class ShortMangaCard extends StatelessWidget {
                                 metaCombine.mangaMeta.title ?? '',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6
+                                    .titleLarge
                                     ?.copyWith(fontSize: 15),
                                 textAlign: TextAlign.center,
                               ),
@@ -102,7 +102,7 @@ class ShortMangaCard extends StatelessWidget {
                             Text(
                               //mangaMeta.author != '' ? mangaMeta.author : 'Chưa rõ tác giả',
                               metaCombine.mangaMeta.author ?? '',
-                              style: Theme.of(context).textTheme.caption,
+                              style: Theme.of(context).textTheme.bodySmall,
                               textAlign: TextAlign.center,
                             ),
                             // Tags(

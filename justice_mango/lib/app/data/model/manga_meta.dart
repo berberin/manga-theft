@@ -22,7 +22,8 @@ class MangaMeta extends Equatable {
   final String preId;
 
   @HiveField(4)
-  String? imgUrl;
+  final String? imgUrl;
+
   @HiveField(5)
   final String? status;
 
@@ -44,7 +45,7 @@ class MangaMeta extends Equatable {
   @HiveField(10)
   final String repoSlug;
 
-  MangaMeta.z(
+  const MangaMeta.z(
       this.alias,
       this.author,
       this.description,
@@ -57,7 +58,7 @@ class MangaMeta extends Equatable {
       this.lang,
       this.repoSlug);
 
-  MangaMeta({
+  const MangaMeta({
     this.alias,
     this.author,
     this.description,

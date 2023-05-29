@@ -15,8 +15,9 @@ class MangaDetailScreen extends StatefulWidget {
 
   const MangaDetailScreen({Key? key, required this.metaCombine})
       : super(key: key);
+
   @override
-  _MangaDetailScreenState createState() => _MangaDetailScreenState();
+  State<MangaDetailScreen> createState() => _MangaDetailScreenState();
 }
 
 class _MangaDetailScreenState extends State<MangaDetailScreen> {
@@ -50,8 +51,8 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 delegate: SliverChildListDelegate(
                   controller.chaptersInfo.isEmpty
                       ? [
-                          Padding(
-                            padding: const EdgeInsets.all(24.0),
+                          const Padding(
+                            padding: EdgeInsets.all(24.0),
                             child: Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -71,7 +72,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 ),
               ),
             ),
-            SliverPadding(padding: EdgeInsets.all(24)),
+            const SliverPadding(padding: EdgeInsets.all(24)),
           ],
         ),
       ),
@@ -95,16 +96,16 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 : Container(),
             Text(
               controller.metaCombine.mangaMeta.description,
-              style: Get.textTheme.bodyText2,
+              style: Get.textTheme.bodyMedium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               controller.metaCombine.mangaMeta.status,
-              style: Get.textTheme.caption,
+              style: Get.textTheme.bodySmall,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Tags(
@@ -120,7 +121,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     return SliverAppBar(
       title: Text(
         controller.metaCombine.mangaMeta.title,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black54,
         ),
       ),
@@ -160,12 +161,12 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                           children: [
                             Text(
                               controller.metaCombine.mangaMeta.title,
-                              style: Get.textTheme.headline6,
+                              style: Get.textTheme.titleLarge,
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               controller.metaCombine.mangaMeta.author,
-                              style: Get.textTheme.caption,
+                              style: Get.textTheme.bodySmall,
                             ),
                           ],
                         ),
@@ -185,14 +186,14 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     return Obx(
       () => SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22),
+        animatedIconTheme: const IconThemeData(size: 22),
         backgroundColor: mainColorSecondary,
         foregroundColor: Colors.white,
         visible: true,
         curve: Curves.bounceIn,
         children: [
           SpeedDialChild(
-            child: Icon(
+            child: const Icon(
               Icons.play_arrow_rounded,
               color: Colors.white,
             ),
@@ -202,7 +203,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               controller.goToLastReadChapter();
             },
             label: 'readNow'.tr,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontSize: 16.0),
@@ -210,11 +211,11 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
           ),
           SpeedDialChild(
             child: controller.isFavorite.value
-                ? Icon(
+                ? const Icon(
                     Icons.library_add_check,
                     color: Colors.pink,
                   )
-                : Icon(
+                : const Icon(
                     Icons.favorite,
                     color: Colors.white,
                   ),
@@ -229,7 +230,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
             label: controller.isFavorite.value
                 ? 'favorite!'.tr
                 : 'markFavorite'.tr,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontSize: 16.0),
@@ -238,11 +239,11 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
           if (controller.isFavorite.value)
             SpeedDialChild(
               child: controller.isExceptional.value
-                  ? Icon(
+                  ? const Icon(
                       Icons.notifications_active_rounded,
                       color: Colors.white,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.notifications_off_rounded,
                       color: Colors.white,
                     ),
@@ -257,7 +258,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               label: controller.isExceptional.value
                   ? 'turnOnNotification'.tr
                   : 'turnOffNotification'.tr,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                   fontSize: 16.0),

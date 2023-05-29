@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
@@ -9,8 +11,10 @@ import 'package:justice_mango/app/data/provider/sources/mango_collector/mango_co
 import '../../../repository/http_repository.dart';
 
 class MangoCollMangaProvider extends MangaProvider {
+  @override
   final nametag = 'storynap';
-  final locale = Locale('vi', 'VN');
+  @override
+  final locale = const Locale('vi', 'VN');
   HttpRepository? httpRepo;
   final baseUrl = 'https://mango.storynap.com';
   Map<String, String> defaultImageHeader = {
@@ -25,7 +29,7 @@ class MangoCollMangaProvider extends MangaProvider {
           defaultImageHeader =
               Map<String, String>.from(resp.data['option']['imageHeader']);
         } catch (e) {
-          print(e);
+          //
         }
       }
     });

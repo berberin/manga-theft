@@ -10,11 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FavoriteController extends GetxController {
   var favoriteMangas = <MangaMeta>[];
   var favoriteMetaCombine = <MangaMetaCombine>[].obs;
-  var cardStyle = FavoriteCardStyle.ShortMangaCard.obs;
+  var cardStyle = FavoriteCardStyle.shortMangaCard.obs;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   late SharedPreferences sharedPreferences;
-  var latestChapters = Map<String, String>().obs;
+  var latestChapters = <String, String>{}.obs;
 
   @override
   void onInit() {
@@ -22,10 +22,10 @@ class FavoriteController extends GetxController {
     SharedPreferences.getInstance().then((value) {
       sharedPreferences = value;
       if (sharedPreferences.getString(favoriteCardStyleKey) == shortMangaBar) {
-        cardStyle.value = FavoriteCardStyle.ShortMangaBar;
+        cardStyle.value = FavoriteCardStyle.shortMangaBar;
       }
       if (sharedPreferences.getString(favoriteCardStyleKey) == shortMangaCard) {
-        cardStyle.value = FavoriteCardStyle.ShortMangaCard;
+        cardStyle.value = FavoriteCardStyle.shortMangaCard;
       }
     });
     refreshUpdate();
@@ -55,11 +55,11 @@ class FavoriteController extends GetxController {
   }
 
   changeFavoriteCardStyle() {
-    if (cardStyle.value == FavoriteCardStyle.ShortMangaCard) {
-      cardStyle.value = FavoriteCardStyle.ShortMangaBar;
+    if (cardStyle.value == FavoriteCardStyle.shortMangaCard) {
+      cardStyle.value = FavoriteCardStyle.shortMangaBar;
       sharedPreferences.setString(favoriteCardStyleKey, shortMangaBar);
     } else {
-      cardStyle.value = FavoriteCardStyle.ShortMangaCard;
+      cardStyle.value = FavoriteCardStyle.shortMangaCard;
       sharedPreferences.setString(favoriteCardStyleKey, shortMangaCard);
     }
   }

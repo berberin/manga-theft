@@ -17,7 +17,10 @@ class BackgroundContext {
 
 Future<int> _initMetadata(String repositorySlug) async {
   MangaRepository repository = SourceService.getRepo(repositorySlug);
-  return await repository.initData().catchError((onError) {});
+  return await repository.initData().catchError((onError) {
+    //
+    return 0;
+  });
 }
 
 Future<List<MangaMeta>> _getMangaList(Map<String, dynamic> params) async {

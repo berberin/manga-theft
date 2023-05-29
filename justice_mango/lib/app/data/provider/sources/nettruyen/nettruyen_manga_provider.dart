@@ -1,7 +1,10 @@
+// ignore_for_file: overridden_fields
+
 import 'dart:convert';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
@@ -14,12 +17,15 @@ import 'package:random_string/random_string.dart';
 import '../../manga_provider.dart';
 
 class NettruyenMangaProvider extends MangaProvider {
+  @override
   final nametag = 'nettruyen';
-  final locale = Locale('vi', 'VN');
+  @override
+  final locale = const Locale('vi', 'VN');
   final httpRepo = HttpRepository(NettruyenHttpProvider());
   final baseUrl = 'www.nettruyenin.com';
 
-  Future<List<MangaMeta>> getLatestManga({page: 1}) async {
+  @override
+  Future<List<MangaMeta>> getLatestManga({page = 1}) async {
     var randomString = randomAlpha(3);
     var url = "https://$baseUrl/tim-truyen?page=$page&r=$randomString";
     Response response = await httpRepo.get(url);
@@ -47,9 +53,8 @@ class NettruyenMangaProvider extends MangaProvider {
                 ?.attributes['title'] ??
             '';
 
-        String imgUrl = "http:" +
-            (item.find("div figure div a img")?.attributes['data-original'] ??
-                '');
+        String imgUrl =
+            "http:${item.find("div figure div a img")?.attributes['data-original'] ?? ''}";
         String url = item.find("div figure div a")?.attributes['href'] ?? '';
         String description = item.find("div.box_text")?.text ?? '';
 
@@ -110,9 +115,8 @@ class NettruyenMangaProvider extends MangaProvider {
         );
         mangaMetas.add(mangaMeta);
       }
-    } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+    } catch (e) {
+      //
     }
 
     return mangaMetas;
@@ -124,9 +128,8 @@ class NettruyenMangaProvider extends MangaProvider {
 
     String title = soup.find('', selector: "h1.title-detail")?.text ?? '';
 
-    String imgUrl = "http:" +
-        (soup.find("div.col-xs-4.col-image")?.find("img")?.attributes['src'] ??
-            '//picsum.photos/200/400');
+    String imgUrl =
+        "http:${soup.find("div.col-xs-4.col-image")?.find("img")?.attributes['src'] ?? '//picsum.photos/200/400'}";
     String description = soup.find("div.detail-content p")?.text ?? '';
 
     MangaMeta mangaMeta = MangaMeta(
@@ -145,10 +148,11 @@ class NettruyenMangaProvider extends MangaProvider {
     return mangaMeta;
   }
 
+  @override
   Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta) async {
     List<ChapterInfo> chaptersInfo = <ChapterInfo>[];
     String mangaId = mangaMeta.preId;
-    while (mangaId.length > 0) {
+    while (mangaId.isNotEmpty) {
       // String url =
       //     "https://$baseUrl/Comic/Services/ComicService.asmx/ProcessChapterPreLoad?comicId=$mangaId&commentId=-1";
       var response = await httpRepo.get(mangaMeta.url);
@@ -176,10 +180,11 @@ class NettruyenMangaProvider extends MangaProvider {
     return chaptersInfo;
   }
 
+  @override
   Future<List<String>> getPages(String chapterUrl) async {
     List<String> pagesUrl = <String>[];
     if (chapterUrl.startsWith("/")) {
-      chapterUrl = "https://$baseUrl" + chapterUrl;
+      chapterUrl = "https://$baseUrl$chapterUrl";
     }
     var response = await httpRepo.get(chapterUrl);
     var soup = BeautifulSoup(response.data.toString());
@@ -187,7 +192,7 @@ class NettruyenMangaProvider extends MangaProvider {
 
     for (var page in pages) {
       if (page.attributes['data-original']?.startsWith("/") ?? false) {
-        pagesUrl.add("http:" + page.attributes['data-original']!);
+        pagesUrl.add("http:${page.attributes['data-original']!}");
       } else {
         pagesUrl.add(page.attributes['data-original'] ?? '');
       }
@@ -195,6 +200,7 @@ class NettruyenMangaProvider extends MangaProvider {
     return pagesUrl;
   }
 
+  @override
   Future<List<MangaMeta>> search(String searchString) async {
     var mangaMetas = <MangaMeta>[];
     if (searchString == "") return mangaMetas;
@@ -204,12 +210,15 @@ class NettruyenMangaProvider extends MangaProvider {
       var response = await httpRepo.get(url);
       mangaMetas = _getMangaFromDOM(response.data.toString());
     } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
     }
     return mangaMetas;
   }
 
+  @override
   Future<List<MangaMeta>> searchTag(String searchTag) async {
     // TODO: get from source provider
     return HiveService.mangaBox.values.where((element) {

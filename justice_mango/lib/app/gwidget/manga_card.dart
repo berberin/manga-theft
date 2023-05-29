@@ -30,7 +30,7 @@ class MangaCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           color: Colors.white,
@@ -105,11 +105,11 @@ class MangaCard extends StatelessWidget {
                               children: [
                                 Text(
                                   metaCombine.mangaMeta.title ?? '',
-                                  style: Theme.of(context).textTheme.headline6,
+                                  style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 Text(
                                   metaCombine.mangaMeta.author ?? '',
-                                  style: Theme.of(context).textTheme.bodyText2,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 18.0),
@@ -117,7 +117,8 @@ class MangaCard extends StatelessWidget {
                                     metaCombine.mangaMeta.description ?? '',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context).textTheme.caption,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ),
                               ],

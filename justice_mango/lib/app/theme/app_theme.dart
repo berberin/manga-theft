@@ -4,7 +4,7 @@ import 'package:justice_mango/app/theme/text_theme.dart';
 
 ThemeData appThemeData = ThemeData.light().copyWith(
   textTheme: appTextTheme,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle.dark, // 2
   ),
 );

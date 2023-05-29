@@ -12,7 +12,7 @@ class Tags extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(
+        const Divider(
           color: Colors.black26,
           endIndent: 5,
           indent: 5,
@@ -57,21 +57,21 @@ class Tags extends StatelessWidget {
                 color: lightText,
                 width: 1,
               ),
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(12),
-                topRight: const Radius.circular(12),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
               ),
-              boxShadow: <BoxShadow>[
+              boxShadow: const <BoxShadow>[
                 BoxShadow(
                   color: Colors.black26,
                   blurRadius: 1.0,
                   offset: Offset(1.0, 1.0),
                 ),
               ]),
-          padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
           child: Text(
             tag,
-            style: Theme.of(context).textTheme.caption?.copyWith(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 9,
                 ),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/provider/sources/mango_collector/mango_coll_manga_provider.dart';
@@ -9,6 +10,7 @@ import 'background_context.dart';
 
 class SourceService {
   SourceService._();
+
   static List<MangaRepository> sourceRepositories = <MangaRepository>[];
 
   static List<MangaRepository> allSourceRepositories = <MangaRepository>[
@@ -20,8 +22,8 @@ class SourceService {
 
   static late Locale selectedLocale;
   static List<Locale> allLocalesSupported = <Locale>[
-    Locale('vi', 'VN'),
-    Locale('en', 'US'),
+    const Locale('vi', 'VN'),
+    const Locale('en', 'US'),
   ];
 
   static init() async {
@@ -40,8 +42,10 @@ class SourceService {
     try {
       mangaRepository.initData();
     } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
     }
   }
 

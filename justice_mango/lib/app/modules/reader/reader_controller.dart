@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
@@ -21,14 +22,14 @@ class ReaderController extends GetxController {
       {required this.chaptersInfo,
       required this.index,
       required this.metaCombine,
-      required List<String> preloadUrl}) {
-    this.preloadUrl = preloadUrl;
+      required this.preloadUrl}) {
     imgUrls = <String>[].obs;
     hasError = false.obs;
     loading = false.obs;
   }
 
   late RefreshController refreshController;
+
   @override
   void onInit() {
     super.onInit();
@@ -58,8 +59,11 @@ class ReaderController extends GetxController {
           await metaCombine.repo.getPages(chaptersInfo[index].url ?? ''));
       hasError.value = false;
     } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
+
       hasError.value = true;
     }
     loading.value = false;
@@ -69,7 +73,7 @@ class ReaderController extends GetxController {
     if (index - 1 < 0) {
       return;
     }
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     metaCombine.repo.getPages(chaptersInfo[index - 1].url ?? '').then((value) {
       preloadUrl.assignAll(value);
       for (var url in preloadUrl) {
@@ -93,8 +97,9 @@ class ReaderController extends GetxController {
         preventDuplicates: false,
       );
       refreshController.loadComplete();
-    } else
+    } else {
       refreshController.loadFailed();
+    }
   }
 
   void toPrevChapter() async {
@@ -114,7 +119,8 @@ class ReaderController extends GetxController {
       MangaDetailController mangaDetailController =
           Get.find(tag: metaCombine.mangaMeta.preId);
       mangaDetailController.setIsRead(index);
-    } else
+    } else {
       refreshController.refreshFailed();
+    }
   }
 }
