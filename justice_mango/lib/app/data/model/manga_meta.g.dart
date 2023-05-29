@@ -86,7 +86,7 @@ MangaMeta _$MangaMetaFromJson(Map<String, dynamic> json) => MangaMeta(
       title: json['title'] as String?,
       url: json['sourceUrl'] as String,
       lang: json['language'] as String,
-      repoSlug: json['repoSlug'] as String? ?? 'nap',
+      repoSlug: json['repoSlug'] as String? ?? 'vi>storynap>',
     );
 
 Map<String, dynamic> _$MangaMetaToJson(MangaMeta instance) => <String, dynamic>{

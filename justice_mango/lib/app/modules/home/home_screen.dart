@@ -88,3 +88,21 @@ class HomeScreen extends GetWidget<HomeController> {
     controller.switchToIndex(value);
   }
 }
+
+class A extends StatefulWidget {
+  const A({Key? key}) : super(key: key);
+
+  @override
+  State<A> createState() => _AState();
+}
+
+class _AState extends State<A> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+
+  dispose() {
+    super.dispose();
+  }
+}
