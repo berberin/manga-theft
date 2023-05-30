@@ -12,7 +12,7 @@ class MangaImage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MangaImageState createState() => _MangaImageState();
+  State<MangaImage> createState() => _MangaImageState();
 }
 
 class _MangaImageState extends State<MangaImage> {
@@ -41,19 +41,19 @@ class _MangaImageState extends State<MangaImage> {
       fit: BoxFit.fitWidth,
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
           child: Container(
-              margin: EdgeInsets.all(100),
+              margin: const EdgeInsets.all(100),
               child:
                   CircularProgressIndicator(value: downloadProgress.progress))),
       errorWidget: (context, url, error) => Container(
-        margin: EdgeInsets.all(100),
+        margin: const EdgeInsets.all(100),
         child: ElevatedButton(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: Icon(Icons.refresh_rounded)),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: const Icon(Icons.refresh_rounded)),
           onPressed: () async {
             //CachedNetworkImage.evictFromCache(imageUrl, cacheManager: CacheProvider.cacheManager);
             setState(() {
-              imageUrl = widget.imageUrl + "&r=${randomAlpha(3)}";
+              imageUrl = "${widget.imageUrl}&r=${randomAlpha(3)}";
             });
           },
         ),

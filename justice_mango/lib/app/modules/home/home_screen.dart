@@ -8,6 +8,8 @@ import 'package:justice_mango/app/modules/home/tab/recent/recent_tab.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -15,22 +17,18 @@ class HomeScreen extends GetWidget<HomeController> {
         backgroundColor: Colors.white,
         body: IndexedStack(
           index: controller.selectedIndex.value,
-          children: [
+          children: const [
             BoardTab(),
             FavoriteTab(),
             ExploreTab(),
             RecentTab(),
           ],
-          // BoardTab(),
-          // FavoriteTab(),
-          // ExploreTab(),
-          // RecentTab(),
         ),
         bottomNavigationBar: Material(
           color: Colors.white,
           elevation: 8,
           shape: const RoundedRectangleBorder(
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25),
               topRight: Radius.circular(25),
             ),
@@ -39,37 +37,37 @@ class HomeScreen extends GetWidget<HomeController> {
             child: SalomonBottomBar(
               items: <SalomonBottomBarItem>[
                 SalomonBottomBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.airplay_rounded,
                   ),
                   title: Text(
                     'board'.tr,
-                    style: Get.textTheme.caption,
+                    style: Get.textTheme.bodySmall,
                   ),
                   selectedColor: Colors.green,
                 ),
                 SalomonBottomBarItem(
-                  icon: Icon(Icons.my_library_books_rounded),
+                  icon: const Icon(Icons.my_library_books_rounded),
                   title: Text(
                     'favorite'.tr,
-                    style: Get.textTheme.caption,
+                    style: Get.textTheme.bodySmall,
                   ),
                   selectedColor: Colors.pink,
                 ),
                 SalomonBottomBarItem(
-                  icon: Icon(Icons.explore_rounded),
+                  icon: const Icon(Icons.explore_rounded),
                   title: Text(
                     'explore'.tr,
-                    style: Get.textTheme.caption,
+                    style: Get.textTheme.bodySmall,
                   ),
                   selectedColor: Colors.purple,
                   //backgroundColor: Colors.purple,
                 ),
                 SalomonBottomBarItem(
-                  icon: Icon(Icons.alarm_rounded),
+                  icon: const Icon(Icons.alarm_rounded),
                   title: Text(
                     'recent'.tr,
-                    style: Get.textTheme.caption,
+                    style: Get.textTheme.bodySmall,
                   ),
                   //backgroundColor: Colors.pink,
                 ),
@@ -86,5 +84,24 @@ class HomeScreen extends GetWidget<HomeController> {
 
   void _onItemTapped(int value) {
     controller.switchToIndex(value);
+  }
+}
+
+class A extends StatefulWidget {
+  const A({Key? key}) : super(key: key);
+
+  @override
+  State<A> createState() => _AState();
+}
+
+class _AState extends State<A> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
   }
 }

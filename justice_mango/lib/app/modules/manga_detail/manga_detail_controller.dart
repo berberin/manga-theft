@@ -61,7 +61,7 @@ class MangaDetailController extends GetxController {
     );
     readArray[index] = true;
     // mục đích delay: để hiển thị đã đọc không xuất hiện trước khi vào màn đọc [ux]
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     update();
     if (index == 0) {
       metaCombine.repo.updateLastReadInfo(
@@ -109,6 +109,6 @@ class MangaDetailController extends GetxController {
     recentList.add(recentRead);
     await HiveService.putToRecentReadBox(recentList);
     RecentController recentController = Get.find();
-    recentController.refreshRecent();
+    recentController.renewRecent();
   }
 }

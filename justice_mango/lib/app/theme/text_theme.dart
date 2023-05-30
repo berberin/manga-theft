@@ -68,12 +68,12 @@ const TextStyle caption = TextStyle(
   color: lightText, // was lightText
 );
 
-TextTheme appTextTheme = GoogleFonts.playTextTheme().merge(TextTheme(
-  headline4: display1,
-  headline5: headline,
-  headline6: title,
-  subtitle2: subtitle,
-  bodyText2: body2,
-  bodyText1: body1,
-  caption: caption,
+TextTheme appTextTheme = GoogleFonts.nunitoTextTheme().merge(const TextTheme(
+  headlineMedium: display1,
+  headlineSmall: headline,
+  titleLarge: title,
+  titleSmall: subtitle,
+  bodyMedium: body2,
+  bodyLarge: body1,
+  bodySmall: caption,
 ));

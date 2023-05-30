@@ -38,7 +38,7 @@ class ChapterCard extends StatelessWidget {
         mangaDetailController.addToRecentRead();
       },
       child: Card(
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 6,
         ),
@@ -51,7 +51,7 @@ class ChapterCard extends StatelessWidget {
           ),
           child: Text(
             chaptersInfo[index].name ?? '',
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
       ),

@@ -50,7 +50,8 @@ class ExploreController extends GetxController {
     searchComplete.value = false;
   }
 
-  getRandomManga({Duration delayedDuration: const Duration(seconds: 2)}) async {
+  getRandomManga(
+      {Duration delayedDuration = const Duration(seconds: 2)}) async {
     // note: wait hive db init first time
     await Future.delayed(delayedDuration);
     randomMangaList.clear();
@@ -64,7 +65,7 @@ class ExploreController extends GetxController {
   changeSourceTab(int index) {
     sourceSelected = index;
     update();
-    getRandomManga(delayedDuration: Duration());
+    getRandomManga(delayedDuration: const Duration());
   }
 
   updateSources() {

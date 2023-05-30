@@ -8,8 +8,8 @@ import 'package:justice_mango/app/route/routes.dart';
 class AppPages {
   static final pages = [
     GetPage(
-      name: Routes.HOME,
-      page: () => HomeScreen(),
+      name: Routes.home,
+      page: () => const HomeScreen(),
       binding: HomePageBinding(),
       transition: Transition.cupertino,
     ),

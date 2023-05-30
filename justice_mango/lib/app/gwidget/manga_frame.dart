@@ -15,7 +15,7 @@ class MangaFrame extends StatelessWidget {
       height: height,
       width: width,
       color: Colors.white,
-      padding: EdgeInsets.all(2),
+      padding: const EdgeInsets.all(2),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         fit: BoxFit.cover,

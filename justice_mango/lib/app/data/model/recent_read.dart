@@ -11,7 +11,7 @@ class RecentRead extends Equatable {
   @HiveField(1)
   final DateTime dateTime;
 
-  RecentRead(this.mangaMeta, this.dateTime);
+  const RecentRead(this.mangaMeta, this.dateTime);
 
   @override
   // TODO: implement props

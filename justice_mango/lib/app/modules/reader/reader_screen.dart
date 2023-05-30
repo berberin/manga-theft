@@ -13,8 +13,9 @@ class ReaderScreen extends StatefulWidget {
 
   const ReaderScreen({Key? key, required this.readerScreenArgs})
       : super(key: key);
+
   @override
-  _ReaderScreenState createState() => _ReaderScreenState();
+  State<ReaderScreen> createState() => _ReaderScreenState();
 }
 
 class _ReaderScreenState extends State<ReaderScreen> {
@@ -68,14 +69,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
             onLoading: controller.toNextChapter,
             onRefresh: controller.toPrevChapter,
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 _buildSliverAppBar(controller),
                 Obx(
                   () => controller.loading.value
-                      ? SliverToBoxAdapter(
+                      ? const SliverToBoxAdapter(
                           child: Padding(
-                            padding: const EdgeInsets.all(48.0),
+                            padding: EdgeInsets.all(48.0),
                             child: Center(
                               child: SizedBox(
                                 width: 48,
@@ -91,7 +92,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                 ? [
                                     Center(
                                       child: Padding(
-                                        padding: EdgeInsets.all(24),
+                                        padding: const EdgeInsets.all(24),
                                         child: ElevatedButton(
                                           onPressed: () {
                                             controller.getPages();
@@ -103,6 +104,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                   ]
                                 : [
                                     Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: List.generate(
                                         controller.imgUrls.length,
                                         (index) => MangaImage(
@@ -110,7 +112,6 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                           repo: controller.metaCombine.repo,
                                         ),
                                       ),
-                                      mainAxisSize: MainAxisSize.min,
                                     ),
                                   ],
                             addRepaintBoundaries: false,
@@ -122,8 +123,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     List.generate(
                       1,
                       (index) => Container(
-                        padding: EdgeInsets.symmetric(vertical: 24),
-                        child: Text(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: const Text(
                           "🦉 🦉 🦉 🦉 🦉",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -145,9 +146,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
   _buildSliverAppBar(controller) {
     return Obx(
       () => SliverAppBar(
+        pinned: true,
         title: Text(
           controller.chaptersInfo[controller.index].name,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black54,
           ),
         ),
@@ -176,13 +178,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     children: [
                       Text(
                         controller.metaCombine.mangaMeta.title,
-                        style: Get.textTheme.bodyText1,
+                        style: Get.textTheme.bodyLarge,
                         maxLines: 1,
                       ),
                       Obx(
                         () => Text(
                           "#${(controller.chaptersInfo.length - controller.index).toString()} / ${controller.chaptersInfo.length}",
-                          style: Get.textTheme.caption,
+                          style: Get.textTheme.bodySmall,
                         ),
                       ),
                     ],

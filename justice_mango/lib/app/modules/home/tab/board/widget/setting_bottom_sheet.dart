@@ -8,14 +8,14 @@ class SettingBottomSheet extends StatefulWidget {
   const SettingBottomSheet({Key? key}) : super(key: key);
 
   @override
-  _SettingBottomSheetState createState() => _SettingBottomSheetState();
+  SettingBottomSheetState createState() => SettingBottomSheetState();
 }
 
-class _SettingBottomSheetState extends State<SettingBottomSheet> {
+class SettingBottomSheetState extends State<SettingBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       constraints: BoxConstraints(
         maxHeight: Get.height / 2,
       ),
@@ -26,9 +26,9 @@ class _SettingBottomSheetState extends State<SettingBottomSheet> {
           children: [
             Text(
               'language'.tr,
-              style: Get.textTheme.headline5,
+              style: Get.textTheme.headlineSmall,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             for (var locale in SourceService.allLocalesSupported)
@@ -44,18 +44,18 @@ class _SettingBottomSheetState extends State<SettingBottomSheet> {
                 },
                 title: Text(locale.fullName()),
               ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Divider(
+            const Divider(
               height: 10,
               endIndent: 40,
             ),
             Text(
               'sources'.tr,
-              style: Get.textTheme.headline5,
+              style: Get.textTheme.headlineSmall,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             for (var source in SourceService.allSourceRepositories)
@@ -88,7 +88,7 @@ class _SettingBottomSheetState extends State<SettingBottomSheet> {
 
 extension FullName on Locale {
   String fullName() {
-    switch (this.languageCode) {
+    switch (languageCode) {
       case 'en':
         return 'English';
 
