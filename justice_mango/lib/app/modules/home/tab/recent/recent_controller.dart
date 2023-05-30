@@ -4,23 +4,20 @@ import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/model/recent_read.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'widget/recent_agrs.dart';
 
 class RecentController extends GetxController {
   var recentArgs = <RecentArgs>[].obs;
   late MangaMetaCombine mangaMetaCombine;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
     super.onInit();
-    refreshRecent();
+    renewRecent();
   }
 
-  refreshRecent() async {
+  renewRecent() async {
     recentArgs.clear();
     List<RecentRead> recentReads = HiveService.getRecentReadBox();
     for (var recent in recentReads.reversed) {

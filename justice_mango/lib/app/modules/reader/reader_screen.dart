@@ -146,6 +146,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
   _buildSliverAppBar(controller) {
     return Obx(
       () => SliverAppBar(
+        pinned: true,
         title: Text(
           controller.chaptersInfo[controller.index].name,
           style: const TextStyle(

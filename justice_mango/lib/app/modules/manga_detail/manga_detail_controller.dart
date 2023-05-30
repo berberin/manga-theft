@@ -109,6 +109,6 @@ class MangaDetailController extends GetxController {
     recentList.add(recentRead);
     await HiveService.putToRecentReadBox(recentList);
     RecentController recentController = Get.find();
-    recentController.refreshRecent();
+    recentController.renewRecent();
   }
 }
