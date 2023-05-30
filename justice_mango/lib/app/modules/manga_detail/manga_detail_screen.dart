@@ -119,14 +119,14 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
 
   SliverAppBar _buildSliverAppBar(controller) {
     return SliverAppBar(
-      pinned: true,
+      floating: true,
       title: Text(
         controller.metaCombine.mangaMeta.title,
         style: const TextStyle(
           color: Colors.black54,
         ),
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       iconTheme: IconTheme.of(context).copyWith(
         color: Colors.black54,
       ),

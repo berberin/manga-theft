@@ -146,14 +146,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
   _buildSliverAppBar(controller) {
     return Obx(
       () => SliverAppBar(
-        pinned: true,
+        floating: true,
         title: Text(
           controller.chaptersInfo[controller.index].name,
           style: const TextStyle(
             color: Colors.black54,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.black54),
         expandedHeight: 150,
         flexibleSpace: FlexibleSpaceBar(
