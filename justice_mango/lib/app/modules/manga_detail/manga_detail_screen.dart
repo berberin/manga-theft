@@ -119,6 +119,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
 
   SliverAppBar _buildSliverAppBar(controller) {
     return SliverAppBar(
+      pinned: true,
       title: Text(
         controller.metaCombine.mangaMeta.title,
         style: const TextStyle(
@@ -197,16 +198,20 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               Icons.play_arrow_rounded,
               color: Colors.white,
             ),
-            backgroundColor: mainColorSecondary,
-            onTap: () {
-              controller.addToRecentRead();
-              controller.goToLastReadChapter();
-            },
+            backgroundColor:
+                controller.chaptersInfo.isEmpty ? notWhite : mainColorSecondary,
+            onTap: controller.chaptersInfo.isEmpty
+                ? () {}
+                : () {
+                    controller.addToRecentRead();
+                    controller.goToLastReadChapter();
+                  },
             label: 'readNow'.tr,
             labelStyle: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
             labelBackgroundColor: mainColorSecondary,
           ),
           SpeedDialChild(
@@ -231,9 +236,10 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 ? 'favorite!'.tr
                 : 'markFavorite'.tr,
             labelStyle: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
             labelBackgroundColor: mainColorSecondary,
           ),
           if (controller.isFavorite.value)

@@ -17,7 +17,7 @@ class RecentTab extends GetWidget<RecentController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 24,
+              height: 32,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -30,25 +30,27 @@ class RecentTab extends GetWidget<RecentController> {
                 ),
               ),
             ),
-            Obx(() => controller.recentArgs.isEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Center(
-                      child: Text(
-                        'noRecentManga'.tr,
-                        style: Get.textTheme.bodyMedium,
+            Obx(
+              () => controller.recentArgs.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Center(
+                        child: Text(
+                          'noRecentManga'.tr,
+                          style: Get.textTheme.bodyMedium,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      //verticalDirection: VerticalDirection.up,
+                      children: List.generate(
+                        controller.recentArgs.length,
+                        (index) => RecentCard(
+                          recentArgs: controller.recentArgs[index],
+                        ),
                       ),
                     ),
-                  )
-                : Column(
-                    //verticalDirection: VerticalDirection.up,
-                    children: List.generate(
-                      controller.recentArgs.length,
-                      (index) => RecentCard(
-                        recentArgs: controller.recentArgs[index],
-                      ),
-                    ),
-                  ))
+            ),
           ],
         ),
       ),
