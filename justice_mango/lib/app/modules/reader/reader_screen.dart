@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:justice_mango/app/modules/reader/reader_controller.dart';
 import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
 import 'package:justice_mango/app/modules/reader/widget/manga_image.dart';
+import 'package:justice_mango/app/util/layout_constants.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:random_string/random_string.dart';
 
@@ -165,30 +164,27 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                color: Colors.white.withOpacity(0.5),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.metaCombine.mangaMeta.title,
-                        style: Get.textTheme.bodyLarge,
-                        maxLines: 1,
+            child: Container(
+              decoration: LayoutConstants.backcardMangaBoxDecoration,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.metaCombine.mangaMeta.title,
+                      style: Get.textTheme.bodyLarge,
+                      maxLines: 1,
+                    ),
+                    Obx(
+                      () => Text(
+                        "#${(controller.chaptersInfo.length - controller.index).toString()} / ${controller.chaptersInfo.length}",
+                        style: Get.textTheme.bodySmall,
                       ),
-                      Obx(
-                        () => Text(
-                          "#${(controller.chaptersInfo.length - controller.index).toString()} / ${controller.chaptersInfo.length}",
-                          style: Get.textTheme.bodySmall,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
