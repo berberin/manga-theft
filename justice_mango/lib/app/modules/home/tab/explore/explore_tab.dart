@@ -79,8 +79,12 @@ class ExploreTab extends GetWidget<ExploreController> {
                               ),
                             ),
                             IconButton(
-                                icon: const Icon(Icons.clear_all_rounded),
-                                onPressed: () => controller.clearSearch()),
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                controller.clearSearch();
+                                controller.clearTextField();
+                              },
+                            ),
                           ],
                         ),
                       )

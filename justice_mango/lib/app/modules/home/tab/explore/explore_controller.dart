@@ -36,8 +36,10 @@ class ExploreController extends GetxController {
     searching = true;
     for (var repo in SourceService.sourceRepositories) {
       List<MangaMeta> metas = await repo.search(textSearch);
-      for (var meta in metas) {
-        mangaSearchResult.add(MangaMetaCombine(repo, meta));
+      if (metas.isNotEmpty) {
+        for (var meta in metas) {
+          mangaSearchResult.add(MangaMetaCombine(repo, meta));
+        }
       }
     }
     searchComplete.value = true;
@@ -48,6 +50,10 @@ class ExploreController extends GetxController {
   clearSearch() {
     mangaSearchResult.clear();
     searchComplete.value = false;
+  }
+
+  clearTextField() {
+    textSearchController.text = '';
   }
 
   getRandomManga(
