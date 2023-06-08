@@ -86,8 +86,10 @@ class MangoCollMangaProvider extends MangaProvider {
           'searchTerm': searchString,
         }));
     List<MangaMeta> metas = <MangaMeta>[];
-    for (var meta in resp.data) {
-      metas.add(MangaMeta.fromJson(meta));
+    if (resp.data != null) {
+      for (var meta in resp.data) {
+        metas.add(MangaMeta.fromJson(meta));
+      }
     }
     return metas;
   }
