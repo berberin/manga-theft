@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
@@ -9,6 +7,7 @@ import 'package:justice_mango/app/gwidget/manga_frame.dart';
 import 'package:justice_mango/app/gwidget/tag.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:justice_mango/app/util/layout_constants.dart';
 
 class MangaDetailScreen extends StatefulWidget {
   final MangaMetaCombine metaCombine;
@@ -139,42 +138,39 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              color: Colors.white.withOpacity(0.5),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    MangaFrame(
-                      imageUrl: controller.metaCombine.mangaMeta.imgUrl,
-                      height: 40 * 4.5,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              controller.metaCombine.mangaMeta.title,
-                              style: Get.textTheme.titleLarge,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              controller.metaCombine.mangaMeta.author,
-                              style: Get.textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
+          child: Container(
+            decoration: LayoutConstants.backcardMangaBoxDecoration,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  MangaFrame(
+                    imageUrl: controller.metaCombine.mangaMeta.imgUrl,
+                    height: 40 * 4.5,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            controller.metaCombine.mangaMeta.title,
+                            style: Get.textTheme.titleLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            controller.metaCombine.mangaMeta.author,
+                            style: Get.textTheme.bodySmall,
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

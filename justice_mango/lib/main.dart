@@ -10,7 +10,8 @@ import 'app/util/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   await HiveService.init();
   await SourceService.init();
   runApp(

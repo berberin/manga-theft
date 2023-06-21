@@ -1,7 +1,7 @@
 import 'package:justice_mango/app/data/provider/http_provider.dart';
 
 class NettruyenHttpProvider extends HttpProvider {
-  final baseUrl = 'www.nettruyenin.com';
+  final baseUrl = 'www.nettruyen.com';
 
   @override
   void init() {
