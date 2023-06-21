@@ -49,8 +49,10 @@ class MangoCollMangaProvider extends MangaProvider {
   Future<List<MangaMeta>> getLatestManga({page = 1}) async {
     var resp = await httpRepo!.get('$baseUrl/nt/latest/$page');
     List<MangaMeta> metas = <MangaMeta>[];
-    for (var meta in resp.data) {
-      metas.add(MangaMeta.fromJson(meta));
+    if (resp.data != null) {
+      for (var meta in resp.data) {
+        metas.add(MangaMeta.fromJson(meta));
+      }
     }
     return metas;
   }

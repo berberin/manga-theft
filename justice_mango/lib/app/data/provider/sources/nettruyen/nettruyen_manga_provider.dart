@@ -17,12 +17,16 @@ import 'package:random_string/random_string.dart';
 import '../../manga_provider.dart';
 
 class NettruyenMangaProvider extends MangaProvider {
+  // @override
+  // final nametag = 'nettruyen';
+
+  //change nametag nettruyen to storynap
   @override
-  final nametag = 'nettruyen';
+  final nametag = 'storynap';
   @override
   final locale = const Locale('vi', 'VN');
   final httpRepo = HttpRepository(NettruyenHttpProvider());
-  final baseUrl = 'www.nettruyenin.com';
+  final baseUrl = 'www.nettruyen.com';
 
   @override
   Future<List<MangaMeta>> getLatestManga({page = 1}) async {
@@ -48,17 +52,25 @@ class NettruyenMangaProvider extends MangaProvider {
     try {
       for (var item in items) {
         String title = item
-                .find('', selector: "div.clearfix div.box_img")
-                ?.find('a')
-                ?.attributes['title'] ??
+            .find('', selector: "div.clearfix div.box_img")
+            ?.find('a')
+            ?.attributes['title'] ??
             '';
 
         String imgUrl =
-            "http:${item.find("div figure div a img")?.attributes['data-original'] ?? ''}";
-        String url = item.find("div figure div a")?.attributes['href'] ?? '';
-        String description = item.find("div.box_text")?.text ?? '';
+            "http:${item
+            .find("div figure div a img")
+            ?.attributes['data-original'] ?? ''}";
+        String url = item
+            .find("div figure div a")
+            ?.attributes['href'] ?? '';
+        String description = item
+            .find("div.box_text")
+            ?.text ?? '';
 
-        String mainInfo = item.find("div.message_main")?.innerHtml ?? '';
+        String mainInfo = item
+            .find("div.message_main")
+            ?.innerHtml ?? '';
         var ids = regId.allMatches(url);
         String id = ids.last.input.substring(ids.last.start, ids.last.end);
 
@@ -126,11 +138,18 @@ class NettruyenMangaProvider extends MangaProvider {
     var response = await httpRepo.get(oldMangaMeta.url);
     var soup = BeautifulSoup(response.data.toString());
 
-    String title = soup.find('', selector: "h1.title-detail")?.text ?? '';
+    String title = soup
+        .find('', selector: "h1.title-detail")
+        ?.text ?? '';
 
     String imgUrl =
-        "http:${soup.find("div.col-xs-4.col-image")?.find("img")?.attributes['src'] ?? '//picsum.photos/200/400'}";
-    String description = soup.find("div.detail-content p")?.text ?? '';
+        "http:${soup
+        .find("div.col-xs-4.col-image")
+        ?.find("img")
+        ?.attributes['src'] ?? '//picsum.photos/200/400'}";
+    String description = soup
+        .find("div.detail-content p")
+        ?.text ?? '';
 
     MangaMeta mangaMeta = MangaMeta(
       title: title,
