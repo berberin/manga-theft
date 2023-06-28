@@ -90,7 +90,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                        "${"alias:".tr} ${controller.metaCombine.mangaMeta.alias.toString().replaceAll("[", "").replaceAll("]", "")}"),
+                        "${"alias:".tr()} ${controller.metaCombine.mangaMeta.alias.toString().replaceAll("[", "").replaceAll("]", "")}"),
                   )
                 : Container(),
             Text(
@@ -202,7 +202,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                     controller.addToRecentRead();
                     controller.goToLastReadChapter();
                   },
-            label: 'readNow'.tr,
+            label: 'readNow'.tr(),
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.white,
@@ -229,8 +229,8 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
               }
             },
             label: controller.isFavorite.value
-                ? 'favorite!'.tr
-                : 'markFavorite'.tr,
+                ? 'favorite!'.tr()
+                : 'markFavorite'.tr(),
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.white,
@@ -258,8 +258,8 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 }
               },
               label: controller.isExceptional.value
-                  ? 'turnOnNotification'.tr
-                  : 'turnOffNotification'.tr,
+                  ? 'turnOnNotification'.tr()
+                  : 'turnOffNotification'.tr(),
               labelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.white,

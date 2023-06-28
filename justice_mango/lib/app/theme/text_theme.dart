@@ -68,6 +68,12 @@ const TextStyle caption = TextStyle(
   color: lightText, // was lightText
 );
 
+extension ThemeExtension on BuildContext {
+  TextStyle get display1 {
+    return display1;
+  }
+}
+
 TextTheme appTextTheme = GoogleFonts.nunitoTextTheme().merge(const TextTheme(
   headlineMedium: display1,
   headlineSmall: headline,

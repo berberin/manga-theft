@@ -1,38 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:justice_mango/app/gwidget/manga_card.dart';
-import 'package:justice_mango/app/modules/home/home_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
+import 'package:justice_mango/app/modules/home/home_provider.dart';
+import 'package:justice_mango/app/modules/home/tab/board/board_provider.dart';
 import 'package:justice_mango/app/modules/home/tab/board/widget/setting_bottom_sheet.dart';
 import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class BoardTab extends GetWidget<BoardController> {
+class BoardTab extends ConsumerStatefulWidget {
   const BoardTab({Key? key}) : super(key: key);
 
   @override
+  BoardTabState createState() => BoardTabState();
+}
+
+class BoardTabState extends ConsumerState<BoardTab> {
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+
+  @override
+  void dispose() {
+    super.dispose();
+    refreshController.dispose();
+  }
+
+  onRefresh() {
+    ref.read(boardProvider.notifier).refreshBoard();
+    refreshController.refreshCompleted();
+  }
+
+  onLoading() {
+    ref.read(boardProvider.notifier).loadMoreBoard();
+    refreshController.loadComplete();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final boardStateProvider = ref.watch(boardProvider);
     return SmartRefresher(
-      controller: controller.refreshController,
+      controller: refreshController,
       enablePullDown: true,
       enablePullUp: true,
       footer: ClassicFooter(
-        loadingText: 'loading'.tr,
-        canLoadingText: 'canLoading'.tr,
-        idleText: 'idleLoading'.tr,
+        loadingText: 'loading'.tr(),
+        canLoadingText: 'canLoading'.tr(),
+        idleText: 'idleLoading'.tr(),
       ),
-      onRefresh: controller.onRefresh,
-      onLoading: controller.onLoading,
+      onRefresh: onRefresh,
+      onLoading: onLoading,
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             backgroundColor: nearlyWhite,
             floating: true,
-            title: _welcomeBar(),
+            title: _welcomeBar(boardStateProvider),
           ),
           const SliverToBoxAdapter(
             child: Divider(),
@@ -41,31 +67,29 @@ class BoardTab extends GetWidget<BoardController> {
             padding: const EdgeInsets.all(8),
             sliver: SliverToBoxAdapter(
               child: Text(
-                'newUpdateFavorite'.tr,
-                style: Get.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  letterSpacing: 0.27,
-                ),
+                'newUpdateFavorite'.tr(),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      letterSpacing: 0.27,
+                    ),
               ),
             ),
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            sliver: Obx(
-              () => SliverList(
-                delegate: SliverChildListDelegate(
-                  controller.favoriteUpdate.isEmpty
-                      ? [Text('noUpdateFound'.tr)]
-                      : List.generate(
-                          controller.favoriteUpdate.length > 5
-                              ? 5
-                              : controller.favoriteUpdate.length,
-                          (index) => MangaCard(
-                            metaCombine: controller.favoriteUpdate[index],
-                          ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                boardStateProvider.favoriteUpdate.isEmpty
+                    ? [Text('noUpdateFound'.tr())]
+                    : List.generate(
+                        boardStateProvider.favoriteUpdate.length > 5
+                            ? 5
+                            : boardStateProvider.favoriteUpdate.length,
+                        (index) => MangaCard(
+                          metaCombine: boardStateProvider.favoriteUpdate[index],
                         ),
-                ),
+                      ),
               ),
             ),
           ),
@@ -77,49 +101,75 @@ class BoardTab extends GetWidget<BoardController> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                   child: Text(
-                    'updateJustNow'.tr,
-                    style: Get.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      letterSpacing: 0.27,
-                    ),
+                    'updateJustNow'.tr(),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          letterSpacing: 0.27,
+                        ),
                   ),
                 )
               ],
             ),
           ),
-          _buildTagRow(),
-          Obx(
-            () => SliverList(
-              delegate: SliverChildListDelegate(
-                controller.mangaBoard.isEmpty
-                    ? controller.hasError.value
-                        ? [
-                            Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Center(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.onRefresh();
-                                  },
-                                  child: Text('reload'.tr),
-                                ),
-                              ),
-                            )
-                          ]
-                        : [
-                            const Padding(
-                              padding: EdgeInsets.all(56.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          ]
-                    : List.generate(
-                        controller.mangaBoard.length,
-                        (index) => MangaCard(
-                          metaCombine: controller.mangaBoard[index],
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List<Widget>.from(
+                    List.generate(
+                      boardStateProvider.sourceRepositories.length,
+                      (index) => GestureDetector(
+                        child: SourceTabChip(
+                          label:
+                              boardStateProvider.sourceRepositories[index].slug,
+                          selected: boardStateProvider.sourceSelected == index,
                         ),
+                        onTap: () {
+                          if (boardStateProvider.sourceSelected != index) {
+                            ref
+                                .read(boardProvider.notifier)
+                                .changeSourceTab(index);
+                          }
+                        },
                       ),
+                    ),
+                  ),
+                ),
               ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              boardStateProvider.mangaBoard.isEmpty
+                  ? boardStateProvider.hasError
+                      ? [
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  onRefresh();
+                                },
+                                child: Text('reload'.tr()),
+                              ),
+                            ),
+                          )
+                        ]
+                      : [
+                          const Padding(
+                            padding: EdgeInsets.all(56.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        ]
+                  : List.generate(
+                      boardStateProvider.mangaBoard.length,
+                      (index) => MangaCard(
+                        metaCombine: boardStateProvider.mangaBoard[index],
+                      ),
+                    ),
             ),
           ),
         ],
@@ -127,48 +177,13 @@ class BoardTab extends GetWidget<BoardController> {
     );
   }
 
-  GetBuilder<BoardController> _buildTagRow() {
-    return GetBuilder<BoardController>(
-      builder: (controller) => SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Obx(
-              () => Row(
-                children: List<Widget>.from(
-                  List.generate(
-                    controller.sourceRepositories.length,
-                    (index) => GestureDetector(
-                      child: SourceTabChip(
-                        label: controller.sourceRepositories[index].slug,
-                        selected: controller.sourceSelected == index,
-                      ),
-                      onTap: () {
-                        if (controller.sourceSelected != index) {
-                          controller.changeSourceTab(index);
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _welcomeBar() {
+  Widget _welcomeBar(BoardStateData stateProvider) {
     return Row(
       children: [
-        Obx(
-          () => SvgPicture.string(
-            controller.avatarSvg.value,
-            fit: BoxFit.fill,
-            height: 40,
-          ),
+        SvgPicture.string(
+          stateProvider.avatarSvg,
+          fit: BoxFit.fill,
+          height: 40,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -176,8 +191,8 @@ class BoardTab extends GetWidget<BoardController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "hello!".tr,
-                style: Get.textTheme.titleLarge,
+                "hello!".tr(),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
           ),
@@ -188,7 +203,7 @@ class BoardTab extends GetWidget<BoardController> {
           color: nearlyBlack,
           onPressed: () {
             showBarModalBottomSheet(
-              context: Get.context!,
+              context: context,
               builder: (context) => const SettingBottomSheet(),
             );
           },
@@ -197,8 +212,7 @@ class BoardTab extends GetWidget<BoardController> {
           icon: const Icon(Icons.search_rounded),
           color: nearlyBlack,
           onPressed: () {
-            HomeController homeController = Get.find();
-            homeController.selectedIndex.value = 2;
+            ref.read(homeProvider.notifier).switchToIndex(2);
           },
         ),
       ],

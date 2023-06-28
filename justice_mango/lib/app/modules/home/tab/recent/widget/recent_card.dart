@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:justice_mango/app/gwidget/manga_frame.dart';
 import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
-import 'recent_agrs.dart';
+import 'recent_meta_combine.dart';
 
 class RecentCard extends StatelessWidget {
-  final RecentArgs recentArgs;
+  final RecentMetaCombine recentArgs;
 
   const RecentCard({Key? key, required this.recentArgs}) : super(key: key);
 
@@ -17,9 +17,12 @@ class RecentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(
-          () => MangaDetailScreen(
-            metaCombine: recentArgs.mangaMetaCombine,
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MangaDetailScreen(
+              metaCombine: recentArgs.mangaMetaCombine,
+            ),
           ),
         );
       },
@@ -77,7 +80,9 @@ class RecentCard extends StatelessWidget {
                                 horizontal: 8, vertical: 0),
                             child: Text(
                               recentArgs.mangaMetaCombine.mangaMeta.lang,
-                              style: Get.textTheme.bodyMedium
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -131,7 +136,7 @@ class RecentCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'lastRead'.tr + recentArgs.chapterName,
+                                  'lastRead'.tr() + recentArgs.chapterName,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 Text(
@@ -157,17 +162,17 @@ class RecentCard extends StatelessWidget {
   String timeCalculate(DateTime dateTime) {
     var diffTime = DateTime.now().difference(dateTime);
     if (diffTime.inMinutes < 60) {
-      return diffTime.inMinutes.toString() + 'minutesAgo'.tr;
+      return diffTime.inMinutes.toString() + 'minutesAgo'.tr();
     } else if (diffTime.inHours < 24) {
-      return diffTime.inHours.toString() + 'hoursAgo'.tr;
+      return diffTime.inHours.toString() + 'hoursAgo'.tr();
     } else if (diffTime.inDays < 7) {
-      return diffTime.inDays.toString() + 'daysAgo'.tr;
+      return diffTime.inDays.toString() + 'daysAgo'.tr();
     } else if (diffTime.inDays < 30) {
-      return ((diffTime.inDays) ~/ 7).toString() + 'weeksAgo'.tr;
+      return ((diffTime.inDays) ~/ 7).toString() + 'weeksAgo'.tr();
     } else if (diffTime.inDays < 365) {
-      return ((diffTime.inDays) ~/ 30).toString() + 'monthsAgo'.tr;
+      return ((diffTime.inDays) ~/ 30).toString() + 'monthsAgo'.tr();
     } else {
-      return ((diffTime.inDays) ~/ 365).toString() + 'yearsAgo'.tr;
+      return ((diffTime.inDays) ~/ 365).toString() + 'yearsAgo'.tr();
     }
   }
 }
