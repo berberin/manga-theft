@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:justice_mango/app/gwidget/short_manga_card.dart';
-import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:justice_mango/app/modules/home/tab/favorite/favorite_provider.dart';
 import 'package:justice_mango/app/theme/color_theme.dart';
 
 import 'widget/short_manga_bar.dart';
 
-class FavoriteTab extends GetWidget<FavoriteController> {
+class FavoriteTab extends ConsumerWidget {
   const FavoriteTab({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteStateProvider = ref.watch(favoriteProvider);
     return Scaffold(
       backgroundColor: nearlyWhite,
       body: SingleChildScrollView(
@@ -28,8 +30,12 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'favorites'.tr,
-                    style: Get.textTheme.headlineSmall?.copyWith(
+                    'favorites'.tr(),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.27,
@@ -37,57 +43,58 @@ class FavoriteTab extends GetWidget<FavoriteController> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.sort_rounded),
-                    onPressed: () => controller.changeFavoriteCardStyle(),
+                    onPressed: () =>
+                        ref.read(favoriteProvider.notifier)
+                            .changeFavoriteCardStyle(),
                   ),
                 ],
               ),
             ),
-            Obx(
-              () => controller.favoriteMetaCombine.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Center(
-                        child: Text(
-                          'dontHaveAnyFavorite'.tr,
-                          style: Get.textTheme.bodyMedium,
-                        ),
-                      ),
-                    )
-                  : (controller.cardStyle.value ==
-                          FavoriteCardStyle.shortMangaCard
-                      ? MasonryGridView.count(
-                          padding: const EdgeInsets.only(top: 3.0),
-                          itemCount: controller.favoriteMetaCombine.length,
-                          crossAxisCount: 2,
-                          itemBuilder: (context, index) {
-                            return ShortMangaCard(
-                              metaCombine:
-                                  controller.favoriteMetaCombine[index],
-                            );
-                          },
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                        )
-                      : GetBuilder(
-                          builder: (FavoriteController controller) {
-                            return ListView.builder(
-                              itemBuilder: (context, index) {
-                                return ShortMangaBar(
-                                  metaCombine:
-                                      controller.favoriteMetaCombine[index],
-                                  latestChapter: controller.latestChapters[
-                                          controller.favoriteMetaCombine[index]
-                                              .mangaMeta.url] ??
-                                      "🦉",
-                                );
-                              },
-                              itemCount: controller.favoriteMetaCombine.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                            );
-                          },
-                        )),
-            ),
+            favoriteStateProvider.favoriteMetaCombine.isEmpty
+                ? Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Text(
+                  'dontHaveAnyFavorite'.tr(),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyMedium,
+                ),
+              ),
+            )
+                : (favoriteStateProvider.cardStyle ==
+                FavoriteCardStyle.shortMangaCard
+                ? MasonryGridView.count(
+              padding: const EdgeInsets.only(top: 3.0),
+              itemCount: favoriteStateProvider.favoriteMetaCombine.length,
+              crossAxisCount: 2,
+              itemBuilder: (context, index) {
+                return ShortMangaCard(
+                  metaCombine:
+                  favoriteStateProvider.favoriteMetaCombine[index],
+                );
+              },
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+            )
+                : ListView.builder(
+              itemBuilder: (context, index) {
+                return ShortMangaBar(
+                  metaCombine:
+                  favoriteStateProvider.favoriteMetaCombine[index],
+                  latestChapter: favoriteStateProvider.latestChapters[
+                  favoriteStateProvider.favoriteMetaCombine[index]
+                      .mangaMeta.url] ??
+                      "🦉",
+                );
+              },
+              itemCount: favoriteStateProvider.favoriteMetaCombine.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+
+            )),
+
           ],
         ),
       ),

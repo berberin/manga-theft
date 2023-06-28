@@ -1,24 +1,20 @@
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:justice_mango/app/data/model/chapter_info.dart';
 import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
 import 'package:justice_mango/app/data/model/recent_read.dart';
 import 'package:justice_mango/app/data/service/hive_service.dart';
 import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:justice_mango/app/modules/home/tab/recent/widget/recent_meta_combine.dart';
 
-import 'widget/recent_meta_combine.dart';
-
-class RecentController extends GetxController {
-  var recentMetaCombine = <RecentMetaCombine>[].obs;
+class RecentStateNotifier extends StateNotifier<List<RecentMetaCombine>> {
   late MangaMetaCombine mangaMetaCombine;
 
-  @override
-  void onInit() {
-    super.onInit();
+  RecentStateNotifier() : super([]) {
     renewRecent();
   }
 
   renewRecent() async {
-    recentMetaCombine.clear();
+    List<RecentMetaCombine> recentMetaCombine = [];
     List<RecentRead> recentReads = HiveService.getRecentReadBox();
     for (var recent in recentReads.reversed) {
       for (var repo in SourceService.allSourceRepositories) {
@@ -45,5 +41,10 @@ class RecentController extends GetxController {
         ),
       );
     }
+    state = [...state, ...recentMetaCombine];
   }
 }
+
+final recentProvider =
+    StateNotifierProvider<RecentStateNotifier, List<RecentMetaCombine>>(
+        (ref) => RecentStateNotifier());

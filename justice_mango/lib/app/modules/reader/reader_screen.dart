@@ -53,17 +53,17 @@ class _ReaderScreenState extends State<ReaderScreen> {
             enablePullUp: true,
             enablePullDown: true,
             footer: ClassicFooter(
-              idleText: 'idleLoadingNextChapter'.tr,
-              canLoadingText: 'canLoadingNextChapter'.tr,
-              loadingText: 'loadingNextChapter'.tr,
-              failedText: 'failedNextChapter'.tr,
+              idleText: 'idleLoadingNextChapter'.tr(),
+              canLoadingText: 'canLoadingNextChapter'.tr(),
+              loadingText: 'loadingNextChapter'.tr(),
+              failedText: 'failedNextChapter'.tr(),
             ),
             header: ClassicHeader(
-              idleText: 'idleLoadingPrevChapter'.tr,
-              failedText: 'failedPrevChapter'.tr,
-              refreshingText: 'loadingPrevChapter'.tr,
-              releaseText: 'releasePrevChapter'.tr,
-              completeText: 'completeText'.tr,
+              idleText: 'idleLoadingPrevChapter'.tr(),
+              failedText: 'failedPrevChapter'.tr(),
+              refreshingText: 'loadingPrevChapter'.tr(),
+              releaseText: 'releasePrevChapter'.tr(),
+              completeText: 'completeText'.tr(),
             ),
             onLoading: controller.toNextChapter,
             onRefresh: controller.toPrevChapter,
@@ -96,7 +96,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                           onPressed: () {
                                             controller.getPages();
                                           },
-                                          child: Text('reload'.tr),
+                                          child: Text('reload'.tr()),
                                         ),
                                       ),
                                     )
