@@ -1,4 +1,4 @@
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
 
 class RecentArgs {
   final MangaMetaCombine mangaMetaCombine;

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/explore/explore_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/board/board_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/explore/explore_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/recent/recent_controller.dart';
 
 import 'home_controller.dart';
 

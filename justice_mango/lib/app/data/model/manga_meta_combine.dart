@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:manga_theft/app/data/repository/manga_repository.dart';
 
 import 'manga_meta.dart';
 

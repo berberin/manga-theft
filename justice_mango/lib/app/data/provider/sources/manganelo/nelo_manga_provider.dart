@@ -4,11 +4,11 @@
 // import 'package:dio/dio.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/services.dart';
-// import 'package:justice_mango/app/data/model/chapter_info.dart';
-// import 'package:justice_mango/app/data/model/manga_meta.dart';
-// import 'package:justice_mango/app/data/provider/manga_provider.dart';
-// import 'package:justice_mango/app/data/repository/http_repository.dart';
-// import 'package:justice_mango/app/data/service/hive_service.dart';
+// import 'package:manga_theft/app/data/model/chapter_info.dart';
+// import 'package:manga_theft/app/data/model/manga_meta.dart';
+// import 'package:manga_theft/app/data/provider/manga_provider.dart';
+// import 'package:manga_theft/app/data/repository/http_repository.dart';
+// import 'package:manga_theft/app/data/service/hive_service.dart';
 // import 'package:random_string/random_string.dart';
 //
 // import 'nelo_http_provider.dart';

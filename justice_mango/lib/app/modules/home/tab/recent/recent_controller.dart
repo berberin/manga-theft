@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/data/model/recent_read.dart';
-import 'package:justice_mango/app/data/service/hive_service.dart';
-import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/model/recent_read.dart';
+import 'package:manga_theft/app/data/service/hive_service.dart';
+import 'package:manga_theft/app/data/service/source_service.dart';
 
 import 'widget/recent_agrs.dart';
 

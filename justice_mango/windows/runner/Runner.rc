@@ -92,10 +92,10 @@ BEGIN
             VALUE "CompanyName", "xyz.danhabc" "\0"
             VALUE "FileDescription", "A new Flutter project." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "justice_mango" "\0"
+            VALUE "InternalName", "manga_theft" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2021 xyz.danhabc. All rights reserved." "\0"
-            VALUE "OriginalFilename", "justice_mango.exe" "\0"
-            VALUE "ProductName", "justice_mango" "\0"
+            VALUE "OriginalFilename", "manga_theft.exe" "\0"
+            VALUE "ProductName", "manga_theft" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

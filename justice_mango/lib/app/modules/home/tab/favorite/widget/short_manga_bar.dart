@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/modules/manga_detail/manga_detail_screen.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 class ShortMangaBar extends StatelessWidget {
   final MangaMetaCombine metaCombine;

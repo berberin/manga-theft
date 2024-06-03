@@ -1,5 +1,5 @@
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
 
 class ReaderScreenArgs {
   final List<String>? preloadUrl;

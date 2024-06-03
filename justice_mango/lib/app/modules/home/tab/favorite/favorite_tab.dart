@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/short_manga_card.dart';
-import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/gwidget/short_manga_card.dart';
+import 'package:manga_theft/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 import 'widget/short_manga_bar.dart';
 

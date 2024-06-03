@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/gwidget/chapter_card.dart';
-import 'package:justice_mango/app/gwidget/manga_frame.dart';
-import 'package:justice_mango/app/gwidget/tag.dart';
-import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
-import 'package:justice_mango/app/util/layout_constants.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/gwidget/chapter_card.dart';
+import 'package:manga_theft/app/gwidget/manga_frame.dart';
+import 'package:manga_theft/app/gwidget/tag.dart';
+import 'package:manga_theft/app/modules/manga_detail/manga_detail_controller.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
+import 'package:manga_theft/app/util/layout_constants.dart';
 
 class MangaDetailScreen extends StatefulWidget {
   final MangaMetaCombine metaCombine;

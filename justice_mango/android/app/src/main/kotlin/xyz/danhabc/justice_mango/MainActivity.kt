@@ -1,4 +1,4 @@
-package xyz.danhabc.justice_mango
+package xyz.danhabc.manga_theft
 
 import io.flutter.embedding.android.FlutterActivity
 

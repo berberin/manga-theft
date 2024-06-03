@@ -1,9 +1,9 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/model/read_info.dart';
-import 'package:justice_mango/app/data/model/recent_read.dart';
-import 'package:justice_mango/app/data/service/version.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta.dart';
+import 'package:manga_theft/app/data/model/read_info.dart';
+import 'package:manga_theft/app/data/model/recent_read.dart';
+import 'package:manga_theft/app/data/service/version.dart';
 
 const String mangaBoxName = 'manga_box';
 const String chapterReadInfoBoxName = 'read_box';

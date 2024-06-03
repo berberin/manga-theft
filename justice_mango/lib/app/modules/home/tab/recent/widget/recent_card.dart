@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/manga_frame.dart';
-import 'package:justice_mango/app/modules/manga_detail/manga_detail_screen.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/gwidget/manga_frame.dart';
+import 'package:manga_theft/app/modules/manga_detail/manga_detail_screen.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 import 'recent_agrs.dart';
 

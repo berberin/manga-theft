@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:justice_mango/app/modules/home/home_binding.dart';
-import 'package:justice_mango/app/modules/home/home_screen.dart';
-// import 'package:justice_mango/app/modules/reader/reader_binding.dart';
-// import 'package:justice_mango/app/modules/reader/reader_screen.dart';
-import 'package:justice_mango/app/route/routes.dart';
+import 'package:manga_theft/app/modules/home/home_binding.dart';
+import 'package:manga_theft/app/modules/home/home_screen.dart';
+// import 'package:manga_theft/app/modules/reader/reader_binding.dart';
+// import 'package:manga_theft/app/modules/reader/reader_screen.dart';
+import 'package:manga_theft/app/route/routes.dart';
 
 class AppPages {
   static final pages = [

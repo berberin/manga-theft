@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta.dart';
 
 abstract class MangaProvider {
   late String nametag;

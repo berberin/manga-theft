@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:justice_mango/app/data/provider/http_provider.dart';
+import 'package:manga_theft/app/data/provider/http_provider.dart';
 
 class HttpRepository {
   final HttpProvider provider;

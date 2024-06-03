@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/modules/home/tab/recent/recent_controller.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 import 'widget/recent_card.dart';
 

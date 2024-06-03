@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/modules/home/home_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/board/board_tab.dart';
-import 'package:justice_mango/app/modules/home/tab/explore/explore_tab.dart';
-import 'package:justice_mango/app/modules/home/tab/favorite/favorite_tab.dart';
-import 'package:justice_mango/app/modules/home/tab/recent/recent_tab.dart';
+import 'package:manga_theft/app/modules/home/home_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/board/board_tab.dart';
+import 'package:manga_theft/app/modules/home/tab/explore/explore_tab.dart';
+import 'package:manga_theft/app/modules/home/tab/favorite/favorite_tab.dart';
+import 'package:manga_theft/app/modules/home/tab/recent/recent_tab.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends GetWidget<HomeController> {

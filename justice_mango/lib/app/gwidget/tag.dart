@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 class Tags extends StatelessWidget {
   final List<String> tags;

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/data/service/cache_service.dart';
-import 'package:justice_mango/app/modules/manga_detail/manga_detail_controller.dart';
-import 'package:justice_mango/app/modules/reader/reader_screen.dart';
-import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/service/cache_service.dart';
+import 'package:manga_theft/app/modules/manga_detail/manga_detail_controller.dart';
+import 'package:manga_theft/app/modules/reader/reader_screen.dart';
+import 'package:manga_theft/app/modules/reader/reader_screen_args.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReaderController extends GetxController {

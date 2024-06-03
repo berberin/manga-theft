@@ -1,5 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
+import 'package:manga_theft/app/data/repository/manga_repository.dart';
 
 class CacheService {
   CacheService._();

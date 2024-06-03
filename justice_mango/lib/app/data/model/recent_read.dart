@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
+import 'package:manga_theft/app/data/model/manga_meta.dart';
 
 part 'recent_read.g.dart';
 

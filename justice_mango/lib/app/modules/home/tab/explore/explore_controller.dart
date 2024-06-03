@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/manga_meta.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
-import 'package:justice_mango/app/data/service/source_service.dart';
+import 'package:manga_theft/app/data/model/manga_meta.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/repository/manga_repository.dart';
+import 'package:manga_theft/app/data/service/source_service.dart';
 
 class ExploreController extends GetxController {
   late TextEditingController textSearchController;

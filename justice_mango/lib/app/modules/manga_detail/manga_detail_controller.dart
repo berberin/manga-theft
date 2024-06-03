@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/model/chapter_info.dart';
-import 'package:justice_mango/app/data/model/manga_meta_combine.dart';
-import 'package:justice_mango/app/data/model/recent_read.dart';
-import 'package:justice_mango/app/data/service/hive_service.dart';
-import 'package:justice_mango/app/modules/home/tab/favorite/favorite_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/recent/recent_controller.dart';
-import 'package:justice_mango/app/modules/reader/reader_screen.dart';
-import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
+import 'package:manga_theft/app/data/model/chapter_info.dart';
+import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
+import 'package:manga_theft/app/data/model/recent_read.dart';
+import 'package:manga_theft/app/data/service/hive_service.dart';
+import 'package:manga_theft/app/modules/home/tab/favorite/favorite_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/recent/recent_controller.dart';
+import 'package:manga_theft/app/modules/reader/reader_screen.dart';
+import 'package:manga_theft/app/modules/reader/reader_screen_args.dart';
 
 class MangaDetailController extends GetxController {
   MangaMetaCombine metaCombine;

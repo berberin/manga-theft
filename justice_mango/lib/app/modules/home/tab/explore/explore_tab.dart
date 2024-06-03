@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/manga_card.dart';
-import 'package:justice_mango/app/modules/home/tab/explore/explore_controller.dart';
-import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/gwidget/manga_card.dart';
+import 'package:manga_theft/app/modules/home/tab/explore/explore_controller.dart';
+import 'package:manga_theft/app/modules/home/widget/source_tab_chip.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 
 class ExploreTab extends GetWidget<ExploreController> {
   const ExploreTab({Key? key}) : super(key: key);

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/gwidget/manga_card.dart';
-import 'package:justice_mango/app/modules/home/home_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
-import 'package:justice_mango/app/modules/home/tab/board/widget/setting_bottom_sheet.dart';
-import 'package:justice_mango/app/modules/home/widget/source_tab_chip.dart';
-import 'package:justice_mango/app/theme/color_theme.dart';
+import 'package:manga_theft/app/gwidget/manga_card.dart';
+import 'package:manga_theft/app/modules/home/home_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/board/board_controller.dart';
+import 'package:manga_theft/app/modules/home/tab/board/widget/setting_bottom_sheet.dart';
+import 'package:manga_theft/app/modules/home/widget/source_tab_chip.dart';
+import 'package:manga_theft/app/theme/color_theme.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

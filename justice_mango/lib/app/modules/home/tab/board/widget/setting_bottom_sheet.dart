@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:justice_mango/app/data/service/source_service.dart';
-import 'package:justice_mango/app/modules/home/tab/board/board_controller.dart';
+import 'package:manga_theft/app/data/service/source_service.dart';
+import 'package:manga_theft/app/modules/home/tab/board/board_controller.dart';
 
 class SettingBottomSheet extends StatefulWidget {
   const SettingBottomSheet({Key? key}) : super(key: key);

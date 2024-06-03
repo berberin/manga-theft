@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
-import 'package:justice_mango/app/data/service/cache_service.dart';
+import 'package:manga_theft/app/data/repository/manga_repository.dart';
+import 'package:manga_theft/app/data/service/cache_service.dart';
 import 'package:random_string/random_string.dart';
 
 class MangaImage extends StatefulWidget {

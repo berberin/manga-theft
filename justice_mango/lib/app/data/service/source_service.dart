@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/data/provider/sources/nettruyen/nettruyen_manga_provider.dart';
-import 'package:justice_mango/app/data/repository/manga_repository.dart';
-import 'package:justice_mango/app/data/service/hive_service.dart';
+import 'package:manga_theft/app/data/provider/sources/mango_collector/mango_coll_manga_provider.dart';
+import 'package:manga_theft/app/data/repository/manga_repository.dart';
+import 'package:manga_theft/app/data/service/hive_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'background_context.dart';
@@ -14,8 +14,8 @@ class SourceService {
   static List<MangaRepository> sourceRepositories = <MangaRepository>[];
 
   static List<MangaRepository> allSourceRepositories = <MangaRepository>[
-    // MangaRepository(MangoCollMangaProvider()),
-    MangaRepository(NettruyenMangaProvider()),
+    MangaRepository(MangoCollMangaProvider()),
+    // MangaRepository(NettruyenMangaProvider()),
     //   MangaRepository(NeloMangaProvider()),
     // sources..
   ];

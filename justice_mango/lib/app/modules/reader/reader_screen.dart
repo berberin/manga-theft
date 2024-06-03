@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:justice_mango/app/modules/reader/reader_controller.dart';
-import 'package:justice_mango/app/modules/reader/reader_screen_args.dart';
-import 'package:justice_mango/app/modules/reader/widget/manga_image.dart';
-import 'package:justice_mango/app/util/layout_constants.dart';
+import 'package:manga_theft/app/modules/reader/reader_controller.dart';
+import 'package:manga_theft/app/modules/reader/reader_screen_args.dart';
+import 'package:manga_theft/app/modules/reader/widget/manga_image.dart';
+import 'package:manga_theft/app/util/layout_constants.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:random_string/random_string.dart';
 

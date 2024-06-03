@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(justice_mango LANGUAGES CXX)
+project(manga_theft LANGUAGES CXX)
 
-set(BINARY_NAME "justice_mango")
+set(BINARY_NAME "manga_theft")
 
 cmake_policy(SET CMP0063 NEW)
 
