@@ -1,42 +1,49 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:manga_theft/app/data/provider/sources/mango_collector/mango_coll_manga_provider.dart';
 import 'package:manga_theft/app/data/repository/manga_repository.dart';
 import 'package:manga_theft/app/data/service/hive_service.dart';
+import 'package:manga_theft/di/injection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../route/app_route.dart';
 import 'background_context.dart';
 
 class SourceService {
-  SourceService._();
+  final AppRoute appRoute;
+  final HiveService hiveService;
 
-  static List<MangaRepository> sourceRepositories = <MangaRepository>[];
+  SourceService(this.appRoute, this.hiveService);
 
-  static List<MangaRepository> allSourceRepositories = <MangaRepository>[
-    MangaRepository(MangoCollMangaProvider()),
-    // MangaRepository(NettruyenMangaProvider()),
-    //   MangaRepository(NeloMangaProvider()),
-    // sources..
-  ];
+  List<MangaRepository> sourceRepositories = <MangaRepository>[];
+  late List<MangaRepository> allSourceRepositories;
 
-  static late Locale selectedLocale;
-  static List<Locale> allLocalesSupported = <Locale>[
+  BuildContext? get context => appRoute.navigatorKey.currentContext;
+  late Locale selectedLocale;
+  List<Locale> allLocalesSupported = <Locale>[
     const Locale('vi', 'VN'),
     const Locale('en', 'US'),
   ];
 
-  static init() async {
+  Future<void> init() async {
     selectedLocale = await loadLocale();
+    allSourceRepositories = <MangaRepository>[
+      MangaRepository(MangoCollMangaProvider(), hiveService),
+      // MangaRepository(NettruyenMangaProvider()),
+      //   MangaRepository(NeloMangaProvider()),
+      // sources..
+    ];
     await loadSources();
     for (var repo in sourceRepositories) {
       // init data in background isolate
-      await BackgroundContext.initMetadata(repo.slug);
+      BackgroundContext backgroundContext = getIt<BackgroundContext>();
+      await backgroundContext.init(repo.slug);
     }
-    HiveService.setVersion();
+    hiveService.setVersion();
   }
 
-  static addToSource(MangaRepository mangaRepository) async {
+  void addToSource(MangaRepository mangaRepository) async {
     sourceRepositories.add(mangaRepository);
     await saveSources();
     try {
@@ -49,14 +56,14 @@ class SourceService {
     }
   }
 
-  static removeSource(MangaRepository mangaRepository) {
+  void removeSource(MangaRepository mangaRepository) {
     if (sourceRepositories.length > 1) {
       sourceRepositories.remove(mangaRepository);
     }
     saveSources();
   }
 
-  static loadSources() async {
+  Future<void> loadSources() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> sourcesSlug = prefs.getStringList('sources') ?? (['vi>storynap>']);
     for (var slug in sourcesSlug) {
@@ -68,33 +75,45 @@ class SourceService {
     }
   }
 
-  static saveSources() async {
+  Future<void> saveSources() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> slugs = sourceRepositories.map((e) => e.slug).toList();
     await prefs.setStringList('sources', slugs);
   }
 
-  static saveLocale() async {
+  Future<void> saveLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('langCode', selectedLocale.languageCode);
     await prefs.setString('countryCode', selectedLocale.countryCode ?? '');
   }
 
-  static Future<Locale> loadLocale() async {
+  Future<Locale> loadLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String langCode = prefs.getString('langCode') ?? (Get.deviceLocale?.languageCode == 'vi' ? 'vi' : 'en');
-    String countryCode = prefs.getString('countryCode') ?? (Get.deviceLocale?.languageCode == 'vi' ? 'VN' : 'US');
+    late String langCode;
+    late String countryCode;
+    if (context != null) {
+      langCode =
+          prefs.getString('langCode') ?? (EasyLocalization.of(context!)?.locale.languageCode == 'vi' ? 'vi' : 'en');
+      countryCode =
+          prefs.getString('countryCode') ?? (EasyLocalization.of(context!)?.locale.languageCode == 'vi' ? 'VN' : 'US');
+    } else {
+      langCode = prefs.getString('langCode') ?? 'vi';
+      countryCode = prefs.getString('countryCode') ?? 'VN';
+    }
     return Locale(langCode, countryCode);
-    // Get.deviceLocale.languageCode == 'vi' ? Locale('vi', 'VN') : Locale('en', 'US')
   }
 
-  static changeLocale(Locale locale) {
-    selectedLocale = locale;
-    saveLocale();
-    Get.updateLocale(selectedLocale);
+  void changeLocale(Locale locale) {
+    if (context != null) {
+      EasyLocalization.of(context!)?.setLocale(locale);
+      selectedLocale = locale;
+      saveLocale();
+    } else {
+      return;
+    }
   }
 
-  static MangaRepository getRepo(String repoSlug) {
+  MangaRepository getRepo(String repoSlug) {
     for (var repo in allSourceRepositories) {
       if (repo.slug == repoSlug) {
         return repo;

@@ -10,13 +10,13 @@ abstract class MangaProvider {
 
   Map<String, String> imageHeader();
 
-  /// Get a List<MangaMeta> from source
-  Future<List<MangaMeta>> getLatestManga({page = 1, String? xClientId});
+  /// Get a List MangaMeta from source
+  Future<List<MangaMeta>> getLatestManga({int page = 1, String? xClientId});
 
-  /// Get a List<ChapterInfo> from source
+  /// Get a List ChapterInfo from source
   Future<List<ChapterInfo>> getChaptersInfo(MangaMeta mangaMeta, {String? xClientId});
 
-  /// Get a List<image url> from source
+  /// Get a List image url from source
   Future<List<String>> getPages(String chapterUrl, {String? xClientId});
 
   /// Search a searchString in source

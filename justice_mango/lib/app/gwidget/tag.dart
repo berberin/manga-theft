@@ -4,7 +4,7 @@ import 'package:manga_theft/app/theme/color_theme.dart';
 class Tags extends StatelessWidget {
   final List<String> tags;
 
-  const Tags({Key? key, required this.tags}) : super(key: key);
+  const Tags({super.key, required this.tags});
 
   @override
   Widget build(BuildContext context) {

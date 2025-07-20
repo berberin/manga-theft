@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manga_theft/app/data/model/chapter_info.dart';
 import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
-import 'package:manga_theft/app/modules/manga_detail/manga_detail_controller.dart';
-import 'package:manga_theft/app/modules/reader/reader_screen.dart';
-import 'package:manga_theft/app/modules/reader/reader_screen_args.dart';
+import 'package:manga_theft/app/modules/manga_detail/cubit/manga_detail_cubit.dart';
+import 'package:manga_theft/app/modules/reader/presentation/widget/reader_screen_args.dart';
+
+import '../../di/injection.dart';
+import '../route/app_route.dart';
 
 class ChapterCard extends StatelessWidget {
   final List<ChapterInfo> chaptersInfo;
@@ -13,19 +15,19 @@ class ChapterCard extends StatelessWidget {
   final bool isRead;
 
   const ChapterCard({
-    Key? key,
+    super.key,
     required this.chaptersInfo,
     required this.index,
     required this.metaCombine,
     this.isRead = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(
-          () => ReaderScreen(
+        getIt<AppRoute>().push(
+          ReaderRoute(
             readerScreenArgs: ReaderScreenArgs(
               metaCombine: metaCombine,
               chaptersInfo: chaptersInfo,
@@ -33,8 +35,8 @@ class ChapterCard extends StatelessWidget {
             ),
           ),
         );
-        MangaDetailController mangaDetailController = Get.find(tag: metaCombine.mangaMeta.preId);
-        mangaDetailController.addToRecentRead();
+        final mangaDetailCubit = context.read<MangaDetailCubit>();
+        mangaDetailCubit.addToRecentRead();
       },
       child: Card(
         margin: const EdgeInsets.symmetric(

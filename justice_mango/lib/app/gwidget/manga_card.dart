@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
-import 'package:manga_theft/app/modules/manga_detail/manga_detail_screen.dart';
+import 'package:manga_theft/app/route/app_route.dart';
 import 'package:manga_theft/app/util/layout_constants.dart';
 
+import '../../di/injection.dart';
 import 'manga_frame.dart';
 import 'tag.dart';
 
@@ -11,19 +11,16 @@ class MangaCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
 
   const MangaCard({
-    Key? key,
+    super.key,
     required this.metaCombine,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Get.toNamed(Routes.MANGA_DETAIL, arguments: {
-        //   'metaCombine': metaCombine,
-        // });
-        Get.to(
-          () => MangaDetailScreen(
+        getIt<AppRoute>().push(
+          MangaDetailRoute(
             metaCombine: metaCombine,
           ),
         );
@@ -35,7 +32,7 @@ class MangaCard extends StatelessWidget {
           color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.grey.withOpacity(0.6),
+              color: Colors.grey.withValues(alpha: 0.6 * 255),
               offset: const Offset(4, 4),
               blurRadius: 16,
             ),

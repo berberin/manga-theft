@@ -31,6 +31,7 @@
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
 
 # Web related
 
@@ -46,3 +47,7 @@ app.*.map.json
 /android/app/release
 
 *.g.dart
+*.freezed.dart
+*.config.dart
+*.gr.dart
+

@@ -6,7 +6,7 @@ class MangaFrame extends StatelessWidget {
   final double? height;
   final double? width;
 
-  const MangaFrame({Key? key, required this.imageUrl, this.height, this.width}) : super(key: key);
+  const MangaFrame({super.key, required this.imageUrl, this.height, this.width});
 
   @override
   Widget build(BuildContext context) {

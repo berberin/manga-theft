@@ -1,36 +1,28 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:manga_theft/app/data/service/cache_service.dart';
 
+import 'app.dart';
 import 'app/data/service/hive_service.dart';
 import 'app/data/service/source_service.dart';
-import 'app/route/pages.dart';
-import 'app/route/routes.dart';
-import 'app/theme/app_theme.dart';
-import 'app/util/translation.dart';
+import 'di/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-  await HiveService.init();
-  await SourceService.init();
+  configureDependencies(); // setup DI
+  final hiveService = getIt<HiveService>();
+  await hiveService.init();
+  final sourceService = getIt<SourceService>();
+  await sourceService.init();
+  getIt<CacheService>();
   runApp(
-    GetMaterialApp(
-      // smartManagement: SmartManagement.keepFactory,
-      initialRoute: Routes.home,
-      getPages: AppPages.pages,
-      locale: SourceService.selectedLocale,
-      translationsKeys: translationMap,
-      debugShowCheckedModeBanner: false,
-      theme: appThemeData,
-      builder: (context, child) {
-        final mediaQueryData = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-          child: child!,
-        );
-      },
+    EasyLocalization(
+      supportedLocales: sourceService.allLocalesSupported,
+      path: 'assets/translations',
+      child: MyApp(),
     ),
   );
-  //runApp(TestApp());
 }

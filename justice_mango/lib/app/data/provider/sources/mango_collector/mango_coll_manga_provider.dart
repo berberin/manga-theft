@@ -17,7 +17,7 @@ class MangoCollMangaProvider extends MangaProvider {
   final locale = const Locale('vi', 'VN');
   HttpRepository? httpRepo;
   final baseUrl = 'https://mango.storynap.com';
-  Map<String, String> defaultImageHeader = {"Referer": "https://www.nettruyen.com/"};
+  Map<String, String> defaultImageHeader = {"Referer": "https://www.nettruyen.com"};
 
   MangoCollMangaProvider() {
     httpRepo = HttpRepository(MangoCollHttpProvider());

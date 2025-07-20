@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:manga_theft/app/data/model/manga_meta_combine.dart';
-import 'package:manga_theft/app/modules/manga_detail/manga_detail_screen.dart';
+import 'package:manga_theft/app/route/app_route.dart';
 import 'package:manga_theft/app/theme/color_theme.dart';
 import 'package:manga_theft/app/util/layout_constants.dart';
+import 'package:manga_theft/di/injection.dart';
 
 import 'manga_frame.dart';
 
 class ShortMangaCard extends StatelessWidget {
   final MangaMetaCombine metaCombine;
 
-  const ShortMangaCard({Key? key, required this.metaCombine}) : super(key: key);
+  const ShortMangaCard({super.key, required this.metaCombine});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ShortMangaCard extends StatelessWidget {
         color: Colors.white,
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
+            color: Colors.grey.withValues(alpha: 0.6 * 255),
             offset: const Offset(4, 4),
             blurRadius: 16,
           ),
@@ -59,7 +59,7 @@ class ShortMangaCard extends StatelessWidget {
                         left: 5,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: spacer.withOpacity(0.7),
+                            color: spacer.withValues(alpha: 0.7 * 255),
                             borderRadius: const BorderRadius.all(Radius.circular(1)),
                           ),
                           padding: const EdgeInsets.symmetric(
@@ -68,9 +68,9 @@ class ShortMangaCard extends StatelessWidget {
                           ),
                           child: Text(
                             metaCombine.mangaMeta.lang,
-                            style: Get.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ),
@@ -110,8 +110,8 @@ class ShortMangaCard extends StatelessWidget {
                 // Get.toNamed(Routes.MANGA_DETAIL, arguments: {
                 //   'metaCombine': metaCombine,
                 // });
-                Get.to(
-                  () => MangaDetailScreen(
+                getIt<AppRoute>().push(
+                  MangaDetailRoute(
                     metaCombine: metaCombine,
                   ),
                 );
